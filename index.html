@@ -119,7 +119,7 @@
 						if (data.message === 144) {
 							var map = colorMap[data.note - 27];
 							var clone = d.cloneNode(true); // "deep" clone
-							clone.id = pianoKey + noteIdx[pianoKey];
+							clone.id = pianoKey + '' + noteIdx[pianoKey];
 							noteIdx[pianoKey] = noteIdx[pianoKey]++;
 							if (map) {
 								d.style.background = map.hex;
@@ -187,14 +187,14 @@
 	function animate(id) {
 		document.getElementById(id).animate([
 		  // keyframes
-		  { transform: 'translateX(0px)' }, 
-		  { transform: 'translateX(1000px)' }
+		  { transform: 'translateY(0px)' }, 
+		  { transform: 'translateY(1000px)' }
 		], { 
 		  // timing options
 		  duration: 1000,
-		  iterations: Infinity
+		  iterations: 1
 		});
-	}
+	};
 	// Begin loading indication.
 	var player;
 	// MIDI files from Disklavier World
