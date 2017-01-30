@@ -56,7 +56,12 @@ p {
 	color: #403522;
 }
 
-
+div.channel {
+	width: 100%;
+	border: 1px solid #000;
+	position: relative;
+	background-color: #FFEEEE;
+}
 
 #colors div {
 	-webkit-transition-property: background, color;

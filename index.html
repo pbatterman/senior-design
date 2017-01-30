@@ -84,8 +84,13 @@
 				/// this is the language we are running in
 				/// this sets up the MIDI.Player and gets things going...
 				player = MIDI.Player;
-				console.log(MIDI.channels);
-				console.log(MIDI.channels.length);
+				var channelCount = 0;
+				for (var channel in MIDI.channels) {
+					var chanDiv = document.createElement("div");
+					chanDiv.class = "channel"
+					chanDiv.id = "channel" + channelCount;
+					channelCount++;
+				}
 				player.timeWarp = 1; // speed the song is played back
 				player.loadFile(song[songid++ % song.length], player.start);
 
