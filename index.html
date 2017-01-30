@@ -127,6 +127,7 @@
 							}
 							d.style.color = "#fff";
 						    d.parentNode.appendChild(clone);
+						    clone.style.position = "absolute";
 						    animate(clone.id);
 						} else {
 							d.style.background = "";
@@ -187,8 +188,8 @@
 	function animate(id) {
 		document.getElementById(id).animate([
 		  // keyframes
-		  { transform: 'translateY(0px)' }, 
-		  { transform: 'translateY(1000px)' }
+		  { transform: 'translateX(0px)' }, 
+		  { transform: 'translateX(1000px)' }
 		], { 
 		  // timing options
 		  duration: 1000,
