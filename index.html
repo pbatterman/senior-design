@@ -51,7 +51,7 @@
 				<span id="time2" class="time" style="text-align: left;">-0:00</span>
 			</div>
 		</div>
-		<div><h2 id="current-note"></div>
+		<div id="channels"></div>
 	</div>
 
 <script type="text/javascript">
@@ -92,7 +92,8 @@
 					chanDiv.id = "channel" + channelCount;
 					chanDiv.innerHTML = "channel " + channelCount;
 					channelCount++;
-					console.log(channelCount);
+					var channelContainer = document.getElementById("channels");
+					channelContainer.appendChild(chanDiv);
 				}
 				player.timeWarp = 1; // speed the song is played back
 				player.loadFile(song[songid++ % song.length], player.start);
