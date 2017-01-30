@@ -51,7 +51,7 @@
 				<span id="time2" class="time" style="text-align: left;">-0:00</span>
 			</div>
 		</div>
-		<div id="title" style="background: rgba(255,255,0,0.5); position: relative;color: #000; z-index: -1;padding: 5px 11px 5px;">Loading API...</div>
+		<div><h2 id="current-note"></div>
 	</div>
 
 <script type="text/javascript">
@@ -112,6 +112,8 @@
 				player.addListener(function(data) {
 					var pianoKey = data.note - 21;
 					var d = colorElements[pianoKey];
+					var currentNote = document.getElementById("current-note");
+					currentNote.innerHTML = MIDI.noteToKey(pianoKey);
 					if (d) {
 						if (data.message === 144) {
 							var map = colorMap[data.note - 27];
