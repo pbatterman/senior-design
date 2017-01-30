@@ -2,5 +2,5 @@
 	path = MIDI.js
 	url = https://github.com/mudcube/MIDI.js.git
 [submodule "three.js"]
-	path = "three.js"
+	path = three.js
 	url = https://github.com/mrdoob/three.js.git
