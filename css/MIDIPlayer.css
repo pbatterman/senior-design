@@ -1,16 +1,15 @@
 body {
 	font-family: Andada;
 	font-size: 1.2em;
-	line-height: 1.5em;
-	background: #fcfae9;
-	color: #907d62;
+	background: #DDDDDD;
+	color: #222222;
 	margin: 0 50px;
 }
 div.player {
 	background-color: #666666;
 	border: 1px solid #000;
 	color: #FFFFFF;
-	z-index: 2;
+	z-index: 4;
 	width: 500px;
 	
 }
@@ -27,6 +26,7 @@ div.player #capsule #cursor {
 	width: 0;
 	display: inline-block;
 	height: 100%;
+	line-height: 0px;
 }
 div.player span.time {
 	position: relative;
