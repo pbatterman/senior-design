@@ -82,6 +82,14 @@
 		link.type = "text/css";
 		document.body.appendChild(link);
 		
+		var colors = document.getElementById("colors");
+		var colorElements = [];
+		for (var n = 0; n < 88; n++) {
+			var d = document.createElement("div");
+			d.innerHTML = MIDI.noteToKey[n + 21];
+			colorElements.push(d);
+			colors.appendChild(d);
+		}
 		
 		MIDI.loader = new sketch.ui.Timer;
 		MIDI.loadPlugin({
