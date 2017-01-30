@@ -112,13 +112,13 @@
 				player.addListener(function(data) {
 					var pianoKey = data.note - 21;
 					var d = colorElements[pianoKey];
-					var currentNote = document.getElementById("current-note");
-					currentNote.innerHTML = MIDI.noteToKey(pianoKey);
+					
 					if (d) {
 						if (data.message === 144) {
 							var map = colorMap[data.note - 27];
 							if (map) d.style.background = map.hex;
 							d.style.color = "#fff";
+							d.style.width = "100%";
 						} else {
 							d.style.background = "";
 							d.style.color = "";
