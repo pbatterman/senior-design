@@ -61,10 +61,11 @@ div.keyColor {
 }
 
 div.channel {
-	width: 100%;
+	width: 100px;
 	border: 1px solid #000;
 	position: relative;
-	background-color: #FFEEEE;
+	color: #FFF;
+	background: transparent;
 }
 
 #colors div {

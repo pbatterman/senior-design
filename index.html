@@ -129,16 +129,14 @@
 					}
 
 					// console.log(data);
-					// var cd = channels[data.channel];
-					// if (cd) {
-					// 	if (data.message === 144) {
-					// 		cd.style.background = "000";
-					// 		cd.style.color = "#fff";
-					// 	} else {
-					// 		cd.style.background = "";
-					// 		cd.style.color = "";
-					// 	}
-					// }
+					var cd = channels[data.channel];
+					if (cd) {
+						if (data.message === 144) {
+							cd.style.background = "rgba(255, 255, 255, 0.5)";
+						} else {
+							cd.style.background = "";
+						}
+					}
 				});
 				///
 				MIDIPlayerPercentage(player);
