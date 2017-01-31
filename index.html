@@ -75,6 +75,19 @@
 	};
 	eventjs.add(window, "load", function(event) {
 
+		var colors = document.getElementById("colors");
+		var colorElements = [];
+		for (var n = 0; n < 88; n++) {
+			var d = document.createElement("div");
+			d.className = "keyColor"
+			d.innerHTML = MIDI.noteToKey[n + 21];
+			int col = ((255.0 / 88.0) * n);
+			d.style.background = "rgba(255, 255, " + col + ", 1)";
+			d.style.opacity = "0.5";
+			colorElements.push(d);
+			colors.appendChild(d);
+		}
+
 		MIDI.loader = new sketch.ui.Timer;
 		MIDI.loadPlugin({
 			soundfontUrl: "MIDI.js/examples/soundfont/",
@@ -101,17 +114,27 @@
 				player.loadFile(song[songid++ % song.length], player.start);
 
 				player.addListener(function(data) {
-					console.log(data);
-					var cd = channels[data.channel];
-					if (cd) {
+					var pianoKey = data.note - 21;
+					var d = colorElements[pianoKey];
+					if (d) {
 						if (data.message === 144) {
-							cd.style.background = "000";
-							cd.style.color = "#fff";
+							d.style.opacity = "1.0";
 						} else {
-							cd.style.background = "";
-							cd.style.color = "";
+							d.style.opacity = "0.5";
 						}
 					}
+
+					// console.log(data);
+					// var cd = channels[data.channel];
+					// if (cd) {
+					// 	if (data.message === 144) {
+					// 		cd.style.background = "000";
+					// 		cd.style.color = "#fff";
+					// 	} else {
+					// 		cd.style.background = "";
+					// 		cd.style.color = "";
+					// 	}
+					// }
 				});
 				///
 				MIDIPlayerPercentage(player);
