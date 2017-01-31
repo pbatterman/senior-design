@@ -67,15 +67,18 @@ div.channel {
 	background-color: #FFEEEE;
 }
 
-#colors div {
-	-webkit-transition-property: background, color;
-	-webkit-transition-duration: .25s;
+#colors {
 	position: fixed; 
 	top: 0; 
 	left: 0; 
 	z-index: 1; 
 	overflow: hidden; 
 	width:100%;
+}
+
+#colors div {
+	-webkit-transition-property: background, color;
+	-webkit-transition-duration: .25s;
 	padding: 1px 0 1px 5px;
 	font-family: arial;
 	font-size: 9px;
