@@ -81,7 +81,7 @@
 			var d = document.createElement("div");
 			d.className = "keyColor"
 			d.innerHTML = MIDI.noteToKey[n + 21];
-			int col = ((255.0 / 88.0) * n);
+			var col = (255.0 / 88.0) * n;
 			d.style.background = "rgba(255, 255, " + col + ", 1)";
 			d.style.opacity = "0.5";
 			colorElements.push(d);
