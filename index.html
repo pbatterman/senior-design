@@ -82,6 +82,10 @@
 			d.className = "keyColor"
 			d.innerHTML = MIDI.noteToKey[n + 21];
 			var col = parseInt(255 - ((255 / 88) * n));
+			var stringNum = col.toString(16);
+			if (col < 16) {
+				stringNum = "0" + stringNum;
+			}
 			d.style.background = "#FFFF" + col.toString(16);
 			console.log("#0000" + col.toString(16));
 			d.style.opacity = "0.5";
