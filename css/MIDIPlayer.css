@@ -69,7 +69,7 @@ div.channel {
 
 #colors div {
 	-webkit-transition-property: background, color;
-	-webkit-transition-duration: .25s;
+	-webkit-transition-duration: .5s;
 
 	padding: 1px 0 1px 5px;
 	font-family: arial;
@@ -78,5 +78,5 @@ div.channel {
 	color: #aaa;
 	height: 9px; 
 	background: #000;
-	border-bottom: 1px solid rgba(5,5,5,0.7);
+	/*border-bottom: 1px solid rgba(5,5,5,0.7);*/
 }
