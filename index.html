@@ -95,12 +95,23 @@
 					channelCount++;
 					var channelContainer = document.getElementById("channels");
 					channelContainer.appendChild(chanDiv);
+					channels.push(chanDiv);
 				}
 				player.timeWarp = 1; // speed the song is played back
 				player.loadFile(song[songid++ % song.length], player.start);
 
 				player.addListener(function(data) {
 					console.log(data);
+					var cd = channels[data.channel];
+					if (cd) {
+						if (data.message === 144) {
+							cd.style.background = "000";
+							cd.style.color = "#fff";
+						} else {
+							cd.style.background = "";
+							cd.style.color = "";
+						}
+					}
 				});
 				///
 				MIDIPlayerPercentage(player);
