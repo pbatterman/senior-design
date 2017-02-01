@@ -38,10 +38,10 @@
 	<div>
 		<div class="player" style="z-index:4;">
 			<div style="margin: 0 auto; width: 160px; float: right;">
-				<input type="image" src="MIDI.js/examples/images/pause.png" align="absmiddle" value="pause" onclick="pausePlayStop()" id="pausePlayStop">
-				<input type="image" src="MIDI.js/examples/images/stop.png" align="absmiddle" value="stop" onclick="pausePlayStop(true)">
-				<input type="image" src="MIDI.js/examples/images/backward.png" align="absmiddle" value="stop" onclick="player.getNextSong(-1);">
-				<input type="image" src="MIDI.js/examples/images/forward.png" align="absmiddle" value="stop" onclick="player.getNextSong(+1);">
+				<input type="image" src="images/pause.png" align="absmiddle" value="pause" onclick="pausePlayStop()" id="pausePlayStop">
+				<input type="image" src="images/stop.png" align="absmiddle" value="stop" onclick="pausePlayStop(true)">
+				<input type="image" src="images/backward.png" align="absmiddle" value="stop" onclick="player.getNextSong(-1);">
+				<input type="image" src="images/forward.png" align="absmiddle" value="stop" onclick="player.getNextSong(+1);">
 			</div>
 			<div class="time-controls">
 				<span id="time1" class="time">0:00</span>
@@ -63,12 +63,12 @@
 		var d = document.getElementById("pausePlayStop");
 		if (stop) {
 			MIDI.Player.stop();
-			d.src = "MIDI.js/examples/images/play.png";
+			d.src = "images/play.png";
 		} else if (MIDI.Player.playing) {
-			d.src = "MIDI.js/examples/images/play.png";
+			d.src = "images/play.png";
 			MIDI.Player.pause(true);
 		} else {
-			d.src = "MIDI.js/examples/images/pause.png";
+			d.src = "images/pause.png";
 			MIDI.Player.resume();
 		}
 	};
