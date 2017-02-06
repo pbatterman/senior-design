@@ -22,7 +22,6 @@
 	<script src="MIDI.js/js/midi/plugin.webaudio.js" type="text/javascript"></script>
 	<script src="MIDI.js/js/midi/plugin.webmidi.js" type="text/javascript"></script>
 	<script src="MIDI.js/js/midi/player.js" type="text/javascript"></script>
-	<script src="MIDI.js/js/midi/synesthesia.js" type="text/javascript"></script>
 	<!-- utils -->
 	<script src="MIDI.js/js/util/dom_request_xhr.js" type="text/javascript"></script>
 	<script src="MIDI.js/js/util/dom_request_script.js" type="text/javascript"></script>
@@ -30,6 +29,8 @@
 	<script src="MIDI.js/examples/inc/timer.js" type="text/javascript"></script>
 	<script src="MIDI.js/examples/inc/colorspace.js" type="text/javascript"></script>
 	<script src="MIDI.js/examples/inc/event.js" type="text/javascript"></script>
+
+	<script src="js/colors.js" type="text/javascript"></script>
 
 </head>
 <body>
@@ -117,14 +118,19 @@
 				player.timeWarp = 1; // speed the song is played back
 				player.loadFile(song[songid++ % song.length], player.start);
 
+				var allColors = MIDI.colors.getColorMap();
+				var primaryColors = allColors.primary;
+				var secondaryColors = allColors.secondary;
 				player.addListener(function(data) {
 					var pianoKey = data.note - 21;
 					var d = colorElements[pianoKey];
 					if (d) {
 						if (data.message === 144) {
 							d.style.opacity = "1.0";
+							d.style.background = primaryColors[pianoKey];
 						} else {
 							d.style.opacity = "0.5";
+							d.style.background = "";
 						}
 					}
 
