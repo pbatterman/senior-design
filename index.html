@@ -118,7 +118,7 @@
 				player.timeWarp = 1; // speed the song is played back
 				player.loadFile(song[songid++ % song.length], player.start);
 
-				var allColors = MIDI.colors.getColorMap();
+				var allColors = getColorMap();
 				var primaryColors = allColors.primary;
 				var secondaryColors = allColors.secondary;
 				player.addListener(function(data) {
