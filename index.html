@@ -133,6 +133,7 @@
 						}
 						var blendColor = blendColors(activeNotes, primaryColors);
 						blendBox.style.background = blendColor;
+						console.log(blendColor);
 					}
 
 					// console.log(data);
@@ -180,6 +181,9 @@
 		colX /= numColors;
 		avgS /= numColors;
 		avgL /= numColors;
+
+		avgS = 100;
+		avgL = 100;
 
 		var avgAngle = Math.atan2(colY, colX); // new color direction
 
