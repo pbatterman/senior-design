@@ -69,8 +69,6 @@ div.channel {
 }
 
 #colors div {
-	-webkit-transition-property: background, color;
-	-webkit-transition-duration: .5s;
 
 	padding: 1px 0 1px 5px;
 	font-family: arial;
