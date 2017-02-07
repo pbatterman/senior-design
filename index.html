@@ -125,14 +125,14 @@
 					var d = colorElements[note];
 					if (d) {
 						if (data.message === 144) {
-							d.style.background = primaryColors[note];
+							d.style.background = HSLArrayToString(primaryColors[note]);
 							activeNotes[note] = 1;
 						} else {
 							d.style.background = "";
 							activeNotes[note] = 0;
 						}
 						var blendColor = blendColors(activeNotes, primaryColors);
-						blendBox.style.background = blendColor;
+						blendBox.style.background = HSLArrayToString(blendColor);
 					}
 
 					// console.log(data);
@@ -191,7 +191,7 @@
 		var avgAngle = Math.atan2(colY, colX); // new color direction
 
 		// format for hsla
-		var blendedColor = 'hsla(' + avgAngle + ',' + avgS + '%,' + avgL + '%, 1)';
+		var blendedColor = [avgAngle, avgS, avgL];
 		return blendedColor;
 	}
 
@@ -232,12 +232,10 @@
 		for (var note = 0; note < 88; note++) {
 
 			var pCol = primaryColors[(note + 9) % 12];
-			var phslCol = 'hsla(' + pCol[0] + ',' + pCol[1] + '%,' + pCol[2] + '%, 1)';
-			primaryNoteColors[note] = phslCol;
+			primaryNoteColors[note] = pCol;
 
 			var sCol = secondaryColors[(note + 9) % 12];
-			var shslCol = 'hsla(' + sCol[0] + ',' + sCol[1] + '%,' + sCol[2] + '%, 1)';
-			secondaryNoteColors[note] = shslCol;
+			secondaryNoteColors[note] = sCol;
 	  	}
 
 	  	var allColors = {};
@@ -248,6 +246,14 @@
 	}
 
 
+	var HSLArrayToString = function (col) {
+		if (Array.isArray(col) && col.length == 3) {
+			return 'hsla(' + col[0] + ',' + col[1] + '%,' + col[2] + '%, 1)';
+		}
+		else {
+			return 'hsla(0, 0%, 0%, 1)';
+		}
+	}
 
 	var MIDIPlayerPercentage = function(player) {
 		// update the timestamp
