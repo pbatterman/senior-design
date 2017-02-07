@@ -183,10 +183,11 @@
 		avgS /= numColors;
 		avgL /= numColors;
 
-		var avgAngle = Math.atan2(colY, colX); // new color direction
+		var avgRadAngle = Math.atan2(colY, colX); // new color direction
+		var avgColor = avgRadAngle * 180/Math.PI; // convert back to degrees (hue)
 
 		// format for hsla
-		var blendedColor = [avgAngle, avgS, avgL];
+		var blendedColor = [avgColor, avgS, avgL];
 		return blendedColor;
 	}
 
