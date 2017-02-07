@@ -133,7 +133,6 @@
 						}
 						var blendColor = blendColors(activeNotes, primaryColors);
 						blendBox.style.background = blendColor;
-						console.log(blendColor);
 					}
 
 					// console.log(data);
@@ -181,6 +180,8 @@
 		colX /= numColors;
 		avgS /= numColors;
 		avgL /= numColors;
+
+		console.log("y : " + colY + " x: " + colX);
 
 		avgS = 100;
 		avgL = 100;
