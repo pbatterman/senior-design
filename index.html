@@ -51,6 +51,7 @@
 			</div>
 		</div>
 		<div id="channels"></div>
+		<div id="blender">Blended Color</div>
 	</div>
 
 <script type="text/javascript">
@@ -118,7 +119,7 @@
 				var allColors = getColorMap();
 				var primaryColors = allColors.primary;
 				var secondaryColors = allColors.secondary;
-
+				var blendBox = document.getElementById("blender");
 				player.addListener(function(data) {
 					var note = data.note - 21;
 					var d = colorElements[note];
@@ -130,6 +131,8 @@
 							d.style.background = "";
 							activeNotes[note] = 0;
 						}
+						var blendColor = blendColors(activeNotes, primaryColors);
+						blendBox.style.background = blendColor;
 					}
 
 					// console.log(data);
@@ -148,6 +151,7 @@
 		});
 	});
 
+	// blend multiple colors together - raw average
 	var blendColors = function(activeColors, colorMap) {
 		var toBlend = [];
 		for (var i = 0; i < 88; i++) {
@@ -155,7 +159,33 @@
 				toBlend.push(colorMap(i));
 			}
 		}
+		var numColors = toBlend.length;
 
+		// convert from polar (HSL) coordinates to average color
+		var colY = 0;
+		var colX = 0;
+
+		var avgS = 0;
+		var avgL = 0;
+
+		for (var color = 0; color < numColors; color++) {
+			var colorAngle = 90 * toBlend[color][0] / 180; // convert to radians
+			colY += Math.sin(colorAngle);
+			colX += Math.cos(colorAngle);
+			avgS += toBlend[color][1];
+			avgL += toBlend[color][2];
+		}
+
+		colY /= numColors;
+		colX /= numColors;
+		avgS /= numColors;
+		avgL /= numColors;
+
+		var avgAngle = Math.atan2(colY, colX); // new color direction
+
+		// format for hsla
+		var blendedColor = 'hsla(' + avgAngle + ',' + avgS + '%,' + avgL + '%, 1)';
+		return blendedColor;
 	}
 
 	var getColorMap = function() {
