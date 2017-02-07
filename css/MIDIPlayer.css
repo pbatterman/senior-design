@@ -82,7 +82,7 @@ div.channel {
 
 #blender {
 	position: fixed;
-	z-index: -2;
+	z-index: 0;
 	width: 200px;
 	height: 700px;
 	top: 0;
