@@ -75,6 +75,7 @@
 
 		var colors = document.getElementById("colors");
 		var colorElements = [];
+		var activeNotes = [];
 		for (var n = 0; n < 88; n++) {
 			var d = document.createElement("div");
 			d.className = "keyColor"
@@ -86,6 +87,7 @@
 			}
 			colorElements.push(d);
 			colors.appendChild(d);
+			activeNotes.push(0);
 		}
 
 		MIDI.loader = new sketch.ui.Timer;
@@ -100,13 +102,13 @@
 				player = MIDI.Player;
 				var channels = [];
 				var channelCount = 0;
+				var channelContainer = document.getElementById("channels");
 				for (var channel in MIDI.channels) {
 					var chanDiv = document.createElement("div");
 					chanDiv.className = "channel"
 					chanDiv.id = "channel" + channelCount;
 					chanDiv.innerHTML = "channel " + channelCount;
 					channelCount++;
-					var channelContainer = document.getElementById("channels");
 					channelContainer.appendChild(chanDiv);
 					channels.push(chanDiv);
 				}
@@ -116,14 +118,17 @@
 				var allColors = getColorMap();
 				var primaryColors = allColors.primary;
 				var secondaryColors = allColors.secondary;
+
 				player.addListener(function(data) {
-					var pianoKey = data.note - 21;
-					var d = colorElements[pianoKey];
+					var note = data.note - 21;
+					var d = colorElements[note];
 					if (d) {
 						if (data.message === 144) {
-							d.style.background = primaryColors[pianoKey];
+							d.style.background = primaryColors[note];
+							activeNotes[note] = 1;
 						} else {
 							d.style.background = "";
+							activeNotes[note] = 0;
 						}
 					}
 
@@ -142,6 +147,16 @@
 			}
 		});
 	});
+
+	var blendColors = function(activeColors, colorMap) {
+		var toBlend = [];
+		for (int i = 0; i < 88; i++) {
+			if (activeColors[i]) {
+				toBlend.push(colorMap(i));
+			}
+		}
+		
+	}
 
 	var getColorMap = function() {
 
