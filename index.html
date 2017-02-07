@@ -182,6 +182,7 @@
 		}
 
 		var magnitude = Math.sqrt(Math.pow(colY, 2) + Math.pow(colX, 2));
+		magnitude /= toBlend; // normalize by potential longest length (all tones coincident)
 		avgS = Math.min(magnitude*100, 100);
 		avgL = 50;
 
