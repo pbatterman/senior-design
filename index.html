@@ -84,9 +84,6 @@
 			if (col < 16) {
 				stringNum = "0" + stringNum;
 			}
-			d.style.background = "#0000" + stringNum;
-			console.log("#0000" + stringNum);
-			d.style.opacity = "0.5";
 			colorElements.push(d);
 			colors.appendChild(d);
 		}
@@ -124,10 +121,8 @@
 					var d = colorElements[pianoKey];
 					if (d) {
 						if (data.message === 144) {
-							d.style.opacity = "1.0";
 							d.style.background = primaryColors[pianoKey];
 						} else {
-							d.style.opacity = "0.5";
 							d.style.background = "";
 						}
 					}
@@ -199,6 +194,8 @@
 
 		return allColors;
 	}
+
+
 
 	var MIDIPlayerPercentage = function(player) {
 		// update the timestamp
