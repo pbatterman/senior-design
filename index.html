@@ -170,7 +170,7 @@
 		var avgL = 0;
 
 		for (var color = 0; color < numColors; color++) {
-			var colorAngle = 90 * toBlend[color][0] / 180; // convert to radians
+			var colorAngle = toBlend[color][0] * Math.PI / 180; // convert to radians
 			colY += Math.sin(colorAngle);
 			colX += Math.cos(colorAngle);
 			avgS += toBlend[color][1];
