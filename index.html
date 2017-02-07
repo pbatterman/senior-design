@@ -170,7 +170,7 @@
 		var colX = 0;
 
 		var avgS = 0;
-		var avgL = 0;
+		var avgL = 100;
 
 		for (var color = 0; color < numColors; color++) {
 			var colorAngle = toBlend[color][0] * Math.PI / 180; // convert to radians
@@ -180,10 +180,9 @@
 			avgL += toBlend[color][2];
 		}
 
-		colY /= numColors;
-		colX /= numColors;
-		avgS /= numColors;
-		avgL /= numColors;
+		var magnitude = Math.sqrt(Math.pow(colY, 2) + Math.pow(colX, 2));
+		avgS = Math.min(magnitude, 100);
+		avgL = 100;
 
 		var avgRadAngle = Math.atan2(colY, colX); // new color direction
 		var avgColor = avgRadAngle * 180/Math.PI; // convert back to degrees (hue)
