@@ -125,13 +125,14 @@
 					var d = colorElements[note];
 					if (d) {
 						if (data.message === 144) {
-							d.style.background = HSLArrayToString(primaryColors[note]);
+							d.style.background = HSLArrayToString(secondaryColors[note]);
 							activeNotes[note] = 1;
 						} else {
 							d.style.background = "";
 							activeNotes[note] = 0;
 						}
-						var blendColor = blendColors(activeNotes, primaryColors);
+						var blendColor = blendColors(activeNotes, secondaryColors);
+						console.log(HSLArrayToString(blendColor));
 						blendBox.style.background = HSLArrayToString(blendColor);
 					}
 
@@ -161,7 +162,6 @@
 		}
 		var numColors = toBlend.length;
 		if (!numColors) return "";
-		console.log(toBlend);
 
 		// convert from polar (HSL) coordinates to average color
 		var colY = 0;
