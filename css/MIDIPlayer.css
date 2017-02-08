@@ -11,7 +11,7 @@ div.player {
 	z-index: 4;
 	width: 500px;
 	position: fixed;
-	bottom: 10;
+	bottom: 0;
 	margin-left: 25%;
 	
 }
