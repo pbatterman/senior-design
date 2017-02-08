@@ -184,7 +184,7 @@
 		var magnitude = Math.sqrt(Math.pow(colY, 2) + Math.pow(colX, 2));
 		magnitude /= numColors; // normalize by potential longest length (all tones coincident)
 		avgS = Math.min(magnitude*100, 100);
-		avgL = 50;
+		avgL /= numColors;
 
 		var avgRadAngle = Math.atan2(colY, colX); // new color direction
 		var avgColor = avgRadAngle * 180/Math.PI; // convert back to degrees (hue)
