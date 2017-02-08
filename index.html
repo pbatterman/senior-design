@@ -50,9 +50,13 @@
 				<span id="time2" class="time" style="text-align: left;">-0:00</span>
 			</div>
 		</div>
-		<div id="channels"></div>
+		<!-- <div id="channels"></div> -->
 		<div id="blender">
 			<div id="blendGradient"></div>
+		</div>
+		<div id="colorController">
+			<img id="colorwheel" src="images/colorwheel.png">
+			<img id="fifthsWheel" src="images/circle_fifths_wheel.png">
 		</div>
 	</div>
 
@@ -103,18 +107,18 @@
 				/// this is the language we are running in
 				/// this sets up the MIDI.Player and gets things going...
 				player = MIDI.Player;
-				var channels = [];
-				var channelCount = 0;
-				var channelContainer = document.getElementById("channels");
-				for (var channel in MIDI.channels) {
-					var chanDiv = document.createElement("div");
-					chanDiv.className = "channel"
-					chanDiv.id = "channel" + channelCount;
-					chanDiv.innerHTML = "channel " + channelCount;
-					channelCount++;
-					channelContainer.appendChild(chanDiv);
-					channels.push(chanDiv);
-				}
+				// var channels = [];
+				// var channelCount = 0;
+				// var channelContainer = document.getElementById("channels");
+				// for (var channel in MIDI.channels) {
+				// 	var chanDiv = document.createElement("div");
+				// 	chanDiv.className = "channel"
+				// 	chanDiv.id = "channel" + channelCount;
+				// 	chanDiv.innerHTML = "channel " + channelCount;
+				// 	channelCount++;
+				// 	channelContainer.appendChild(chanDiv);
+				// 	channels.push(chanDiv);
+				// }
 				player.timeWarp = 1; // speed the song is played back
 				player.loadFile(song[songid++ % song.length], player.start);
 
