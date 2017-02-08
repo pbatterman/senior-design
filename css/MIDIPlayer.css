@@ -10,6 +10,9 @@ div.player {
 	color: #FFFFFF;
 	z-index: 4;
 	width: 500px;
+	position: fixed;
+	bottom: 10;
+	margin-left: 45%;
 	
 }
 div.player #capsule {
