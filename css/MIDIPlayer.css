@@ -103,8 +103,8 @@ div.channel {
 #blender {
 	position: fixed;
 	z-index: -2;
-	width: 400px;
-	height: 700px;
+	width: 600px;
+	height: 900px;
 	top: 0;
 	right: 0;
 	color: #fff;
