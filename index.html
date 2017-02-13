@@ -103,11 +103,11 @@
 
 	// when the input range changes update the angle 
 	d3.select("#primaryAngle").on("input", function() {
-	  update(+this.value);
+	  updateAngle(+this.value, 0);
 	});
 
 	d3.select("#secondaryAngle").on("input", function() {
-	  update(+this.value);
+	  updateAngle(+this.value, 1);
 	});
 
 
@@ -115,18 +115,20 @@
 	update(0);
 
 	// update the element
-	function update(primaryAngle) {
+	function updateAngle(angle, id) {
 
-	  // adjust the text on the range slider
-	  d3.select("#primaryAngle").property("value", primaryAngle);
-	  d3.select("#secondaryAngle").property("value", secondaryAngle);
+		if (id == 0) {
+			// adjust the text on the range slider
+			d3.select("#primaryAngle").property("value", angle);
 
-	  // rotate the text
-	  primaryHolder.select("image") 
-	  	.attr("transform", "rotate(" + primaryAngle + "," + (wheelX + wheelWidth/2) + ","+ (wheelY+wheelHeight/2) +")")
-
-	  secondaryHolder.select("image") 
-	  	.attr("transform", "rotate(" + secondaryAngle + "," + (wheelX + wheelWidth/2) + ","+ (wheelY+wheelHeight/2) +")")
+			// rotate the text
+			primaryHolder.select("image") 
+				.attr("transform", "rotate(" + angle + "," + (wheelX + wheelWidth/2) + ","+ (wheelY+wheelHeight/2) +")")
+		} else {
+			d3.select("#secondaryAngle").property("value", angle);
+			secondaryHolder.select("image") 
+				.attr("transform", "rotate(" + angle + "," + (wheelX + wheelWidth/2) + ","+ (wheelY+wheelHeight/2) +")")
+		}
 	}
 
 
