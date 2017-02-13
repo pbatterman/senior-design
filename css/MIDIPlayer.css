@@ -82,10 +82,18 @@ div.channel {
 	/*border-bottom: 1px solid rgba(5,5,5,0.7);*/
 }
 
+#sliders {
+	margin-top: 220px;
+	position: absolute;
+	right: 0;
+	width: 180px;
+}
+
 .angleInputLabel {
 	display: inline-block; 
 	color: #fff;
-	text-align: right
+	text-align: right;
+	font-size: 11pt;
 }
 
 .angleInput {
