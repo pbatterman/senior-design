@@ -58,8 +58,8 @@
 			<div id="blendGradient"></div>
 		</div>
 		<div id="colorController">
-			<input type="range" min="0" max="360" id="primaryAngle">
-			<input type="range" min="0" max="360" id="secondaryAngle">
+			<input type="range" min="0" max="360" class="angleInput" id="primaryAngle">
+			<input type="range" min="0" max="360" class="angleInput" id="secondaryAngle">
 			<img id="colorwheel" src="images/colorwheel.png">
 			<img id="fifthswheel" src="images/circle_fifths_wheel.png">
 		</div>
@@ -79,7 +79,8 @@
 	var primaryHolder = d3.select("body")
       .append("svg")
       .attr("width", wheelWidth)    
-      .attr("height", wheelHeight); 
+      .attr("height", wheelHeight)
+      .append('<div class="colorInput">');
 
 	primaryHolder.append("image")
 	  .attr("xlink:href", "images/circle_fifths_wheel.png")
@@ -91,7 +92,8 @@
     var secondaryHolder = d3.select("body")
       .append("svg")
       .attr("width", wheelWidth)    
-      .attr("height", wheelHeight); 
+      .attr("height", wheelHeight)
+      .append('<div class="colorInput">'); 
 
 	secondaryHolder.append("image")
 	  .attr("xlink:href", "images/circle_fifths_wheel_minor.png")
