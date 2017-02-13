@@ -36,7 +36,6 @@
 
 </head>
 <body>
-	<h3>PB Senior design</h3>
 	<div style="position: fixed; top: 0; left: 0; z-index: -1; overflow: hidden; width:100%;" id="colors"></div>
 	<div>
 		<div class="player" style="z-index:4;">
@@ -59,7 +58,8 @@
 			<div id="blendGradient"></div>
 		</div>
 		<div id="colorController">
-			<input type="range" min="0" max="360" id="nAngle">
+			<input type="range" min="0" max="360" id="primaryAngle">
+			<input type="range" min="0" max="360" id="secondaryAngle">
 			<img id="colorwheel" src="images/colorwheel.png">
 			<img id="fifthswheel" src="images/circle_fifths_wheel.png">
 		</div>
@@ -76,13 +76,25 @@
 	var wheelX = 0;
 	var wheelY = 0;
 
-	var holder = d3.select("body")
+	var primaryHolder = d3.select("body")
       .append("svg")
       .attr("width", wheelWidth)    
       .attr("height", wheelHeight); 
 
-	holder.append("image")
+	primaryHolder.append("image")
 	  .attr("xlink:href", "images/circle_fifths_wheel.png")
+	  .attr("width", wheelWidth)    
+      .attr("height", wheelHeight)
+      .attr("x", wheelX)
+      .attr("y", wheelY);
+
+    var secondaryHolder = d3.select("body")
+      .append("svg")
+      .attr("width", wheelWidth)    
+      .attr("height", wheelHeight); 
+
+	secondaryHolder.append("image")
+	  .attr("xlink:href", "images/circle_fifths_wheel_minor.png")
 	  .attr("width", wheelWidth)    
       .attr("height", wheelHeight)
       .attr("x", wheelX)
@@ -90,22 +102,31 @@
 
 
 	// when the input range changes update the angle 
-	d3.select("#nAngle").on("input", function() {
+	d3.select("#primaryAngle").on("input", function() {
 	  update(+this.value);
 	});
+
+	d3.select("#secondaryAngle").on("input", function() {
+	  update(+this.value);
+	});
+
 
 	// Initial starting angle of the text 
 	update(0);
 
 	// update the element
-	function update(nAngle) {
+	function update(primaryAngle) {
 
 	  // adjust the text on the range slider
-	  d3.select("#nAngle").property("value", nAngle);
+	  d3.select("#primaryAngle").property("value", primaryAngle);
+	  d3.select("#secondaryAngle").property("value", secondaryAngle);
 
 	  // rotate the text
-	  holder.select("image") 
-	  	.attr("transform", "rotate(" + nAngle + "," + (wheelX + wheelWidth/2) + ","+ (wheelY+wheelHeight/2) +")")
+	  primaryHolder.select("image") 
+	  	.attr("transform", "rotate(" + primaryAngle + "," + (wheelX + wheelWidth/2) + ","+ (wheelY+wheelHeight/2) +")")
+
+	  secondaryHolder.select("image") 
+	  	.attr("transform", "rotate(" + secondaryAngle + "," + (wheelX + wheelWidth/2) + ","+ (wheelY+wheelHeight/2) +")")
 	}
 
 
