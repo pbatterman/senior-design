@@ -7,6 +7,7 @@
 	<link href="./css/MIDIPlayer.css" rel="stylesheet" type="text/css" />
 
 	<script src="js/jquery-3.1.1.min.js" type="text/javascript"></script>
+	<script src="http://d3js.org/d3.v3.min.js"></script>
 
 	<!-- shim -->
 	<script src="MIDI.js/inc/shim/Base64.js" type="text/javascript"></script>
@@ -58,7 +59,13 @@
 			<div id="blendGradient"></div>
 		</div>
 		<div id="colorController">
-			<input type="text" class="dial" data-min="0" data-max="360">
+			<p>
+			  <label for="nAngle" 
+			     style="display: inline-block; width: 240px; text-align: right">
+			     angle = <span id="nAngle-value">…</span>
+			  </label>
+			  <input type="range" min="0" max="360" id="nAngle">
+			</p>
 			<img id="colorwheel" src="images/colorwheel.png">
 			<img id="fifthswheel" src="images/circle_fifths_wheel.png">
 		</div>
@@ -68,10 +75,44 @@
 	if (typeof (console) === "undefined") var console = {
 		log: function() {}
 	};
+	
+	////// D3 Rotating input functionality
 
-	$(".dial").knob({
-        'change' : function (v) { console.log(v); }
-    });
+	var holder = d3.select("body")
+      .append("svg")
+      .attr("width", width)    
+      .attr("height", height); 
+
+	holder.append("text")
+	  .style("fill", "black")
+	  .style("font-size", "56px")
+	  .attr("dy", ".35em")
+	  .attr("text-anchor", "middle")
+	  .attr("transform", "translate(300,150) rotate(0)")
+	  .text("d3noob.org");
+
+	// when the input range changes update the angle 
+	d3.select("#nAngle").on("input", function() {
+	  update(+this.value);
+	});
+
+	// Initial starting angle of the text 
+	update(0);
+
+	// update the element
+	function update(nAngle) {
+
+	  // adjust the text on the range slider
+	  d3.select("#nAngle-value").text(nAngle);
+	  d3.select("#nAngle").property("value", nAngle);
+
+	  // rotate the text
+	  holder.select("text") 
+	    .attr("transform", "translate(300,150) rotate("+nAngle+")");
+	}
+
+
+
 	// Toggle between Pause and Play modes.
 	var pausePlayStop = function(stop) {
 		var d = document.getElementById("pausePlayStop");
