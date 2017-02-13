@@ -77,7 +77,9 @@
       .attr("height", 200); 
 
 	holder.append("image")
-	  .attr("xlink:href", "images/colorwheel.png");
+	  .attr("xlink:href", "images/colorwheel.png")
+	  .attr("width", 200)    
+      .attr("height", 200); 
 
 	// when the input range changes update the angle 
 	d3.select("#nAngle").on("input", function() {
@@ -94,7 +96,7 @@
 	  d3.select("#nAngle").property("value", nAngle);
 
 	  // rotate the text
-	  holder.select("text") 
+	  holder.select("image") 
 	    .attr("transform", "translate(300,150) rotate("+nAngle+")");
 	}
 
