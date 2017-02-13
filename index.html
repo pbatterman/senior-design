@@ -5,6 +5,9 @@
 	<title>PB Senior Design</title>
 	<!-- midi.js css -->
 	<link href="./css/MIDIPlayer.css" rel="stylesheet" type="text/css" />
+
+	<script src="js/jquery-3.1.1.min.js" type="text/javascript"></script>
+
 	<!-- shim -->
 	<script src="MIDI.js/inc/shim/Base64.js" type="text/javascript"></script>
 	<script src="MIDI.js/inc/shim/Base64binary.js" type="text/javascript"></script>
@@ -55,6 +58,7 @@
 			<div id="blendGradient"></div>
 		</div>
 		<div id="colorController">
+			<input type="text" class="dial" data-min="0" data-max="360">
 			<img id="colorwheel" src="images/colorwheel.png">
 			<img id="fifthswheel" src="images/circle_fifths_wheel.png">
 		</div>
@@ -64,6 +68,10 @@
 	if (typeof (console) === "undefined") var console = {
 		log: function() {}
 	};
+
+	$(".dial").knob({
+        'change' : function (v) { console.log(v); }
+    });
 	// Toggle between Pause and Play modes.
 	var pausePlayStop = function(stop) {
 		var d = document.getElementById("pausePlayStop");
