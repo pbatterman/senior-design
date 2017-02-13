@@ -71,16 +71,23 @@
 	};
 	
 	////// D3 Rotating input functionality
+	var wheelWidth = 200;
+	var wheelHeight = 200;
+	var wheelX = 0;
+	var wheelY = 0;
+
 	var holder = d3.select("body")
       .append("svg")
-      .attr("width", 200)    
-      .attr("height", 200); 
+      .attr("width", wheelWidth)    
+      .attr("height", wheelHeight); 
 
 	holder.append("image")
 	  .attr("xlink:href", "images/colorwheel.png")
-	  .attr("width", 200)    
-      .attr("height", 200)
-      .attr("image-anchor", "middle");
+	  .attr("width", wheelWidth)    
+      .attr("height", wheelHeight)
+      .attr("x", wheelX)
+      .attr("y", wheelY);
+
 
 	// when the input range changes update the angle 
 	d3.select("#nAngle").on("input", function() {
@@ -98,7 +105,7 @@
 
 	  // rotate the text
 	  holder.select("image") 
-	    .attr("transform", "translate(0,0) rotate("+nAngle+")");
+	  	.attr("transform", "rotate(" + nAngle + "," + (wheelX + wheelWidth/2) + ","+ (wheelY+wheelHeight/2) +")")
 	}
 
 
