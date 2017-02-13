@@ -59,13 +59,7 @@
 			<div id="blendGradient"></div>
 		</div>
 		<div id="colorController">
-			<p>
-			  <label for="nAngle" 
-			     style="display: inline-block; width: 240px; text-align: right">
-			     angle = <span id="nAngle-value">…</span>
-			  </label>
-			  <input type="range" min="0" max="360" id="nAngle">
-			</p>
+			<input type="range" min="0" max="360" id="nAngle">
 			<img id="colorwheel" src="images/colorwheel.png">
 			<img id="fifthswheel" src="images/circle_fifths_wheel.png">
 		</div>
@@ -77,21 +71,13 @@
 	};
 	
 	////// D3 Rotating input functionality
-	var width = 600;
-	var height = 300;
-
 	var holder = d3.select("body")
       .append("svg")
-      .attr("width", width)    
-      .attr("height", height); 
+      .attr("width", 200)    
+      .attr("height", 200); 
 
-	holder.append("text")
-	  .style("fill", "black")
-	  .style("font-size", "56px")
-	  .attr("dy", ".35em")
-	  .attr("text-anchor", "middle")
-	  .attr("transform", "translate(300,150) rotate(0)")
-	  .text("d3noob.org");
+	holder.append("image")
+	  .attr("xlink:href", "images/colorwheel.png");
 
 	// when the input range changes update the angle 
 	d3.select("#nAngle").on("input", function() {
@@ -105,7 +91,6 @@
 	function update(nAngle) {
 
 	  // adjust the text on the range slider
-	  d3.select("#nAngle-value").text(nAngle);
 	  d3.select("#nAngle").property("value", nAngle);
 
 	  // rotate the text
