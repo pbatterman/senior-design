@@ -199,8 +199,8 @@
 				player.loadFile(song[songid++ % song.length], player.start);
 
 				// fetch primary and secondary angles
-				var pAngleOffset = d3.select("#primaryAngle").property("value");
-				var sAngleOffset = d3.select("#secondaryAngle").property("value");
+				var pAngleOffset = parseInt(d3.select("#primaryAngle").property("value"));
+				var sAngleOffset = parseInt(d3.select("#secondaryAngle").property("value"));
 
 				var allColors = getColorMap(pAngleOffset, sAngleOffset);
 				var primaryColors = allColors.primary;
@@ -210,8 +210,8 @@
 				var numNotes = 0;
 				player.addListener(function(data) {
 
-					var currPOffset = d3.select("#primaryAngle").property("value");
-					var currSOffset = d3.select("#secondaryAngle").property("value");
+					var currPOffset = parseInt(d3.select("#primaryAngle").property("value"));
+					var currSOffset = parseInt(d3.select("#secondaryAngle").property("value"));
 
 					if (currPOffset != pAngleOffset || currSOffset != sAngleOffset) {
 						pAngleOffset = currPOffset;
@@ -334,7 +334,7 @@
 			10: [ 210, 100, 28 ], // 7 G
 			11: [ 60, 100, 52 ] // 2 D
 		};
-		pOffset = 0.0;
+		
 		// add offset
 		for (var c = 0; c < 12; c++) {
 			var col = primaryColors[c];
