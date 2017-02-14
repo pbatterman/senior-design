@@ -130,10 +130,14 @@
 			// rotate the text
 			primaryHolder.select("image") 
 				.attr("transform", "rotate(" + angle + "," + (wheelX + wheelWidth/2) + ","+ (wheelY+wheelHeight/2) +")")
+
+			console.log("primary angle: " + angle);
 		} else {
 			d3.select("#secondaryAngle").property("value", angle);
 			secondaryHolder.select("image") 
 				.attr("transform", "rotate(" + angle + "," + (wheelX + wheelWidth/2) + ","+ (wheelY+wheelHeight/2) +")")
+
+			console.log("secondary angle: " + angle);
 		}
 	}
 
@@ -214,7 +218,6 @@
 						}
 						var blendColor = blendColors(activeNotes, secondaryColors);
 						blendBox.style.background = HSLArrayToString(blendColor);
-						console.log(HSLArrayToString(blendColor));
 					}
 
 					// var cd = channels[data.channel];
