@@ -80,7 +80,7 @@
 	var scene, camera, renderer;
 
 	init();
-	threeAnimate();
+	animate();
 
 	function init() {
 
@@ -95,8 +95,6 @@
 		camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT, 0.1, 20000);
 		camera.position.set(0,6,0);
 		scene.add(camera);
-
-		console.log(camera.position);
 
 		window.addEventListener('resize', function() {
 			var WIDTH = window.innerWidth,
@@ -139,8 +137,8 @@
 		controls = new THREE.OrbitControls(camera, renderer.domElement);
 	}
 
-	function threeAnimate() {
-		requestAnimationFrame(threeAnimate);
+	function animate() {
+		requestAnimationFrame(animate);
 
 	    // Render the scene.
 	    renderer.render(scene, camera);
@@ -492,17 +490,17 @@
 		});
 	};
 	
-	function animate(id) {
-		document.getElementById(id).animate([
-		  // keyframes
-		  { transform: 'translateX(0px)' }, 
-		  { transform: 'translateX(1000px)' }
-		  ], { 
-		  // timing options
-		  duration: 1000,
-		  iterations: 1
-		});
-	};
+	// function animatePlayer(id) {
+	// 	document.getElementById(id).animate([
+	// 	  // keyframes
+	// 	  { transform: 'translateX(0px)' }, 
+	// 	  { transform: 'translateX(1000px)' }
+	// 	  ], { 
+	// 	  // timing options
+	// 	  duration: 1000,
+	// 	  iterations: 1
+	// 	});
+	// };
 	// Begin loading indication.
 	var player;
 	// MIDI files from Disklavier World
