@@ -338,9 +338,9 @@
 		// add offset
 		for (var c = 0; c < 12; c++) {
 			var col = primaryColors[c];
-			console.log("P A: " + c + " " + col + " offset: " + sOffset);
+			console.log("P A: " + c + " " + col + " offset: " + pOffset);
 			col[0] = (col[0] + pOffset) % 360;
-			console.log("P B: " + c + " " + col + " offset: " + sOffset);
+			console.log("P B: " + c + " " + col + " offset: " + pOffset);
 			primaryColors[c] = col;
 
 			var scol = secondaryColors[c];
