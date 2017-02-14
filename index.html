@@ -92,7 +92,7 @@ function init() {
     document.body.appendChild(renderer.domElement);
 
     camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT, 0.1, 20000);
-    camera.position.set(500, y: 500, z: -1200);
+    camera.position.set(500, 500, -1200);
     scene.add(camera);
 
     window.addEventListener('resize', function() {
