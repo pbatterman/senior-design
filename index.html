@@ -318,7 +318,7 @@
 			10: [ 300, 100, 37 ], // 10 Bb
 			5: [ 330, 100, 46 ] // 11 B 
 		}
-		var secondaryColors = {
+		var secondaryColors = { //offset by half from primary for testing
 			9: [ 360, 100, 51 ], // 0 C
 			4: [ 30, 100, 51 ], // 1 Db
 			11: [ 60, 100, 52 ], // 2 D
@@ -366,7 +366,7 @@
 
 	var HSLArrayToString = function (col) {
 		if (Array.isArray(col) && col.length == 3) {
-			return 'hsla(' + col[0] + ', 100%, 100%, 1)';
+			return 'hsla(' + col[0] + ',' + col[1] + '%,' + col[2] + '%, 1)';
 		}
 		else {
 			return 'hsla(0, 0%, 0%, 1)';
