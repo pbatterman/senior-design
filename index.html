@@ -134,8 +134,8 @@ function init() {
    			geom.faces.push( new THREE.Face3( v, v+1, v+7, inormal ) ); // lower
    		}
    		else if ( v > 13 && v < 20 ) {
-   			geom.faces.push( new THREE.Face3( v, v+1, v-6 ) ); // upper
-   			geom.faces.push( new THREE.Face3( v, v+1, v+7 ) ); // lower
+   			geom.faces.push( new THREE.Face3( v, v+1, v-6, inormal ) ); // upper
+   			geom.faces.push( new THREE.Face3( v, v+1, v+7, normal ) ); // lower
    		}
    		else if ( v > 20 && v < 27 ) {
    			geom.faces.push( new THREE.Face3( v, v+1, v-6 ) ); // upper
