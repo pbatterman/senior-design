@@ -38,6 +38,7 @@ function init() {
    		}
    	}
 
+   	console.log("num verts " + geom.vertices.length);
 	var normal = new THREE.Vector3( 0, 1, 0 ); //optional
    	for (var v = 0; v < geom.vertices.length - 2; v++) {
 
@@ -45,7 +46,7 @@ function init() {
    		if ( v % 2 == 0) {
    			color = new THREE.Color( 0x0000ff );
    		}
-   		geom.faces.push( new THREE.Face3( v, v+1, v+2, normal, color ) );
+   		geom.faces.push( new THREE.Face3( v, v+1, v+2 ) );
    	}
 
 	//geom.faces.push( new THREE.Face3( 0, 1, 2 ) );
