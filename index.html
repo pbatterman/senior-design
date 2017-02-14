@@ -122,17 +122,17 @@ function init() {
 	var inormal = new THREE.Vector3( 0, 0, -1 );
 	var redcol = new THREE.Color( 0xff0000 );
 	var bluecol = new THREE.Color( 0x0000ff );
-	var material = new THREE.MeshStandardMaterial( { color : 0x00cc00 } );
+	var material = new THREE.MeshStandardMaterial( { color : 0xffcc00 } );
 
    	for (var v = 0; v < geom.vertices.length - 1; v++) {
    		// first row
    		if ( v < 6 ) {
-   			geom.faces.push( new THREE.Face3( v, v+1, v+7 , normal, redcol ) );
+   			geom.faces.push( new THREE.Face3( v, v+1, v+7 , normal, redcol, 0 ) );
    		}
    		// middle rows
    		else if ( v > 6 && v < 13 ) {
-   			geom.faces.push( new THREE.Face3( v-6, v+1, v, normal, bluecol) ); // upper
-   			geom.faces.push( new THREE.Face3( v, v+1, v+7, normal, redcol) ); // lower
+   			geom.faces.push( new THREE.Face3( v-6, v+1, v, normal, bluecol, 0) ); // upper
+   			geom.faces.push( new THREE.Face3( v, v+1, v+7, normal, redcol, 0) ); // lower
    		}
    		else if ( v > 13 && v < 20 ) {
    			geom.faces.push( new THREE.Face3( v-6, v+1, v, normal, bluecol) ); // upper
