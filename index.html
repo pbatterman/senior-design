@@ -338,16 +338,16 @@
 		// add offset
 		for (var c = 0; c < 12; c++) {
 			var col = primaryColors[c];
-			console.log("P A: " + c + " " + col + " offset: " + pOffset);
+			console.log("P A: " + c + " " + col[0] + " offset: " + pOffset);
 			col[0] = (col[0] + pOffset) % 360;
-			console.log("P B: " + c + " " + col + " offset: " + pOffset);
+			console.log("P B: " + c + " " + col[0] + " offset: " + pOffset);
 			primaryColors[c] = col;
 
 			var scol = secondaryColors[c];
-			console.log("S A: " + c + " " + scol + " offset: " + sOffset);
+			console.log("S A: " + c + " " + scol[0] + " offset: " + sOffset);
 
 			scol[0] = (scol[0] + sOffset) % 360;
-			console.log("S B: " + c + " " + scol + " offset: " + sOffset);
+			console.log("S B: " + c + " " + scol[0] + " offset: " + sOffset);
 			secondaryColors[c] = scol;
 		}
 
