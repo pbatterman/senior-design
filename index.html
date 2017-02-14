@@ -122,7 +122,8 @@ function init() {
 	var inormal = new THREE.Vector3( 0, 0, -1 );
 	var redcol = new THREE.Color( 0xff0000 );
 	var bluecol = new THREE.Color( 0x0000ff );
-
+	var material = new THREE.MeshStandardMaterial( { color : 0x00cc00 } );
+	
    	for (var v = 0; v < geom.vertices.length - 1; v++) {
    		// first row
    		if ( v < 6 ) {
