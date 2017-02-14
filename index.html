@@ -234,6 +234,7 @@
 						if (data.message === 144) {
 							numNotes++;
 							d.style.background = HSLArrayToString(secondaryColors[note]);
+							console.log(HSLArrayToString(secondaryColors[note]));
 							activeNotes[note] = 1;
 						} else {
 							numNotes--;
