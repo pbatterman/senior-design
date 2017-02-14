@@ -119,6 +119,7 @@ function init() {
 
    	console.log("num verts " + geom.vertices.length);
 	var normal = new THREE.Vector3( 0, 0, 1 );
+	var inormal = new THREE.Vector3( 0, 0, -1 );
 	var redcol = new THREE.Color( 0xff0000 );
 	var bluecol = new THREE.Color( 0x0000ff );
 
@@ -129,20 +130,20 @@ function init() {
    		}
    		// middle rows
    		else if ( v > 6 && v < 13 ) {
-   			geom.faces.push( new THREE.Face3( v, v+1, v-6 ) ); // upper
-   			// geom.faces.push( new THREE.Face3( v, v+1, v+7 ) ); // lower
+   			geom.faces.push( new THREE.Face3( v, v+1, v-6, normal ) ); // upper
+   			geom.faces.push( new THREE.Face3( v, v+1, v+7, inormal ) ); // lower
    		}
    		else if ( v > 13 && v < 20 ) {
    			geom.faces.push( new THREE.Face3( v, v+1, v-6 ) ); // upper
-   			// geom.faces.push( new THREE.Face3( v, v+1, v+7 ) ); // lower
+   			geom.faces.push( new THREE.Face3( v, v+1, v+7 ) ); // lower
    		}
    		else if ( v > 20 && v < 27 ) {
    			geom.faces.push( new THREE.Face3( v, v+1, v-6 ) ); // upper
-   			// geom.faces.push( new THREE.Face3( v, v+1, v+7 ) ); // lower
+   			geom.faces.push( new THREE.Face3( v, v+1, v+7 ) ); // lower
    		}
    		else if ( v > 27 && v < 34 ) {
    			geom.faces.push( new THREE.Face3( v, v+1, v-6 ) ); // upper
-   			// geom.faces.push( new THREE.Face3( v, v+1, v+7 ) ); // lower
+   			geom.faces.push( new THREE.Face3( v, v+1, v+7 ) ); // lower
    		}
    		else if (v > 34 && v < 41) {
    			geom.faces.push( new THREE.Face3( v, v+1, v-6 ) );
