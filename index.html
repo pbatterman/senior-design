@@ -318,7 +318,8 @@
 			3: [ 270, 100, 26 ], // 9 A
 			10: [ 300, 100, 37 ], // 10 Bb
 			5: [ 330, 100, 46 ] // 11 B 
-		}
+		};
+
 		var secondaryColors = { //offset by half from primary for testing
 			9: [ 0, 100, 51 ], // 0 C
 			4: [ 30, 100, 51 ], // 1 Db
@@ -332,7 +333,7 @@
 			0: [ 270, 100, 26 ], // 9 A
 			7: [ 300, 100, 37 ], // 10 Bb
 			2: [ 330, 100, 46 ] // 11 B 
-		}
+		};
 
 		// add offset
 		for (var c = 0; c < 12; c++) {
@@ -342,6 +343,7 @@
 
 			var scol = secondaryColors[c];
 			scol[0] = (scol[0] + sOffset) % 360;
+			console.log(c + " " + scol);
 			secondaryColors[c] = scol;
 		}
 
