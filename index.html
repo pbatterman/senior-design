@@ -80,7 +80,7 @@
 	var scene, camera, renderer;
 
 	init();
-	animate();
+	threeAnimate();
 
 	function init() {
 
@@ -139,8 +139,8 @@
 		controls = new THREE.OrbitControls(camera, renderer.domElement);
 	}
 
-	function animate() {
-		requestAnimationFrame(animate);
+	function threeAnimate() {
+		requestAnimationFrame(threeAnimate);
 
 	    // Render the scene.
 	    renderer.render(scene, camera);
