@@ -92,7 +92,7 @@ function init() {
     document.body.appendChild(renderer.domElement);
 
     camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT, 0.1, 20000);
-    camera.position.set(500, 500, -1200);
+    camera.position.set(500, 500, 1200);
     scene.add(camera);
 
     window.addEventListener('resize', function() {
@@ -126,27 +126,27 @@ function init() {
    	for (var v = 0; v < geom.vertices.length - 1; v++) {
    		// first row
    		if ( v < 6 ) {
-   			geom.faces.push( new THREE.Face3( v, v+1, v+7 ) );
+   			geom.faces.push( new THREE.Face3( v, v+1, v+7 ), normal, redcol, 0 );
    		}
    		// middle rows
    		else if ( v > 6 && v < 13 ) {
-   			geom.faces.push( new THREE.Face3( v-6, v+1, v, normal ) ); // upper
-   			geom.faces.push( new THREE.Face3( v, v+1, v+7, inormal ) ); // lower
+   			geom.faces.push( new THREE.Face3( v-6, v+1, v, normal, bluecol, 0 ) ); // upper
+   			geom.faces.push( new THREE.Face3( v, v+1, v+7, normal, redcol, 0 ) ); // lower
    		}
    		else if ( v > 13 && v < 20 ) {
-   			geom.faces.push( new THREE.Face3( v-6, v+1, v, inormal ) ); // upper
-   			geom.faces.push( new THREE.Face3( v, v+1, v+7, normal ) ); // lower
+   			geom.faces.push( new THREE.Face3( v-6, v+1, v, normal, bluecol, 0 ) ); // upper
+   			geom.faces.push( new THREE.Face3( v, v+1, v+7, normal, redcol, 0 ) ); // lower
    		}
    		else if ( v > 20 && v < 27 ) {
-   			geom.faces.push( new THREE.Face3( v-6, v+1, v, normal ) ); // upper
-   			geom.faces.push( new THREE.Face3( v, v+1, v+7, normal ) ); // lower
+   			geom.faces.push( new THREE.Face3( v-6, v+1, v, normal, bluecol, 0 ) ); // upper
+   			geom.faces.push( new THREE.Face3( v, v+1, v+7, normal, redcol, 0 ) ); // lower
    		}
    		else if ( v > 27 && v < 34 ) {
-   			geom.faces.push( new THREE.Face3( v-6, v+1, v, normal ) ); // upper
-   			geom.faces.push( new THREE.Face3( v, v+1, v+7, normal ) ); // lower
+   			geom.faces.push( new THREE.Face3( v-6, v+1, v, normal, bluecol, 0 ) ); // upper
+   			geom.faces.push( new THREE.Face3( v, v+1, v+7, normal, redcol, 0 ) ); // lower
    		}
    		else if (v > 34 && v < 41) {
-   			geom.faces.push( new THREE.Face3( v-6, v+1, v, normal ) );
+   			geom.faces.push( new THREE.Face3( v-6, v+1, v, normal, bluecol, 0 ) );
    		}
    		else {
    			continue;
