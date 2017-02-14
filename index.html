@@ -219,6 +219,7 @@
 						allColors = getColorMap(currPOffset, currSOffset);
 						primaryColors = allColors.primary;
 						secondaryColors = allColors.secondary;
+						console.log(secondaryColors);
 					}
 
 					var note = data.note - 21;
@@ -234,7 +235,7 @@
 						if (data.message === 144) {
 							numNotes++;
 							d.style.background = HSLArrayToString(secondaryColors[note]);
-							console.log(HSLArrayToString(secondaryColors[note]));
+							// console.log(HSLArrayToString(secondaryColors[note]));
 							activeNotes[note] = 1;
 						} else {
 							numNotes--;
@@ -341,6 +342,7 @@
 			primaryColors[c] = col;
 
 			var scol = secondaryColors[c];
+			console.log("scol " + scol);
 			scol[0] = (scol[0] + sOffset) % 360;
 			secondaryColors[c] = scol;
 		}
