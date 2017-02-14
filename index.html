@@ -222,6 +222,13 @@
 					var note = data.note - 21;
 					var d = colorElements[note];
 					if (d) {
+						var notePlayed = false;
+						for (int i = 0; i < 88; i++) {
+							if (activeNotes[i] == 1) {
+								notePlayed = true;
+							}
+						}
+
 						if (data.message === 144) {
 							d.style.background = HSLArrayToString(primaryColors[note]);
 							activeNotes[note] = 1;
@@ -229,7 +236,15 @@
 							d.style.background = "";
 							activeNotes[note] = 0;
 						}
-						var blendColor = blendColors(activeNotes, primaryColors);
+						
+						var blendColor;
+						if (notePlayed) {
+							blendColor = blendColors(activeNotes, secondaryColors);
+						}
+						else {
+							blendColor = blendColors(activeNotes, primaryColors);
+						}
+						
 						blendBox.style.background = HSLArrayToString(blendColor);
 					}
 
@@ -306,18 +321,18 @@
 			5: [ 330, 100, 46 ] // 11 B 
 		}
 		var secondaryColors = { //offset by half from primary for testing
-			5: [ 360, 100, 51 ],
-			6: [ 14, 100, 51 ],
-			7: [ 29, 100, 52 ],
-			8: [ 49, 100, 60 ],
-			9: [ 60, 100, 60 ],
-			10: [ 135, 100, 32 ],
-			11: [ 172, 100, 34 ],
-			0: [ 248, 100, 28 ],
-			1: [ 273, 100, 27 ],
-			2: [ 302, 100, 26 ],
-			3: [ 313, 100, 37 ],
-			4: [ 325, 100, 46 ]
+			9: [ 360, 100, 51 ], // 0 C
+			4: [ 30, 100, 51 ], // 1 Db
+			11: [ 60, 100, 52 ], // 2 D
+			6: [ 90, 100, 60 ], // 3 Eb
+			1: [ 120, 100, 60 ], // 4 E
+			8: [ 150, 100, 32 ], // 5 F
+			3: [ 180, 100, 34 ], // 6 Gb
+			10: [ 210, 100, 28 ], // 7 G
+			5: [ 240, 100, 27 ], // 8 Ab
+			0: [ 270, 100, 26 ], // 9 A
+			7: [ 300, 100, 37 ], // 10 Bb
+			2: [ 330, 100, 46 ] // 11 B 
 		}
 
 		// add offset
