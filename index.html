@@ -138,15 +138,15 @@ function init() {
    			geom.faces.push( new THREE.Face3( v, v+1, v+7, normal ) ); // lower
    		}
    		else if ( v > 20 && v < 27 ) {
-   			geom.faces.push( new THREE.Face3( v-6, v, v+1 ) ); // upper
-   			geom.faces.push( new THREE.Face3( v, v+1, v+7 ) ); // lower
+   			geom.faces.push( new THREE.Face3( v-6, v, v+1, normal ) ); // upper
+   			geom.faces.push( new THREE.Face3( v, v+1, v+7, normal ) ); // lower
    		}
    		else if ( v > 27 && v < 34 ) {
-   			geom.faces.push( new THREE.Face3( v-6, v, v+1 ) ); // upper
-   			geom.faces.push( new THREE.Face3( v, v+1, v+7 ) ); // lower
+   			geom.faces.push( new THREE.Face3( v-6, v, v+1, normal ) ); // upper
+   			geom.faces.push( new THREE.Face3( v, v+1, v+7, normal ) ); // lower
    		}
    		else if (v > 34 && v < 41) {
-   			geom.faces.push( new THREE.Face3( v-6, v, v+1 ) );
+   			geom.faces.push( new THREE.Face3( v-6, v, v+1, normal ) );
    		}
    		else {
    			continue;
