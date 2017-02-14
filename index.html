@@ -108,10 +108,14 @@ function init() {
  
    	var geometry = new THREE.Geometry(); 
 
+   	var colorMap = getVertexColor();
+
    	for (var y = 0; y < 6; y++) {
    		for (var x = 0; x < 7; x++) {
    			var vertex = new THREE.Vector3(100*x + 50*y, 100*y, 0);
    			geometry.vertices.push(vertex);
+   			var vertColor = new THREE.Color( HSLArrayToString(colorMap[x][y]) );
+   			geometry.vertexColors.push();
    		}
    	}
 
@@ -122,7 +126,7 @@ function init() {
 	var material = new THREE.MeshBasicMaterial( { 
 	    color: 0xffcc33, 
 	    shading: THREE.FlatShading,
-	    vertexColors: THREE.FaceColors
+	    vertexColors: THREE.VertexColors
 	});
 
    	for (var v = 0; v < geometry.vertices.length - 1; v++) {
@@ -156,8 +160,6 @@ function init() {
 
    	}
 
-	//geom.faces.push( new THREE.Face3( 0, 1, 2 ) );
-
 	var object = new THREE.Mesh( geometry, material );
 	scene.add(object);
 
@@ -165,14 +167,50 @@ function init() {
  	controls = new THREE.OrbitControls(camera, renderer.domElement);
 }
 
-function animate() {
-	requestAnimationFrame(animate);
- 
-    // Render the scene.
-    renderer.render(scene, camera);
-    controls.update();
-    // console.log(camera.position);
-}
+	function animate() {
+		requestAnimationFrame(animate);
+	 
+	    // Render the scene.
+	    renderer.render(scene, camera);
+	    controls.update();
+	    // console.log(camera.position);
+	}
+
+	function getVertexColor() {
+		var colors = {
+			0: [ 0, 100, 51 ], // 0 C
+			7: [ 30, 100, 51 ], // 1 Db
+			2: [ 60, 100, 52 ], // 2 D
+			9: [ 90, 100, 60 ], // 3 Eb
+			4: [ 120, 100, 60 ], // 4 E
+			11: [ 150, 100, 32 ], // 5 F
+			6: [ 180, 100, 34 ], // 6 Gb
+			1: [ 210, 100, 28 ], // 7 G
+			8: [ 240, 100, 27 ], // 8 Ab
+			3: [ 270, 100, 50 ], // 9 A
+			10: [ 300, 100, 37 ], // 10 Bb
+			5: [ 330, 100, 46 ] // 11 B 
+		};
+
+		var noteMap = [][];
+		var x = 0; 
+		var y = 0;
+		var noteOrder = [7, 11, 3, 2, 6, 10, 8, 1, 5];
+		var nIdx = 0;
+
+		for (var x = 0; x < 3; x++) {
+			for (var y = 0; y < 3; y++) {
+				var note = noteOrder[nIdx];
+				var color = colors[note];
+				noteMap[x][y] = color;
+				noteMap[x][y + 3] = color;
+				noteMap[x + 4][y + 2] = color;
+				noteMap[x + 4][(y + 5) % 6] = color;
+				nIdx++;
+			}
+		}
+		return noteMap;
+	}
 	
 
 
@@ -399,7 +437,7 @@ function animate() {
 		var avgRadAngle = Math.atan2(colY, colX); // new color direction
 		var avgColor = avgRadAngle * 180/Math.PI; // convert back to degrees (hue)
 
-		// format for hsla
+		// format for hsl
 		var blendedColor = [avgColor, avgS, avgL];
 		return blendedColor;
 	}
@@ -470,10 +508,10 @@ function animate() {
 
 	var HSLArrayToString = function (col) {
 		if (Array.isArray(col) && col.length == 3) {
-			return 'hsla(' + col[0] + ',' + col[1] + '%,' + col[2] + '%, 1)';
+			return 'hsl(' + col[0] + ',' + col[1] + '%,' + col[2] + '%)';
 		}
 		else {
-			return 'hsla(0, 0%, 0%, 1)';
+			return 'hsl(0, 0%, 0%)';
 		}
 	}
 
