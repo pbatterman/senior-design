@@ -82,6 +82,15 @@ div.channel {
 	/*border-bottom: 1px solid rgba(5,5,5,0.7);*/
 }
 
+#colorController {
+	height: 1000px;
+	background-color: #aaa;
+	width: 200px;
+	position: fixed;
+	right: 0;
+	top: 0;
+}
+
 #sliders {
 	margin-top: 220px;
 	position: absolute;
