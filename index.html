@@ -206,6 +206,8 @@
 				var primaryColors = allColors.primary;
 				var secondaryColors = allColors.secondary;
 				var blendBox = document.getElementById("blender");
+
+				var numNotes = 0;
 				player.addListener(function(data) {
 
 					var currPOffset = d3.select("#primaryAngle").property("value");
@@ -222,28 +224,24 @@
 					var note = data.note - 21;
 					var d = colorElements[note];
 					if (d) {
-						var notePlayed = false;
-						for (var i = 0; i < 88; i++) {
-							if (activeNotes[i] == 1) {
-								notePlayed = true;
-							}
-						}
-
+						
 						if (data.message === 144) {
+							numNotes++;
 							d.style.background = HSLArrayToString(primaryColors[note]);
 							activeNotes[note] = 1;
 						} else {
+							numNotes--;
 							d.style.background = "";
 							activeNotes[note] = 0;
 						}
 						
 						var blendColor;
-						if (notePlayed) {
+						// if (numNotes > 0) {
 							blendColor = blendColors(activeNotes, secondaryColors);
-						}
-						else {
-							blendColor = blendColors(activeNotes, primaryColors);
-						}
+						// }
+						// else {
+						// 	blendColor = blendColors(activeNotes, primaryColors);
+						// }
 						
 						blendBox.style.background = HSLArrayToString(blendColor);
 					}
