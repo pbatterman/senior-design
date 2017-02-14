@@ -225,7 +225,6 @@
 					var d = colorElements[note];
 					var colorset;
 					if (d) {
-						console.log(numNotes);
 						if (numNotes > 0) {
 							colorset = secondaryColors;
 						}
@@ -235,7 +234,7 @@
 						if (data.message === 144) {
 							numNotes++;
 							d.style.background = HSLArrayToString(colorset[note]);
-							activeNotes[note] = 1;
+							activeNotes[note] = colorset[note];
 						} else {
 							numNotes--;
 							numNotes = Math.max(numNotes, 0);
@@ -244,7 +243,7 @@
 						}
 						
 						var blendColor;
-						blendColor = blendColors(activeNotes, colorset);
+						blendColor = blendColors(activeNotes);
 						blendBox.style.background = HSLArrayToString(blendColor);
 					}
 
@@ -264,11 +263,12 @@
 	});
 
 	// blend multiple colors together - raw average
-	var blendColors = function(activeColors, colorMap) {
+	var blendColors = function(activeColors) {
 		var toBlend = [];
 		for (var i = 0; i < 88; i++) {
-			if (activeColors[i]) {
-				toBlend.push(colorMap[i]);
+			var col = activeColors[i];
+			if (Array.isArray(col) && col.length == 3) {
+				toBlend.push(col);
 			}
 		}
 		var numColors = toBlend.length;
@@ -303,8 +303,6 @@
 	}
 
 	var getColorMap = function(pOffset, sOffset) {
-		console.log ('p off: ' + pOffset + ' s off: ' + sOffset);
-
 
 		var primaryColors = {
 			0: [ 0, 100, 51 ], // 0 C
@@ -340,16 +338,11 @@
 		// add offset
 		for (var c = 0; c < 12; c++) {
 			var col = primaryColors[c];
-			// console.log("P A: " + c + " " + col[0] + " offset: " + pOffset);
 			col[0] = (col[0] + pOffset) % 360;
-			// console.log("P B: " + c + " added: " + added + " modded " + modded + " offset: " + pOffset);
 			primaryColors[c] = col;
 
 			var scol = secondaryColors[c];
-			//console.log("S A: " + c + " " + scol[0] + " offset: " + sOffset);
-
 			scol[0] = (scol[0] + sOffset) % 360;
-			//console.log("S B: " + c + " " + scol[0] + " offset: " + sOffset);
 			secondaryColors[c] = scol;
 		}
 
