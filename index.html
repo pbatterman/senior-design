@@ -238,6 +238,7 @@
 							activeNotes[note] = 1;
 						} else {
 							numNotes--;
+							numNotes = Math.max(numNotes, 0);
 							d.style.background = "";
 							activeNotes[note] = 0;
 						}
