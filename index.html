@@ -233,7 +233,7 @@
 						}
 						if (data.message === 144) {
 							numNotes++;
-							d.style.background = HSLArrayToString(primaryColors[note]);
+							d.style.background = HSLArrayToString(secondaryColors[note]);
 							activeNotes[note] = 1;
 						} else {
 							numNotes--;
@@ -334,14 +334,12 @@
 			10: [ 210, 100, 28 ], // 7 G
 			11: [ 60, 100, 52 ] // 2 D
 		};
-		
+
 		// add offset
 		for (var c = 0; c < 12; c++) {
 			var col = primaryColors[c];
 			// console.log("P A: " + c + " " + col[0] + " offset: " + pOffset);
-			var added = (col[0] + pOffset) % 360;
-			var modded = col[0] % 360;
-			//col[0] = (col[0] + pOffset) % 360;
+			col[0] = (col[0] + pOffset) % 360;
 			// console.log("P B: " + c + " added: " + added + " modded " + modded + " offset: " + pOffset);
 			primaryColors[c] = col;
 
