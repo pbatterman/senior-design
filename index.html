@@ -309,12 +309,13 @@
 		// add offset
 		for (var c = 0; c < 12; c++) {
 			var col = primaryColors[c];
+			console.log(col);
 			col[0] = (col[0] + pOffset) % 360;
 			primaryColors[c] = col;
 		}
 
 		console.log(primaryColors);
-		
+
 		var primaryNoteColors = {};
 		var secondaryNoteColors = {};
 
