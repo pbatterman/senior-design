@@ -223,11 +223,17 @@
 
 					var note = data.note - 21;
 					var d = colorElements[note];
+					var colorset;
 					if (d) {
-						
+						if (numNotes > 0) {
+							colorset = secondaryColors;
+						}
+						else {
+							colorset = primaryColors;
+						}
 						if (data.message === 144) {
 							numNotes++;
-							d.style.background = HSLArrayToString(primaryColors[note]);
+							d.style.background = HSLArrayToString(secondaryColors[note]);
 							activeNotes[note] = 1;
 						} else {
 							numNotes--;
@@ -236,13 +242,7 @@
 						}
 						
 						var blendColor;
-						// if (numNotes > 0) {
-							blendColor = blendColors(activeNotes, secondaryColors);
-						// }
-						// else {
-						// 	blendColor = blendColors(activeNotes, primaryColors);
-						// }
-						
+						blendColor = blendColors(activeNotes, colorset);
 						blendBox.style.background = HSLArrayToString(blendColor);
 					}
 
