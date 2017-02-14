@@ -128,13 +128,12 @@ div.channel {
 }
 
 #blender {
-	position: fixed;
-	z-index: -2;
-	width: 800px;
-	height: 900px;
-	top: 0;
-	right: 0;
-	color: #fff;
+	/*position: fixed;*/
+	/*z-index: -2;*/
+	width: 200px;
+	height: 200px;
+	/*top: 0;*/
+	/*right: 0;*/
 	transition: 0.25s;
 	-webkit-transition: 0.25s; /* Safari */
 }
