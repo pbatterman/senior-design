@@ -125,7 +125,7 @@ function init() {
    	for (var v = 0; v < geom.vertices.length - 2; v++) {
    		// first row
    		if ( v < 7 ) {
-   			geom.faces.push( new THREE.Face3( v, v+1, v+6, noraml, redcol ) );
+   			geom.faces.push( new THREE.Face3( v, v+1, v+6, normal, redcol ) );
    		}
    		// middle rows
    		else if ( v < 35 ) {
