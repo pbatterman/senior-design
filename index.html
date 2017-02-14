@@ -210,13 +210,13 @@
 					var d = colorElements[note];
 					if (d) {
 						if (data.message === 144) {
-							d.style.background = HSLArrayToString(secondaryColors[note]);
+							d.style.background = HSLArrayToString(primaryColors[note]);
 							activeNotes[note] = 1;
 						} else {
 							d.style.background = "";
 							activeNotes[note] = 0;
 						}
-						var blendColor = blendColors(activeNotes, secondaryColors);
+						var blendColor = blendColors(activeNotes, primaryColors);
 						blendBox.style.background = HSLArrayToString(blendColor);
 					}
 
@@ -274,21 +274,21 @@
 		return blendedColor;
 	}
 
-	var getColorMap = function() {
+	var getColorMap = function(pOffset, sOffset) {
 
 		var primaryColors = {
-			0: [ 360, 100, 51 ],
-			1: [ 14, 100, 51 ],
-			2: [ 29, 100, 52 ],
-			3: [ 49, 100, 60 ],
-			4: [ 60, 100, 60 ],
-			5: [ 135, 100, 32 ],
-			6: [ 172, 100, 34 ],
-			7: [ 248, 100, 28 ],
-			8: [ 273, 100, 27 ],
-			9: [ 302, 100, 26 ],
-			10: [ 313, 100, 37 ],
-			11: [ 325, 100, 46 ]
+			0: [ 0, 100, 51 ],
+			1: [ 30, 100, 51 ],
+			2: [ 60, 100, 52 ],
+			3: [ 90, 100, 60 ],
+			4: [ 120, 100, 60 ],
+			5: [ 150, 100, 32 ],
+			6: [ 180, 100, 34 ],
+			7: [ 210, 100, 28 ],
+			8: [ 240, 100, 27 ],
+			9: [ 270, 100, 26 ],
+			10: [ 300, 100, 37 ],
+			11: [ 330, 100, 46 ]
 		}
 		var secondaryColors = { //offset by half from primary for testing
 			5: [ 360, 100, 51 ],
@@ -303,6 +303,13 @@
 			2: [ 302, 100, 26 ],
 			3: [ 313, 100, 37 ],
 			4: [ 325, 100, 46 ]
+		}
+
+		// add offset
+		for (var c = 0; c < 12; c++) {
+			var col = primaryColors[c];
+			col[0] = (col[0] + pOffset) % 360;
+			primaryColors[c] = col;
 		}
 
 		var primaryNoteColors = {};
