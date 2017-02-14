@@ -41,7 +41,7 @@ function init() {
 	geom.faces.push( new THREE.Face3( 0, 1, 2 ) );
 
 	var object = new THREE.Mesh( geom, new THREE.MeshNormalMaterial() );
-	scene.addObject(object);
+	scene.add(object);
 
 
  	controls = new THREE.OrbitControls(camera, renderer.domElement);
