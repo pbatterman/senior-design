@@ -128,38 +128,37 @@ function init() {
    	for (var v = 0; v < geometry.vertices.length - 1; v++) {
    		// first row
    		if ( v < 6 ) {
-   			geometry.faces.push( new THREE.Face3( v, v+1, v+7 , material ) );
+   			geometry.faces.push( new THREE.Face3( v, v+1, v+7 ) );
    		}
    		// middle rows
    		else if ( v > 6 && v < 13 ) {
-   			geometry.faces.push( new THREE.Face3( v-6, v+1, v, material) ); // upper
-   			geometry.faces.push( new THREE.Face3( v, v+1, v+7, material) ); // lower
+   			geometry.faces.push( new THREE.Face3( v-6, v+1, v) ); // upper
+   			geometry.faces.push( new THREE.Face3( v, v+1, v+7) ); // lower
    		}
    		else if ( v > 13 && v < 20 ) {
-   			geometry.faces.push( new THREE.Face3( v-6, v+1, v, material) ); // upper
-   			geometry.faces.push( new THREE.Face3( v, v+1, v+7, material) ); // lower
+   			geometry.faces.push( new THREE.Face3( v-6, v+1, v) ); // upper
+   			geometry.faces.push( new THREE.Face3( v, v+1, v+7) ); // lower
    		}
    		else if ( v > 20 && v < 27 ) {
-   			geometry.faces.push( new THREE.Face3( v-6, v+1, v, material) ); // upper
-   			geometry.faces.push( new THREE.Face3( v, v+1, v+7, material) ); // lower
+   			geometry.faces.push( new THREE.Face3( v-6, v+1, v) ); // upper
+   			geometry.faces.push( new THREE.Face3( v, v+1, v+7) ); // lower
    		}
    		else if ( v > 27 && v < 34 ) {
-   			geometry.faces.push( new THREE.Face3( v-6, v+1, v, material) ); // upper
-   			geometry.faces.push( new THREE.Face3( v, v+1, v+7, material) ); // lower
+   			geometry.faces.push( new THREE.Face3( v-6, v+1, v) ); // upper
+   			geometry.faces.push( new THREE.Face3( v, v+1, v+7) ); // lower
    		}
    		else if (v > 34 && v < 41) {
-   			geometry.faces.push( new THREE.Face3( v-6, v+1, v, material) );
+   			geometry.faces.push( new THREE.Face3( v-6, v+1, v) );
    		}
    		else {
    			continue;
    		}
 
-   		geometry.colorsNeedUpdate = true
    	}
 
 	//geom.faces.push( new THREE.Face3( 0, 1, 2 ) );
 
-	var object = new THREE.Mesh( material, new THREE.MeshNormalMaterial() );
+	var object = new THREE.Mesh( geometry, material );
 	scene.add(object);
 
 
