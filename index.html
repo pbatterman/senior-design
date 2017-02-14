@@ -198,18 +198,27 @@
 				player.timeWarp = 1; // speed the song is played back
 				player.loadFile(song[songid++ % song.length], player.start);
 
+				// fetch primary and secondary angles
 				var pAngleOffset = d3.select("#primaryAngle").property("value");
 				var sAngleOffset = d3.select("#secondaryAngle").property("value");
-				// fetch primary and secondary angles
-				
-				
-
 
 				var allColors = getColorMap(pAngleOffset, sAngleOffset);
 				var primaryColors = allColors.primary;
 				var secondaryColors = allColors.secondary;
 				var blendBox = document.getElementById("blender");
 				player.addListener(function(data) {
+
+					var currPOffset = d3.select("#primaryAngle").property("value");
+					var currSOffset = d3.select("#secondaryAngle").property("value");
+
+					if (currPOffset != pAngleOffset || currSOffset != sAngleOffset) {
+						pAngleOffset = currPOffset;
+						sAngleOffset = currSOffset;
+						allColors = getColorMap(pAngleOffset, sAngleOffset);
+						primaryColors = allColors.primary;
+						secondaryColors = allColors.secondary;
+					}
+
 					var note = data.note - 21;
 					var d = colorElements[note];
 					if (d) {
