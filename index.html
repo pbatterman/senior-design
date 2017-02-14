@@ -112,19 +112,29 @@ function init() {
    	for (var y = 0; y < 6; y++) {
    		for (var x = 0; x < 7; x++) {
    			var vertex = new THREE.Vector3(100*x + 50*y, 100*y, 0);
+   			console.log ("x: " + (100*x + 50*y) + " y: " + 100*y);
    			geom.vertices.push(vertex);
    		}
    	}
 
    	console.log("num verts " + geom.vertices.length);
-	var normal = new THREE.Vector3( 0, 1, 0 ); //optional
-   	for (var v = 0; v < geom.vertices.length - 2; v++) {
+	var normal = new THREE.Vector3( 0, 1, 0 );
+	var redcol = new THREE.Color( 0xff0000 );
+	var bluecol = new THREE.Color( 0x0000ff );
 
-   		var color = new THREE.Color( 0xff0000 );
-   		if ( v % 2 == 0) {
-   			color = new THREE.Color( 0x0000ff );
+   	for (var v = 0; v < geom.vertices.length - 2; v++) {
+   		// first row
+   		if ( v < 7 ) {
+   			geom.faces.push( new THREE.Face3( v, v+1, v+6, noraml, redcol ) );
    		}
-   		geom.faces.push( new THREE.Face3( v, v+1, v+2 ) );
+   		// middle rows
+   		else if ( v < 35 ) {
+   			geom.faces.push( new THREE.Face3( v, v+1, v-5, normal, bluecol ) ); // upper
+   			geom.faces.push( new THREE.Face3( v, v+1, v+6, normal, redcol ) ); // lower
+   		}
+   		else {
+   			geom.faces.push( new THREE.Face3( v, v+1, v-5, normal, bluecol ) );
+   		}
    	}
 
 	//geom.faces.push( new THREE.Face3( 0, 1, 2 ) );
