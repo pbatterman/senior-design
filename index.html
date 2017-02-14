@@ -130,23 +130,23 @@ function init() {
    		}
    		// middle rows
    		else if ( v > 6 && v < 13 ) {
-   			geom.faces.push( new THREE.Face3( v, v+1, v-6, normal ) ); // upper
+   			geom.faces.push( new THREE.Face3( v-6, v, v+1, normal ) ); // upper
    			geom.faces.push( new THREE.Face3( v, v+1, v+7, inormal ) ); // lower
    		}
    		else if ( v > 13 && v < 20 ) {
-   			geom.faces.push( new THREE.Face3( v, v+1, v-6, inormal ) ); // upper
+   			geom.faces.push( new THREE.Face3( v-6, v, v+1, inormal ) ); // upper
    			geom.faces.push( new THREE.Face3( v, v+1, v+7, normal ) ); // lower
    		}
    		else if ( v > 20 && v < 27 ) {
-   			geom.faces.push( new THREE.Face3( v, v+1, v-6 ) ); // upper
+   			geom.faces.push( new THREE.Face3( v-6, v, v+1 ) ); // upper
    			geom.faces.push( new THREE.Face3( v, v+1, v+7 ) ); // lower
    		}
    		else if ( v > 27 && v < 34 ) {
-   			geom.faces.push( new THREE.Face3( v, v+1, v-6 ) ); // upper
+   			geom.faces.push( new THREE.Face3( v-6, v, v+1 ) ); // upper
    			geom.faces.push( new THREE.Face3( v, v+1, v+7 ) ); // lower
    		}
    		else if (v > 34 && v < 41) {
-   			geom.faces.push( new THREE.Face3( v, v+1, v-6 ) );
+   			geom.faces.push( new THREE.Face3( v-6, v, v+1 ) );
    		}
    		else {
    			continue;
