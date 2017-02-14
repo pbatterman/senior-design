@@ -218,6 +218,7 @@
 						}
 						var blendColor = blendColors(activeNotes, primaryColors);
 						blendBox.style.background = HSLArrayToString(blendColor);
+						console.log(HSLArrayToString(blendColor));
 					}
 
 					// var cd = channels[data.channel];
@@ -277,7 +278,7 @@
 	var getColorMap = function(pOffset, sOffset) {
 
 		var primaryColors = {
-			0: [ 0, 100, 51 ],
+			0: [ 360, 100, 51 ],
 			1: [ 30, 100, 51 ],
 			2: [ 60, 100, 52 ],
 			3: [ 90, 100, 60 ],
