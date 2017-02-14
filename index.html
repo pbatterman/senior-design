@@ -111,12 +111,10 @@ function init() {
    	for (var y = 0; y < 6; y++) {
    		for (var x = 0; x < 7; x++) {
    			var vertex = new THREE.Vector3(100*x + 50*y, 100*y, 0);
-   			console.log ("x: " + (100*x + 50*y) + " y: " + 100*y);
    			geometry.vertices.push(vertex);
    		}
    	}
 
-   	console.log("num verts " + geometry.vertices.length);
 	var normal = new THREE.Vector3( 0, 0, 1 );
 	var inormal = new THREE.Vector3( 0, 0, -1 );
 	var redcol = new THREE.Color( 0xff0000 );
@@ -124,7 +122,6 @@ function init() {
 	var material = new THREE.MeshBasicMaterial( { 
 	    color: 0xffcc33, 
 	    shading: THREE.FlatShading,
-	    vertexColors: THREE.VertexColors,
 	    vertexColors: THREE.FaceColors
 	});
 
@@ -157,11 +154,6 @@ function init() {
    			continue;
    		}
 
-   		geometry.traverse(function (child) {
-            if (child instanceof THREE.Mesh) {
-                child.material = material;
-            }
-        });
    		geometry.colorsNeedUpdate = true
    	}
 
