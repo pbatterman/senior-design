@@ -111,8 +111,8 @@ function init() {
    		for (var x = 0; x < 7; x++) {
    			var vertex = new THREE.Vector3(100*x + 50*y, 100*y, 0);
    			geometry.vertices.push(vertex);
-   			var col = HSLArrayToString(colorMap[x][y];
-   			var vertColor = new THREE.Color( col ));
+   			var col = HSLArrayToString(colorMap[x][y]);
+   			var vertColor = new THREE.Color( col );
    			geometry.vertexColors.push();
    		}
    	}
@@ -593,7 +593,7 @@ function init() {
 		
 		];
 
-	
+
 	init();
 	animate();
 		</script>
