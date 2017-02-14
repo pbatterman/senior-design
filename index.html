@@ -131,13 +131,10 @@
 			primaryHolder.select("image") 
 				.attr("transform", "rotate(" + angle + "," + (wheelX + wheelWidth/2) + ","+ (wheelY+wheelHeight/2) +")")
 
-			console.log("primary angle: " + angle);
 		} else {
 			d3.select("#secondaryAngle").property("value", angle);
 			secondaryHolder.select("image") 
 				.attr("transform", "rotate(" + angle + "," + (wheelX + wheelWidth/2) + ","+ (wheelY+wheelHeight/2) +")")
-
-			console.log("secondary angle: " + angle);
 		}
 	}
 
@@ -201,7 +198,13 @@
 				player.timeWarp = 1; // speed the song is played back
 				player.loadFile(song[songid++ % song.length], player.start);
 
-				var allColors = getColorMap(0, 0);
+
+				// fetch primary and secondary angles
+				d3.select("#primaryAngle").property("value", pAngleOffset);
+				d3.select("#secondaryAngle").property("value", sAngleOffset);
+
+
+				var allColors = getColorMap(pAngleOffset, sAngleOffset);
 				var primaryColors = allColors.primary;
 				var secondaryColors = allColors.secondary;
 				var blendBox = document.getElementById("blender");
@@ -218,7 +221,6 @@
 						}
 						var blendColor = blendColors(activeNotes, primaryColors);
 						blendBox.style.background = HSLArrayToString(blendColor);
-						console.log(HSLArrayToString(blendColor));
 					}
 
 					// var cd = channels[data.channel];
@@ -276,6 +278,8 @@
 	}
 
 	var getColorMap = function(pOffset, sOffset) {
+		console.log ('p off: ' + pOffset + ' s off: ' + sOffset);
+
 
 		var primaryColors = {
 			0: [ 360, 100, 51 ], // 0 C
@@ -309,12 +313,9 @@
 		// add offset
 		for (var c = 0; c < 12; c++) {
 			var col = primaryColors[c];
-			console.log(col);
 			col[0] = (col[0] + pOffset) % 360;
 			primaryColors[c] = col;
 		}
-
-		console.log(primaryColors);
 
 		var primaryNoteColors = {};
 		var secondaryNoteColors = {};
