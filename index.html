@@ -340,6 +340,10 @@
 			var col = primaryColors[c];
 			col[0] = (col[0] + pOffset) % 360;
 			primaryColors[c] = col;
+
+			var scol = secondaryColors[c];
+			scol[0] = (scol[0] + sOffset) % 360;
+			secondaryColors[c] = scol;
 		}
 
 		var primaryNoteColors = {};
