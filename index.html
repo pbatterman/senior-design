@@ -198,11 +198,11 @@
 				player.timeWarp = 1; // speed the song is played back
 				player.loadFile(song[songid++ % song.length], player.start);
 
-				var pAngleOffset = 0;
-				var sAngleOffset = 0;
+				var pAngleOffset = d3.select("#primaryAngle").property("value");
+				var sAngleOffset = d3.select("#secondaryAngle").property("value");
 				// fetch primary and secondary angles
-				d3.select("#primaryAngle").property("value", pAngleOffset);
-				d3.select("#secondaryAngle").property("value", sAngleOffset);
+				
+				
 
 
 				var allColors = getColorMap(pAngleOffset, sAngleOffset);
