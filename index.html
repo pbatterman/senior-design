@@ -219,9 +219,6 @@
 						allColors = getColorMap(currPOffset, currSOffset);
 						primaryColors = allColors.primary;
 						secondaryColors = allColors.secondary;
-						console.log(primaryColors);
-						console.log("----");
-						console.log(secondaryColors);
 					}
 
 					var note = data.note - 21;
@@ -344,8 +341,8 @@
 			primaryColors[c] = col;
 
 			var scol = secondaryColors[c];
-			console.log("scol " + scol);
 			scol[0] = (scol[0] + sOffset) % 360;
+			console.log("scol " + scol);
 			secondaryColors[c] = scol;
 		}
 
