@@ -122,13 +122,13 @@ function init() {
 	var redcol = new THREE.Color( 0xff0000 );
 	var bluecol = new THREE.Color( 0x0000ff );
 
-   	for (var v = 0; v < geom.vertices.length - 2; v++) {
+   	for (var v = 0; v < geom.vertices.length - 1; v++) {
    		// first row
-   		if ( v < 7 ) {
+   		if ( v < 5 ) {
    			geom.faces.push( new THREE.Face3( v, v+1, v+6, normal, redcol ) );
    		}
    		// middle rows
-   		else if ( v < 35 ) {
+   		else if ( v < 34 ) {
    			geom.faces.push( new THREE.Face3( v, v+1, v-5, normal, bluecol ) ); // upper
    			geom.faces.push( new THREE.Face3( v, v+1, v+6, normal, redcol ) ); // lower
    		}
