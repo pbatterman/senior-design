@@ -91,7 +91,7 @@ function init() {
 	container.appendChild( renderer.domElement );
 
     camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT, 0.1, 20000);
-    camera.position.set(500, 500, 1200);
+    camera.position.set(460, -800, 377);
     scene.add(camera);
 
     window.addEventListener('resize', function() {
@@ -130,7 +130,6 @@ function init() {
 	    // Render the scene.
 	    renderer.render(scene, camera);
 	    controls.update();
-	    console.log(camera.position);
 	}
 
 	function updateMesh(mesh, colorMap) {
