@@ -136,6 +136,8 @@ function init() {
 	function updateMesh(mesh, colorMap) {
 		console.log('updating mesh');
 		var newGeo = buildTonnetzGeometry(colorMap);
+		console.log(mesh.geometry.vertices);
+		console.log(newGeo.vertices);
 		mesh.geometry.dynamic = true;
 		mesh.geometry.faces = newGeo.faces;
 		mesh.geometry.vertices = newGeo.vertices;
