@@ -74,8 +74,8 @@
 		log: function() {}
 	};
 
-	// Threejs testing
-	var scene, camera, renderer;
+	// Threejs
+	var scene, camera, renderer, vertexColors;
 
 function init() {
 
@@ -105,109 +105,17 @@ function init() {
  
    	var geometry = new THREE.Geometry(); 
 
-   	var colorMap = getVertexColor();
-   	console.log(colorMap);
-   	var vertexColors = [];
+   	var colorMap = mapColorsToVertices();
 
-   	for (var y = 0; y < 6; y++) {
-   		for (var x = 0; x < 7; x++) {
-   			var vertex = new THREE.Vector3(100*x + 50*y, 100*y, 0);
-   			geometry.vertices.push(vertex);
-   			var col = HSLArrayToString(colorMap[x][y]);
-   			var vertColor = new THREE.Color( col );
-   			vertexColors.push(vertColor);
-   		}
-   	}
-
-	var normal = new THREE.Vector3( 0, 0, 1 );
-	var inormal = new THREE.Vector3( 0, 0, -1 );
-	var redcol = new THREE.Color( 0xff0000 );
-	var bluecol = new THREE.Color( 0x0000ff );
 	var material = new THREE.MeshBasicMaterial( { 
-	    color: 0xffcc33, 
-	    shading: THREE.FlatShading,
-	    vertexColors: THREE.VertexColors
-	});
+		    shading: THREE.FlatShading,
+		    vertexColors: THREE.VertexColors
+		});
+   	var geometry = buildTonnetzGeometry(colorMap);
 
-   	for (var v = 0; v < geometry.vertices.length - 1; v++) {
-   		// first row
-   		if ( v < 6 ) {
-   			var face1 = new THREE.Face3( v, v+1, v+7 );
-   			
-   			face1.vertexColors[0] = vertexColors[v];
-			face1.vertexColors[1] = vertexColors[v+1];
-			face1.vertexColors[2] = vertexColors[v+7];
-
-			geometry.faces.push( face1 );
-   		}
-   		// middle rows
-   		else if ( v > 6 && v < 13 ) {
-   			var face0 = new THREE.Face3( v-6, v+1, v);
-   			face0.vertexColors[0] = vertexColors[v-6];
-			face0.vertexColors[1] = vertexColors[v+1];
-			face0.vertexColors[2] = vertexColors[v];
-   			geometry.faces.push( face0 );
-   			
-   			var face1 = new THREE.Face3( v, v+1, v+7 );
-   			face1.vertexColors[0] = vertexColors[v];
-			face1.vertexColors[1] = vertexColors[v+1];
-			face1.vertexColors[2] = vertexColors[v+7];
-			geometry.faces.push( face1 );
-		}
-   		else if ( v > 13 && v < 20 ) {
-   			var face0 = new THREE.Face3( v-6, v+1, v);
-   			face0.vertexColors[0] = vertexColors[v-6];
-			face0.vertexColors[1] = vertexColors[v+1];
-			face0.vertexColors[2] = vertexColors[v];
-   			geometry.faces.push( face0 );
-   			
-   			var face1 = new THREE.Face3( v, v+1, v+7 );
-   			face1.vertexColors[0] = vertexColors[v];
-			face1.vertexColors[1] = vertexColors[v+1];
-			face1.vertexColors[2] = vertexColors[v+7];
-			geometry.faces.push( face1 );
-		}
-   		else if ( v > 20 && v < 27 ) {
-   			var face0 = new THREE.Face3( v-6, v+1, v);
-   			face0.vertexColors[0] = vertexColors[v-6];
-			face0.vertexColors[1] = vertexColors[v+1];
-			face0.vertexColors[2] = vertexColors[v];
-   			geometry.faces.push( face0 );
-   			
-   			var face1 = new THREE.Face3( v, v+1, v+7 );
-   			face1.vertexColors[0] = vertexColors[v];
-			face1.vertexColors[1] = vertexColors[v+1];
-			face1.vertexColors[2] = vertexColors[v+7];
-			geometry.faces.push( face1 );
-		}
-   		else if ( v > 27 && v < 34 ) {
-   			var face0 = new THREE.Face3( v-6, v+1, v);
-   			face0.vertexColors[0] = vertexColors[v-6];
-			face0.vertexColors[1] = vertexColors[v+1];
-			face0.vertexColors[2] = vertexColors[v];
-   			geometry.faces.push( face0 );
-   			
-   			var face1 = new THREE.Face3( v, v+1, v+7 );
-   			face1.vertexColors[0] = vertexColors[v];
-			face1.vertexColors[1] = vertexColors[v+1];
-			face1.vertexColors[2] = vertexColors[v+7];
-			geometry.faces.push( face1 );
-		}
-   		else if (v > 34 && v < 41) {
-   			var face0 = new THREE.Face3( v-6, v+1, v);
-   			face0.vertexColors[0] = vertexColors[v-6];
-			face0.vertexColors[1] = vertexColors[v+1];
-			face0.vertexColors[2] = vertexColors[v];
-   			geometry.faces.push( face0 );
-   		}
-   		else {
-   			continue;
-   		}
-
-   	}
-
-	var object = new THREE.Mesh( geometry, material );
-	scene.add(object);
+	var mesh = new THREE.Mesh( geometry, material );
+	mesh.name = "tonnetz";
+	scene.add(mesh);
 
 
  	controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -222,21 +130,124 @@ function init() {
 	    // console.log(camera.position);
 	}
 
-	function getVertexColor() {
-		var colors = {
-			0: [ 0, 100, 51 ], // 0 C
-			7: [ 30, 100, 51 ], // 1 Db
-			2: [ 60, 100, 52 ], // 2 D
-			9: [ 90, 100, 60 ], // 3 Eb
-			4: [ 120, 100, 60 ], // 4 E
-			11: [ 150, 100, 32 ], // 5 F
-			6: [ 180, 100, 34 ], // 6 Gb
-			1: [ 210, 100, 28 ], // 7 G
-			8: [ 240, 100, 27 ], // 8 Ab
-			3: [ 270, 100, 50 ], // 9 A
-			10: [ 300, 100, 37 ], // 10 Bb
-			5: [ 330, 100, 46 ] // 11 B 
-		};
+	function updateMesh(mesh, colorMap) {
+		var newGeo = buildTonnetzGeometry(colorMap);
+		mesh.geometry.dynamic = true;
+		mesh.geometry.faces = newGeo.faces;
+		mesh.geometry.vertices = newGeo.vertices;
+		mesh.geometry.verticesNeedUpdate = true;
+	}
+
+	function buildTonnetzGeometry(colorMap) {
+		var geometry = new THREE.Geometry();
+	   	console.log(colorMap);
+	   	vertexColors = [];
+
+	   	for (var y = 0; y < 6; y++) {
+	   		for (var x = 0; x < 7; x++) {
+	   			var vertex = new THREE.Vector3(100*x + 50*y, 100*y, 0);
+	   			geometry.vertices.push(vertex);
+	   			var col = HSLArrayToString(colorMap[x][y]);
+	   			var vertColor = new THREE.Color( col );
+	   			vertexColors.push(vertColor);
+	   		}
+	   	}
+
+	   	for (var v = 0; v < geometry.vertices.length - 1; v++) {
+	   		// first row
+	   		if ( v < 6 ) {
+	   			var face1 = new THREE.Face3( v, v+1, v+7 );
+	   			
+	   			face1.vertexColors[0] = vertexColors[v];
+				face1.vertexColors[1] = vertexColors[v+1];
+				face1.vertexColors[2] = vertexColors[v+7];
+
+				geometry.faces.push( face1 );
+	   		}
+	   		// middle rows
+	   		else if ( v > 6 && v < 13 ) {
+	   			var face0 = new THREE.Face3( v-6, v+1, v);
+	   			face0.vertexColors[0] = vertexColors[v-6];
+				face0.vertexColors[1] = vertexColors[v+1];
+				face0.vertexColors[2] = vertexColors[v];
+	   			geometry.faces.push( face0 );
+	   			
+	   			var face1 = new THREE.Face3( v, v+1, v+7 );
+	   			face1.vertexColors[0] = vertexColors[v];
+				face1.vertexColors[1] = vertexColors[v+1];
+				face1.vertexColors[2] = vertexColors[v+7];
+				geometry.faces.push( face1 );
+			}
+	   		else if ( v > 13 && v < 20 ) {
+	   			var face0 = new THREE.Face3( v-6, v+1, v);
+	   			face0.vertexColors[0] = vertexColors[v-6];
+				face0.vertexColors[1] = vertexColors[v+1];
+				face0.vertexColors[2] = vertexColors[v];
+	   			geometry.faces.push( face0 );
+	   			
+	   			var face1 = new THREE.Face3( v, v+1, v+7 );
+	   			face1.vertexColors[0] = vertexColors[v];
+				face1.vertexColors[1] = vertexColors[v+1];
+				face1.vertexColors[2] = vertexColors[v+7];
+				geometry.faces.push( face1 );
+			}
+	   		else if ( v > 20 && v < 27 ) {
+	   			var face0 = new THREE.Face3( v-6, v+1, v);
+	   			face0.vertexColors[0] = vertexColors[v-6];
+				face0.vertexColors[1] = vertexColors[v+1];
+				face0.vertexColors[2] = vertexColors[v];
+	   			geometry.faces.push( face0 );
+	   			
+	   			var face1 = new THREE.Face3( v, v+1, v+7 );
+	   			face1.vertexColors[0] = vertexColors[v];
+				face1.vertexColors[1] = vertexColors[v+1];
+				face1.vertexColors[2] = vertexColors[v+7];
+				geometry.faces.push( face1 );
+			}
+	   		else if ( v > 27 && v < 34 ) {
+	   			var face0 = new THREE.Face3( v-6, v+1, v);
+	   			face0.vertexColors[0] = vertexColors[v-6];
+				face0.vertexColors[1] = vertexColors[v+1];
+				face0.vertexColors[2] = vertexColors[v];
+	   			geometry.faces.push( face0 );
+	   			
+	   			var face1 = new THREE.Face3( v, v+1, v+7 );
+	   			face1.vertexColors[0] = vertexColors[v];
+				face1.vertexColors[1] = vertexColors[v+1];
+				face1.vertexColors[2] = vertexColors[v+7];
+				geometry.faces.push( face1 );
+			}
+	   		else if (v > 34 && v < 41) {
+	   			var face0 = new THREE.Face3( v-6, v+1, v);
+	   			face0.vertexColors[0] = vertexColors[v-6];
+				face0.vertexColors[1] = vertexColors[v+1];
+				face0.vertexColors[2] = vertexColors[v];
+	   			geometry.faces.push( face0 );
+	   		}
+	   		else {
+	   			continue;
+	   		}
+	   	}
+	   	return geometry;
+	}
+
+	function mapColorsToVertices(colorset) {
+		if (!colorset) { // default
+			colorset  = {
+				0: [ 0, 100, 51 ], // 0 C
+				7: [ 30, 100, 51 ], // 1 Db
+				2: [ 60, 100, 52 ], // 2 D
+				9: [ 90, 100, 60 ], // 3 Eb
+				4: [ 120, 100, 60 ], // 4 E
+				11: [ 150, 100, 32 ], // 5 F
+				6: [ 180, 100, 34 ], // 6 Gb
+				1: [ 210, 100, 28 ], // 7 G
+				8: [ 240, 100, 27 ], // 8 Ab
+				3: [ 270, 100, 50 ], // 9 A
+				10: [ 300, 100, 37 ], // 10 Bb
+				5: [ 330, 100, 46 ] // 11 B 
+			};
+		}
 
 		var noteMap = new Array(7);
 		for (var i = 0; i < 7; i++) {
@@ -245,13 +256,13 @@ function init() {
 
 		var x = 0; 
 		var y = 0;
-		var noteOrder = [7, 11, 3, 2, 6, 10, 8, 1, 5];
+		var noteOrder = [7, 11, 3, 2, 6, 10, 9, 1, 5];
 		var nIdx = 0;
 
 		for (var x = 0; x < 3; x++) {
 			for (var y = 0; y < 3; y++) {
 				var note = noteOrder[nIdx];
-				var color = colors[note];
+				var color = colorset[note];
 				noteMap[x][y] = color;
 				noteMap[x][y + 3] = color;
 				noteMap[x + 4][y + 2] = color;
@@ -260,13 +271,12 @@ function init() {
 			}
 		}
 
-		noteMap[0][0] = [ 0, 100, 100 ];
-		noteMap[3][0] = colors[4];
-		noteMap[3][3] = colors[4];
-		noteMap[3][1] = colors[8];
-		noteMap[3][4] = colors[8];
-		noteMap[3][2] = colors[0];
-		noteMap[3][5] = colors[0];
+		noteMap[3][0] = colorset[4];
+		noteMap[3][3] = colorset[4];
+		noteMap[3][1] = colorset[8];
+		noteMap[3][4] = colorset[8];
+		noteMap[3][2] = colorset[0];
+		noteMap[3][5] = colorset[0];
 
 		return noteMap;
 	}
@@ -412,12 +422,16 @@ function init() {
 					var currPOffset = parseInt(d3.select("#primaryAngle").property("value"));
 					var currSOffset = parseInt(d3.select("#secondaryAngle").property("value"));
 
+					// if user changes color shift
 					if (currPOffset != pAngleOffset || currSOffset != sAngleOffset) {
 						pAngleOffset = currPOffset;
 						sAngleOffset = currSOffset;
 						allColors = getColorMap(currPOffset, currSOffset);
 						primaryColors = allColors.primary;
 						secondaryColors = allColors.secondary;
+						var vertexColorMap = mapColorsToVertices(allColors.primary);
+						var mesh = scene.getObjectByName( "tonnetz" );
+						updateMesh(mesh, vertexColorMap);
 					}
 
 					var note = data.note - 21;
