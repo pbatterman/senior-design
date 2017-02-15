@@ -434,6 +434,7 @@ function init() {
 					if (currPOffset != pAngleOffset || currSOffset != sAngleOffset) {
 						pAngleOffset = currPOffset;
 						sAngleOffset = currSOffset;
+						console.log("p " + currPOffset + " s " + currSOffset);
 						allColors = getColorMap(currPOffset, currSOffset);
 						primaryColors = allColors.primary;
 						secondaryColors = allColors.secondary;
