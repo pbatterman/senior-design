@@ -358,7 +358,7 @@ function init() {
 
 
 	// Toggle between Pause and Play modes.
-	var pausePlayStop = function(stop) {
+	function pausePlayStop(stop) {
 		var d = document.getElementById("pausePlayStop");
 		if (stop) {
 			MIDI.Player.stop();
@@ -419,7 +419,8 @@ function init() {
 				var pAngleOffset = parseInt(d3.select("#primaryAngle").property("value"));
 				var sAngleOffset = parseInt(d3.select("#secondaryAngle").property("value"));
 
-				var allColors = getColorMap(pAngleOffset, sAngleOffset);
+				var offsetColors = getOffsetColors(pAngleOffset, sAngleOffset);
+				var allColors = getColorMap(offsetColors);
 				var primaryColors = allColors.primary;
 				var secondaryColors = allColors.secondary;
 				var blendBox = document.getElementById("blender");
@@ -434,13 +435,11 @@ function init() {
 					if (currPOffset != pAngleOffset || currSOffset != sAngleOffset) {
 						pAngleOffset = currPOffset;
 						sAngleOffset = currSOffset;
-						console.log("p " + currPOffset + " s " + currSOffset);
-						allColors = getColorMap(currPOffset, currSOffset);
+						var offsetColors = getOffsetColors(pAngleOffset, sAngleOffset);
+						var allColors = getColorMap(offsetColors);
 						primaryColors = allColors.primary;
 						secondaryColors = allColors.secondary;
-						console.log(allColors.primary);
-						console.log("---");
-						var vertexColorMap = mapColorsToVertices(allColors.primary);
+						var vertexColorMap = mapColorsToVertices(offsetColors.primary);
 						var mesh = scene.getObjectByName( "tonnetz" );
 						updateMesh(mesh, vertexColorMap);
 					}
@@ -487,7 +486,7 @@ function init() {
 });
 
 	// blend multiple colors together - raw average
-	var blendColors = function(activeColors) {
+	function blendColors(activeColors) {
 		var toBlend = [];
 		for (var i = 0; i < 88; i++) {
 			var col = activeColors[i];
@@ -526,8 +525,7 @@ function init() {
 		return blendedColor;
 	}
 
-	var getColorMap = function(pOffset, sOffset) {
-
+	function getOffsetColors(pOffset, sOffset) {
 		var primaryColors = {
 			0: [ 0, 100, 51 ], // 0 C
 			7: [ 30, 100, 51 ], // 1 Db
@@ -570,6 +568,16 @@ function init() {
 			secondaryColors[c] = scol;
 		}
 
+		var allColors = {};
+		allColors.primary = primaryColors;
+		allColors.secondary = secondaryColors;
+	}
+
+	function getColorMap(allColors) {
+		var primaryColors = allColors.primary;
+		var secondaryColors = allColors.secondary;
+		
+
 		var primaryNoteColors = {};
 		var secondaryNoteColors = {};
 
@@ -590,7 +598,7 @@ function init() {
 	}
 
 
-	var HSLArrayToString = function (col) {
+	function HSLArrayToString(col) {
 		if (Array.isArray(col) && col.length == 3) {
 			return 'hsl(' + col[0] + ',' + col[1] + '%,' + col[2] + '%)';
 		}
@@ -599,7 +607,7 @@ function init() {
 		}
 	}
 
-	var MIDIPlayerPercentage = function(player) {
+	function MIDIPlayerPercentage(player) {
 		// update the timestamp
 		var time1 = document.getElementById("time1");
 		var time2 = document.getElementById("time2");
