@@ -130,9 +130,10 @@ div.channel {
 #blender {
 	/*position: fixed;*/
 	/*z-index: -2;*/
-	width: 200px;
-	height: 200px;
+	width: 180;
+	height: 180;
 	margin-top: 300px;
+	margin-left: 10px
 	/*top: 0;*/
 	/*right: 0;*/
 	transition: 0.25s;
