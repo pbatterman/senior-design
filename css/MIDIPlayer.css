@@ -132,6 +132,7 @@ div.channel {
 	/*z-index: -2;*/
 	width: 200px;
 	height: 200px;
+	margin-top: 300px;
 	/*top: 0;*/
 	/*right: 0;*/
 	transition: 0.25s;
