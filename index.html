@@ -136,12 +136,13 @@ function init() {
 	function updateMesh(mesh, colorMap) {
 		console.log('updating mesh');
 		var newGeo = buildTonnetzGeometry(colorMap);
-		console.log(mesh.geometry.vertices);
-		console.log(newGeo.vertices);
 		mesh.geometry.dynamic = true;
-		mesh.geometry.faces = newGeo.faces;
-		mesh.geometry.vertices = newGeo.vertices;
-		mesh.geometry.verticesNeedUpdate = true;
+
+		for (var f = 0; f < newGeo.faces.length; f++) {
+			mesh.geometry.faces[ f ].vertexColors[ 0 ].copy(newGeo.faces[f].vertexColors[0]);
+		}
+
+		mesh.geometry.colorsNeedUpdate = true;
 		animate();
 	}
 
