@@ -147,7 +147,6 @@ function init() {
 
 	function buildTonnetzGeometry(colorMap) {
 		var geometry = new THREE.Geometry();
-	   	console.log(colorMap);
 	   	vertexColors = [];
 
 	   	for (var y = 0; y < 6; y++) {
@@ -285,6 +284,7 @@ function init() {
 		noteMap[3][2] = colorset[0];
 		noteMap[3][5] = colorset[0];
 
+		console.log("nm " + noteMap);
 		return noteMap;
 	}
 	
