@@ -72,11 +72,11 @@ div.channel {
 
 #colors {
 	top: 0; 
-	left: 0; 
 	z-index: -1; 
 	overflow: hidden; 
 	width:100%;
 	margin-left: 150px;
+	position: fixed;
 }
 
 #colors div {
@@ -157,4 +157,9 @@ div.channel {
 	background: -moz-linear-gradient(left, rgba(0,0,0,1) 0%, rgba(125,185,232,0) 50%); /* FF3.6-15 */
 background: -webkit-linear-gradient(left, rgba(0,0,0,1) 0%,rgba(125,185,232,0) 50%); /* Chrome10-25,Safari5.1-6 */
 background: linear-gradient(to right, rgba(0,0,0,1) 0%,rgba(125,185,232,0) 50%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+#canvas {
+	position: fixed;
+	right: 0;
 }

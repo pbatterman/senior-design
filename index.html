@@ -64,10 +64,10 @@
 			</div>
 			<img id="colorwheel" src="images/colorwheel_hsl.png">
 			<div id="blender"></div>
-			
 			<!-- <img id="fifthswheel" src="images/circle_fifths_wheel.png"> -->
 		</div>
 	</div>
+	<div id="canvas"></div>
 
 <script type="text/javascript">
 	if (typeof (console) === "undefined") var console = {
@@ -80,12 +80,15 @@
 function init() {
 
 	scene = new THREE.Scene();
-	var WIDTH = window.innerWidth,
+	var WIDTH = window.innerWidth - ,
 	    HEIGHT = window.innerHeight;
+
+	container = document.getElementById('canvas');
+	document.body.appendChild( container );
 
 	renderer = new THREE.WebGLRenderer({antialias:true});
     renderer.setSize(WIDTH, HEIGHT);
-    document.body.appendChild(renderer.domElement);
+	container.appendChild( renderer.domElement );
 
     camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT, 0.1, 20000);
     camera.position.set(500, 500, 1200);
