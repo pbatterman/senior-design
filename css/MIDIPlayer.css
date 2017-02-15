@@ -140,7 +140,7 @@ div.channel {
 	width: 180px;
 	height: 180px;
 	margin-top: 300px;
-	margin-left: 12px
+	margin-left: 12px;
 	transition: 0.25s;
 	-webkit-transition: 0.25s; /* Safari */
 }
@@ -158,4 +158,6 @@ background: linear-gradient(to right, rgba(0,0,0,1) 0%,rgba(125,185,232,0) 50%);
 #canvas {
 	position: fixed;
 	right: 0;
+	width: 80%;
+	
 }
