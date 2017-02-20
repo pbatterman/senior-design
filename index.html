@@ -77,6 +77,34 @@
 	// Threejs
 	var scene, camera, renderer, noteVertices, vertexColors;
 
+	function setup() {
+		noteVertices = new Array(7);
+		for (var i = 0; i < 7; i++) {
+		  	noteVertices[i] = new Array(6);
+		}
+		var noteOrder = [7, 11, 3, 2, 6, 10, 9, 1, 5];
+		var nIdx = 0;
+
+		for (var x = 0; x < 3; x++) {
+			for (var y = 0; y < 3; y++) {
+				var note = noteOrder[nIdx];
+				noteVertices[x][y] = note;
+				noteVertices[x][y + 3] = note;
+				noteVertices[x + 4][y + 2] = note;
+				noteVertices[x + 4][(y + 5) % 6] = note;
+				nIdx++;
+			}
+		}
+		noteVertices[3][0] = 4;
+		noteVertices[3][3] = 4;
+		noteVertices[3][1] = 8;
+		noteVertices[3][4] = 8;
+		noteVertices[3][2] = 8;
+		noteVertices[3][5] = 8;
+	}
+
+	setup();
+
 function init() {
 
 	scene = new THREE.Scene();
