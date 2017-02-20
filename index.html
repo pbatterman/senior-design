@@ -75,15 +75,8 @@
 	};
 
 	// Threejs
-	var scene, camera, renderer, vertexColors;
-	var notes = {
-		0 : {
-			"color" : [ 0, 100, 51 ],
-			"name" : "C",
-
-		}
-
-	};
+	var scene, camera, renderer, noteVertices, vertexColors;
+	var notes = ;
 
 function init() {
 
@@ -128,6 +121,32 @@ function init() {
 	var mesh = new THREE.Mesh( geometry, material );
 	mesh.name = "tonnetz";
 	scene.add(mesh);
+
+
+// record which coordinates in tonnetz structure correspond to each note
+	noteVertices = new Array(7);
+	for (var i = 0; i < 7; i++) {
+	  	noteVertices[i] = new Array(6);
+	}
+	var noteOrder = [7, 11, 3, 2, 6, 10, 9, 1, 5];
+	var nIdx = 0;
+
+	for (var x = 0; x < 3; x++) {
+		for (var y = 0; y < 3; y++) {
+			var note = noteOrder[nIdx];
+			noteVertices[x][y] = note;
+			noteVertices[x][y + 3] = note;
+			noteVertices[x + 4][y + 2] = note;
+			noteVertices[x + 4][(y + 5) % 6] = note;
+			nIdx++;
+		}
+	}
+	noteVertices[3][0] = 4;
+	noteVertices[3][3] = 4;
+	noteVertices[3][1] = 8;
+	noteVertices[3][4] = 8;
+	noteVertices[3][2] = 8;
+	noteVertices[3][5] = 8;
 
 
  	controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -228,36 +247,43 @@ function init() {
 			};
 		}
 
-		var noteMap = new Array(7);
+		var colorMap = new Array(7);
 		for (var i = 0; i < 7; i++) {
-		  	noteMap[i] = new Array(6);
+		  	colorMap[i] = new Array(6);
 		}
 
-		var x = 0; 
-		var y = 0;
-		var noteOrder = [7, 11, 3, 2, 6, 10, 9, 1, 5];
-		var nIdx = 0;
+		// var x = 0; 
+		// var y = 0;
+		// var noteOrder = [7, 11, 3, 2, 6, 10, 9, 1, 5];
+		// var nIdx = 0;
 
-		for (var x = 0; x < 3; x++) {
-			for (var y = 0; y < 3; y++) {
-				var note = noteOrder[nIdx];
-				var color = colorset[note];
-				noteMap[x][y] = color;
-				noteMap[x][y + 3] = color;
-				noteMap[x + 4][y + 2] = color;
-				noteMap[x + 4][(y + 5) % 6] = color;
-				nIdx++;
+		// for (var x = 0; x < 3; x++) {
+		// 	for (var y = 0; y < 3; y++) {
+		// 		var note = noteOrder[nIdx];
+		// 		var color = colorset[note];
+		// 		colorMap[x][y] = color;
+		// 		colorMap[x][y + 3] = color;
+		// 		colorMap[x + 4][y + 2] = color;
+		// 		colorMap[x + 4][(y + 5) % 6] = color;
+		// 		nIdx++;
+		// 	}
+		// }
+
+		// colorMap[3][0] = colorset[4];
+		// colorMap[3][3] = colorset[4];
+		// colorMap[3][1] = colorset[8];
+		// colorMap[3][4] = colorset[8];
+		// colorMap[3][2] = colorset[0];
+		// colorMap[3][5] = colorset[0];
+
+		for (int x = 0; x < 7; x++) {
+			for (int y = 0; y < 6; y++) {
+				var note = noteVertices[x][y];
+				colorMap[x][y] = colorset[note];
 			}
 		}
 
-		noteMap[3][0] = colorset[4];
-		noteMap[3][3] = colorset[4];
-		noteMap[3][1] = colorset[8];
-		noteMap[3][4] = colorset[8];
-		noteMap[3][2] = colorset[0];
-		noteMap[3][5] = colorset[0];
-
-		return noteMap;
+		return colorMap;
 	}
 	
 
@@ -439,7 +465,7 @@ function init() {
 						var blendColor;
 						blendColor = blendColors(activeNotes);
 						blendBox.style.background = HSLArrayToString(blendColor);
-						var highlights = highlightVertices(activeNotes, primaryColors);
+						var highlights = highlightVertices(activeNotes, offsetColors.primary);
 						var vertexColorMap = mapColorsToVertices(highlights);
 						var mesh = scene.getObjectByName( "tonnetz" );
 						updateMesh(mesh, vertexColorMap);
