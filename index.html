@@ -459,8 +459,8 @@ function init() {
 					if (currPOffset != pAngleOffset || currSOffset != sAngleOffset) {
 						pAngleOffset = currPOffset;
 						sAngleOffset = currSOffset;
-						var offsetColors = getOffsetColors(pAngleOffset, sAngleOffset);
-						var allColors = getColorMap(offsetColors);
+						offsetColors = getOffsetColors(pAngleOffset, sAngleOffset);
+						allColors = getColorMap(offsetColors);
 						primaryColors = allColors.primary;
 						secondaryColors = allColors.secondary;
 						var vertexColorMap = mapColorsToVertices(offsetColors.primary);
