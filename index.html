@@ -141,6 +141,10 @@ function init() {
 			mesh.geometry.faces[ f ].vertexColors[ 0 ].copy(newGeo.faces[f].vertexColors[0]);
 		}
 
+		// theObjects[i].mesh.geometry.dynamic = true;
+  //        theObjects[i].mesh.geometry.vertices = theObjects[i].geo.vertices;  
+  //        theObjects[i].mesh.geometry.verticesNeedUpdate = true;
+
 		mesh.geometry.colorsNeedUpdate = true;
 		animate();
 	}
@@ -171,46 +175,7 @@ function init() {
 				geometry.faces.push( face1 );
 	   		}
 	   		// middle rows
-	   		else if ( v > 6 && v < 13 ) {
-	   			var face0 = new THREE.Face3( v-6, v+1, v);
-	   			face0.vertexColors[0] = vertexColors[v-6];
-				face0.vertexColors[1] = vertexColors[v+1];
-				face0.vertexColors[2] = vertexColors[v];
-	   			geometry.faces.push( face0 );
-	   			
-	   			var face1 = new THREE.Face3( v, v+1, v+7 );
-	   			face1.vertexColors[0] = vertexColors[v];
-				face1.vertexColors[1] = vertexColors[v+1];
-				face1.vertexColors[2] = vertexColors[v+7];
-				geometry.faces.push( face1 );
-			}
-	   		else if ( v > 13 && v < 20 ) {
-	   			var face0 = new THREE.Face3( v-6, v+1, v);
-	   			face0.vertexColors[0] = vertexColors[v-6];
-				face0.vertexColors[1] = vertexColors[v+1];
-				face0.vertexColors[2] = vertexColors[v];
-	   			geometry.faces.push( face0 );
-	   			
-	   			var face1 = new THREE.Face3( v, v+1, v+7 );
-	   			face1.vertexColors[0] = vertexColors[v];
-				face1.vertexColors[1] = vertexColors[v+1];
-				face1.vertexColors[2] = vertexColors[v+7];
-				geometry.faces.push( face1 );
-			}
-	   		else if ( v > 20 && v < 27 ) {
-	   			var face0 = new THREE.Face3( v-6, v+1, v);
-	   			face0.vertexColors[0] = vertexColors[v-6];
-				face0.vertexColors[1] = vertexColors[v+1];
-				face0.vertexColors[2] = vertexColors[v];
-	   			geometry.faces.push( face0 );
-	   			
-	   			var face1 = new THREE.Face3( v, v+1, v+7 );
-	   			face1.vertexColors[0] = vertexColors[v];
-				face1.vertexColors[1] = vertexColors[v+1];
-				face1.vertexColors[2] = vertexColors[v+7];
-				geometry.faces.push( face1 );
-			}
-	   		else if ( v > 27 && v < 34 ) {
+	   		else if (( v > 6 && v < 13 ) || (v > 13 && v < 20) || (v > 20 && v < 27) || (v > 27 && v < 34)) {
 	   			var face0 = new THREE.Face3( v-6, v+1, v);
 	   			face0.vertexColors[0] = vertexColors[v-6];
 				face0.vertexColors[1] = vertexColors[v+1];
