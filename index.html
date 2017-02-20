@@ -462,12 +462,13 @@ function init() {
 
 	// highlight active notes
 	function highlightVertices(activeColors, colorset) {
-		var cs = JSON.parse(JSON.stringify(colorset)); // copy colorset
+		// copy colorset, appparently this is the fastest way
+		var cs = JSON.parse(JSON.stringify(colorset)); 
 		var white = [0, 0, 100];
 		for (var i = 0; i < 88; i++) {
 			var col = activeColors[i];
 			if (Array.isArray(col) && col.length == 3) {
-				cs[i] = white;
+				cs[(i + 9) % 12] = white;
 			}
 		}
 		console.log(cs);
