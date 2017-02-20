@@ -462,7 +462,7 @@ function init() {
 
 	// highlight active notes
 	function highlightVertices(activeColors, colorset) {
-		var cs = Array.copy(colorset);
+		var cs = colorset.slice();
 		var white = [0, 0, 100];
 		for (var i = 0; i < 88; i++) {
 			var col = activeColors[i];
@@ -470,7 +470,7 @@ function init() {
 				cs[i] = white;
 			}
 		}
-
+		console.log(cs);
 		return cs;
 	}
 
