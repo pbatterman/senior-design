@@ -76,6 +76,14 @@
 
 	// Threejs
 	var scene, camera, renderer, vertexColors;
+	var notes = {
+		0 : {
+			"color" : [ 0, 100, 51 ],
+			"name" : "C",
+
+		}
+
+	};
 
 function init() {
 
@@ -219,7 +227,6 @@ function init() {
 				5: [ 330, 100, 46 ] // 11 B 
 			};
 		}
-		console.log(colorset);
 
 		var noteMap = new Array(7);
 		for (var i = 0; i < 7; i++) {
@@ -250,7 +257,6 @@ function init() {
 		noteMap[3][2] = colorset[0];
 		noteMap[3][5] = colorset[0];
 
-		console.log(noteMap);
 		return noteMap;
 	}
 	
@@ -433,6 +439,10 @@ function init() {
 						var blendColor;
 						blendColor = blendColors(activeNotes);
 						blendBox.style.background = HSLArrayToString(blendColor);
+						var highlights = highlightVertices(activeNotes, primaryColors);
+						var vertexColorMap = mapColorsToVertices(highlights);
+						var mesh = scene.getObjectByName( "tonnetz" );
+						updateMesh(mesh, vertexColorMap);
 					}
 
 					// var cd = channels[data.channel];
@@ -449,6 +459,20 @@ function init() {
 			}
 		});
 });
+
+	// highlight active notes
+	function highlightVertices(activeNotes, colorset) {
+		var white = [0, 0, 100];
+		for (var i = 0; i < 88; i++) {
+			var col = activeColors[i];
+			if (Array.isArray(col) && col.length == 3) {
+				colorset[i] = white;
+			}
+		}
+
+		return colorset;
+	}
+
 
 	// blend multiple colors together - raw average
 	function blendColors(activeColors) {
