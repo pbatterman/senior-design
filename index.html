@@ -518,8 +518,10 @@ function init() {
 				mesh.geometry.__dirtyVertices = true;
 				mesh.geometry.dynamic = true;
 				mesh.verticesNeedUpdate = true;
+
 			}
 		}
+		animate();
 	}
 	function buildDisplacementMap(activeColors) {
 		var dz = 100;
