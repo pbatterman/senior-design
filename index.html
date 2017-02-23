@@ -145,7 +145,7 @@ function init() {
 
    	var colorMap = mapColorsToVertices();
 
-	var material = new THREE.MeshBasicMaterial( { 
+		var material = new THREE.MeshBasicMaterial( { 
 		    shading: THREE.FlatShading,
 		    vertexColors: THREE.VertexColors,
 		    wireframe: true
@@ -171,13 +171,19 @@ function init() {
 
 	function updateMesh(mesh, colorMap) {
 		var newGeometry = buildTonnetzGeometry(colorMap);
-		mesh.geometry.dynamic = true;
-
-		for (var f = 0; f < newGeometry.faces.length; f++) {
-			mesh.geometry.faces[ f ].vertexColors[ 0 ].copy(newGeometry.faces[f].vertexColors[0]);
-		}
-
-		mesh.geometry.colorsNeedUpdate = true;
+		scene.remove(mesh);
+		// mesh.geometry.dynamic = true;
+		var material = new THREE.MeshBasicMaterial( { 
+		    shading: THREE.FlatShading,
+		    vertexColors: THREE.VertexColors,
+		    wireframe: true
+		});
+		var newMesh = new THREE.Mesh( newGeometry, material );
+		newMesh.name = "tonnetz";
+		scene.add(newMesh);
+		// for (var f = 0; f < newGeometry.faces.length; f++) {
+		// 	mesh.geometry.faces[ f ].vertexColors[ 0 ].copy(newGeometry.faces[f].vertexColors[0]);
+		// }
 	}
 
 	function buildTonnetzGeometry(colorMap) {
