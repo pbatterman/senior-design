@@ -469,6 +469,7 @@ function init() {
 						var blendColor;
 						blendColor = blendColors(activeNotes);
 						blendBox.style.background = HSLArrayToString(blendColor);
+						scene.background = new THREE.Color( HSLArrayToString(blendColor) );
 						var highlights = highlightVertices(activeNotes, offsetColors.primary);
 						var vertexColorMap = mapColorsToVertices(highlights);
 						updateMesh(mesh, vertexColorMap);
