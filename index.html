@@ -99,8 +99,8 @@
 		noteVertices[3][3] = 4;
 		noteVertices[3][1] = 8;
 		noteVertices[3][4] = 8;
-		noteVertices[3][2] = 8;
-		noteVertices[3][5] = 8;
+		noteVertices[3][2] = 0;
+		noteVertices[3][5] = 0;
 	}
 
 	setup();
@@ -143,38 +143,16 @@ function init() {
 		    vertexColors: THREE.VertexColors,
 		    wireframe: true
 		});
-   	var geometry = buildTonnetzGeometry(colorMap);
+
+		var dMap = new Array(7);
+			for (var i = 0; i < 7; i++) {
+			  	dMap[i] = new Array(6).fill(0);
+			}
+   	var geometry = buildTonnetzGeometry(colorMap, dMap);
 
 	var mesh = new THREE.Mesh( geometry, material );
 	mesh.name = "tonnetz";
 	scene.add(mesh);
-
-
-// record which coordinates in tonnetz structure correspond to each note
-	noteVertices = new Array(7);
-	for (var i = 0; i < 7; i++) {
-	  	noteVertices[i] = new Array(6);
-	}
-	var noteOrder = [7, 11, 3, 2, 6, 10, 9, 1, 5];
-	var nIdx = 0;
-
-	for (var x = 0; x < 3; x++) {
-		for (var y = 0; y < 3; y++) {
-			var note = noteOrder[nIdx];
-			noteVertices[x][y] = note;
-			noteVertices[x][y + 3] = note;
-			noteVertices[x + 4][y + 2] = note;
-			noteVertices[x + 4][(y + 5) % 6] = note;
-			nIdx++;
-		}
-	}
-	noteVertices[3][0] = 4;
-	noteVertices[3][3] = 4;
-	noteVertices[3][1] = 8;
-	noteVertices[3][4] = 8;
-	noteVertices[3][2] = 0;
-	noteVertices[3][5] = 0;
-
 
  	controls = new THREE.OrbitControls(camera, renderer.domElement);
 }
@@ -187,29 +165,29 @@ function init() {
 	    controls.update();
 	}
 
-	function updateMesh(mesh, colorMap) {
-		var newGeo = buildTonnetzGeometry(colorMap);
+	function updateMesh(mesh, colorMap, dMap) {
+		var newGeometry = buildTonnetzGeometry(colorMap, dMap);
 		mesh.geometry.dynamic = true;
 
-		for (var f = 0; f < newGeo.faces.length; f++) {
-			mesh.geometry.faces[ f ].vertexColors[ 0 ].copy(newGeo.faces[f].vertexColors[0]);
+		for (var f = 0; f < newGeometry.faces.length; f++) {
+			mesh.geometry.faces[ f ].vertexColors[ 0 ].copy(newGeometry.faces[f].vertexColors[0]);
 		}
 
-		// theObjects[i].mesh.geometry.dynamic = true;
-  //        theObjects[i].mesh.geometry.vertices = theObjects[i].geo.vertices;  
-  //        theObjects[i].mesh.geometry.verticesNeedUpdate = true;
+		mesh.geometry.dynamic = true;
+   	mesh.geometry.vertices = newGeometry.geo.vertices;  
+   	mesh.geometry.verticesNeedUpdate = true;
 
 		mesh.geometry.colorsNeedUpdate = true;
 		animate();
 	}
 
-	function buildTonnetzGeometry(colorMap) {
+	function buildTonnetzGeometry(colorMap, displacementMap) {
 		var geometry = new THREE.Geometry();
 	   	vertexColors = [];
 
 	   	for (var y = 0; y < 6; y++) {
 	   		for (var x = 0; x < 7; x++) {
-	   			var vertex = new THREE.Vector3(100*x + 50*y, 100*y, 0);
+	   			var vertex = new THREE.Vector3(100*x + 50*y, 100*y, displacementMap[x][y]);
 	   			geometry.vertices.push(vertex);
 	   			var col = HSLArrayToString(colorMap[x][y]);
 	   			var vertColor = new THREE.Color( col );
@@ -223,10 +201,10 @@ function init() {
 	   			var face1 = new THREE.Face3( v, v+1, v+7 );
 	   			
 	   			face1.vertexColors[0] = vertexColors[v];
-				face1.vertexColors[1] = vertexColors[v+1];
-				face1.vertexColors[2] = vertexColors[v+7];
+					face1.vertexColors[1] = vertexColors[v+1];
+					face1.vertexColors[2] = vertexColors[v+7];
 
-				geometry.faces.push( face1 );
+					geometry.faces.push( face1 );
 	   		}
 	   		// middle rows
 	   		else if (( v > 6 && v < 13 ) || (v > 13 && v < 20) || (v > 20 && v < 27) || (v > 27 && v < 34)) {
@@ -465,7 +443,8 @@ function init() {
 						secondaryColors = allColors.secondary;
 						var vertexColorMap = mapColorsToVertices(offsetColors.primary);
 						var mesh = scene.getObjectByName( "tonnetz" );
-						updateMesh(mesh, vertexColorMap);
+						var displacementMap = buildDisplacementMap(activeNotes);
+						updateMesh(mesh, vertexColorMap, displacementMap);
 					}
 
 					var note = data.note - 21;
@@ -495,7 +474,8 @@ function init() {
 						var highlights = highlightVertices(activeNotes, offsetColors.primary);
 						var vertexColorMap = mapColorsToVertices(highlights);
 						var mesh = scene.getObjectByName( "tonnetz" );
-						updateMesh(mesh, vertexColorMap);
+						var displacementMap = buildDisplacementMap(activeNotes);
+						updateMesh(mesh, vertexColorMap, displacementMap);
 					}
 
 					// var cd = channels[data.channel];
@@ -524,8 +504,36 @@ function init() {
 				cs[(i + 9) % 12] = white;
 			}
 		}
-		console.log(cs);
 		return cs;
+	}
+
+	function buildDisplacementMap(activeColors) {
+		var dz = 100;
+		var dMap = new Array(7);
+		for (var i = 0; i < 7; i++) {
+		  	dMap[i] = new Array(6).fill(0);
+		}
+
+		var notesToMove = [];
+		for (var i = 0; i < 88; i++) {
+			var col = activeColors[i];
+			if (Array.isArray(col) && col.length == 3) {
+				var note = (i + 9) % 12;
+				notesToMove.push(note);
+			}
+		}
+
+		for (var n = 0; n < notesToMove.length; n++) {
+			for (var x = 0; x < 7; x++) {
+				for (var y = 0; y < 6; y++) {
+					if (noteVertices[x][y] == notesToMove[n]) {
+						dMap[x][y] = dz;
+					}
+				}
+			}
+		}
+
+		return dMap;
 	}
 
 
