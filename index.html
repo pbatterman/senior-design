@@ -530,12 +530,13 @@ function init() {
 
 					// if user changes color shift
 					if (currPOffset != pAngleOffset || currSOffset != sAngleOffset) {
+						console.log("acp0 " + allColors.primary[0]);
 						pAngleOffset = currPOffset;
 						sAngleOffset = currSOffset;
 						offsetColors = getOffsetColors(pAngleOffset, sAngleOffset);
 						allColors = getColorMap(offsetColors);
-						console.log(pAngleOffset + " " + sAngleOffset);
-						console.log(allColors);
+						console.log("P " + pAngleOffset + " s " + sAngleOffset);
+						console.log("acp1 " + allColors.primary[0]);
 						var vertexColorMap = mapColorsToVertices(offsetColors.primary);
 						updateMesh(mesh, vertexColorMap);
 					}
@@ -553,6 +554,8 @@ function init() {
 								colorset = allColors.primary;
 							}
 							d.style.background = HSLArrayToString(colorset[note]);
+							console.log("acp 2 " + allColors.primary[0]);
+							console.log("cs " + colorset[0]);
 							activeNotes[note] = colorset[note];
 							displaceVertex(note, data.velocity);
 						} else {
