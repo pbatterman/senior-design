@@ -444,14 +444,13 @@ function init() {
 		}
 
 	function resetColorWheel() {
-		console.log("reset wheel");
 		primaryColors = setColors(fifthsOrder);
 		secondaryColors = {};
 		for (var i = 0; i < 12; i++) {
 			secondaryColors[i] = primaryColors[(i + 3) % 12];
 		}
 		updateAngle(0, 0);
-		updateAngle(5, 1);
+		updateAngle(15, 1);
 	}
 
 
@@ -532,10 +531,10 @@ function init() {
 					if (currPOffset != pAngleOffset || currSOffset != sAngleOffset) {
 						pAngleOffset = currPOffset;
 						sAngleOffset = currSOffset;
-						console.log(pAngleOffset + " " + sAngleOffset);
 						offsetColors = getOffsetColors(pAngleOffset, sAngleOffset);
 						allColors = getColorMap(offsetColors);
-						console.log(allColors.primary[0]);
+						console.log(pAngleOffset + " " + sAngleOffset);
+						console.log(allColors);
 						var vertexColorMap = mapColorsToVertices(offsetColors.primary);
 						updateMesh(mesh, vertexColorMap);
 					}
@@ -546,7 +545,7 @@ function init() {
 					if (d) {
 						if (data.message === 144) {
 							numNotes++;
-							if (numNotes > 0) {
+							if (numNotes > 1) {
 								colorset = allColors.secondary;
 							}
 							else {
