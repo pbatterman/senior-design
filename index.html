@@ -67,7 +67,7 @@
 				<input type="range" min="0" max="360" class="angleInput" id="secondaryAngle">
 				<div id="ringButtons">
 					<div class="btn-group btn-group-xs" role="group" aria-label="...">
-						<button type="button" class="btn btn-default" onclick="resetColorWheel()">Circle of Thirds</button>
+						<button type="button" class="btn btn-default" onclick="resetColorWheel(fifthsOrder)">Circle of Thirds</button>
 						<button type="button" class="btn btn-default">Custom</button>
 					</div>
 				</div>
@@ -93,6 +93,7 @@
 	var primaryHolder, secondaryHolder;
 
 	var fifthsOrder = [0, 7, 2, 9, 4, 11, 6, 1, 8, 3, 10, 5];
+	var currentNoteOrder = fifthsOrder;
 
 	var circleOfFifthsMap = {
 			0: [ 0, 100, 51 ], // 0 C
@@ -230,7 +231,7 @@
 	updateAngle(0,0);
 	updateAngle(0,1);
 	// set default colors
-	resetColorWheel();
+	resetColorWheel(fifthsOrder);
 
 
 function init() {
@@ -440,8 +441,8 @@ function init() {
 			return colorMap;
 		}
 
-	function resetColorWheel() {
-		primaryColors = setColors(fifthsOrder);
+	function resetColorWheel(noteOrder) {
+		primaryColors = setColors(noteOrder);
 		secondaryColors = {};
 		for (var i = 0; i < 12; i++) {
 			secondaryColors[i] = primaryColors[(i + 3) % 12];
@@ -702,6 +703,7 @@ function init() {
 	}
 
 	function getOffsetColors(pOffset, sOffset) {
+		resetColorWheel(currentNoteOrder);
 		// add offset
 		for (var c = 0; c < 12; c++) {
 			var col = primaryColors[c];
