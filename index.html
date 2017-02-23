@@ -516,7 +516,7 @@ function init() {
 				mesh.geometry.vertices[v].set(oldVert.x, oldVert.y, 100);
 				mesh.geometry.__dirtyVertices = true;
 				mesh.geometry.dynamic = true;
-				mesh.verticesNeedUpdate = true;
+				mesh.geometry.verticesNeedUpdate = true;
 				animate();
 			}
 		}
