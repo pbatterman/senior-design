@@ -136,10 +136,14 @@ div.channel {
 	top:0;
 }
 
+#ringSelector {
+	margin-top: 50px;
+}
+
 #blender {
 	width: 180px;
 	height: 180px;
-	margin-top: 300px;
+	margin-top: 600px;
 	margin-left: 12px;
 	transition: 0.25s;
 	-webkit-transition: 0.25s; /* Safari */
