@@ -441,16 +441,18 @@ function init() {
 			return colorMap;
 		}
 
-	function resetColorWheel(noteOrder) {
+	function resetColors(noteOrder) {
 		primaryColors = setColors(noteOrder);
 		secondaryColors = {};
 		for (var i = 0; i < 12; i++) {
 			secondaryColors[i] = primaryColors[(i + 3) % 12];
 		}
+	}
+
+	function resetColorWheel(noteOrder) {
+		resetColors(noteOrder);
 		updateAngle(0, 0);
 		updateAngle(15, 1);
-		console.log(primaryColors);
-		console.log(secondaryColors);
 	}
 
 
@@ -703,7 +705,7 @@ function init() {
 	}
 
 	function getOffsetColors(pOffset, sOffset) {
-		resetColorWheel(currentNoteOrder);
+		resetColors(currentNoteOrder);
 		// add offset
 		for (var c = 0; c < 12; c++) {
 			var col = primaryColors[c];
