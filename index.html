@@ -507,14 +507,14 @@ function init() {
 
 		for (var v = 0; v < vertexKey.length; v++) {
 			if (vertexKey[v] == n) {
-				mesh.geometry.vertices[v].position.z = dz;
+				mesh.geometry.vertices[v].z = 100;
 				mesh.geometry.__dirtyVertices = true;
 				mesh.geometry.dynamic = true;
 				mesh.verticesNeedUpdate = true;
-
+				animate();
 			}
 		}
-		animate();
+
 	}
 	function buildDisplacementMap(activeColors) {
 		var dz = 100;
