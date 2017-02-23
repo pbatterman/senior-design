@@ -509,9 +509,10 @@ function init() {
 
 	function displaceVertex(note, dz) {
 		var n = (note + 9 % 12);
+
 		for (var v = 0; v < vertexKey.length; v++) {
 			if (vertexKey[v] == n) {
-
+				console.log('displaced: ' + n);
 				mesh.geometry.vertices[v].z = dz;
 				mesh.geometry.__dirtyVertices = true;
 				mesh.geometry.dynamic = true;
