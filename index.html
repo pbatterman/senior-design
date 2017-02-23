@@ -201,7 +201,10 @@ function init() {
 
     camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT, 0.1, 20000);
     camera.position.set(543, -671, 442);
+
     scene.add(camera);
+    camera.up = new THREE.Vector3(0,0,1);
+		camera.lookAt(new THREE.Vector3(300,250,0));
 
     window.addEventListener('resize', function() {
       var WIDTH = window.innerWidth,
@@ -553,7 +556,6 @@ function init() {
 	// highlight active notes
 	function highlightVertices(activeColors, blendColor, colorset) {
 		// copy colorset, appparently this is the fastest way
-		console.log(blendColor);
 		var cs = JSON.parse(JSON.stringify(colorset)); 
 		if (blendColor[0] < 0) {
 			blendColor[0] = (360 + blendColor[0]);
