@@ -180,57 +180,58 @@
 
 		vertexKey = [];
 
-
-		////// D3 Rotating input functionality
-		var wheelWidth = 200;
-		var wheelHeight = 200;
-		var wheelX = 0;
-		var wheelY = 0;
-
-		primaryHolder = d3.select("body")
-		.append("svg")
-		.attr("width", wheelWidth)    
-		.attr("height", wheelHeight)
-		.attr("class", "colorInput");
-
-		primaryHolder.append("image")
-		.attr("xlink:href", "images/circle_fifths_wheel.png")
-		.attr("width", wheelWidth)    
-		.attr("height", wheelHeight)
-		.attr("x", wheelX)
-		.attr("y", wheelY);
-
-		secondaryHolder = d3.select("body")
-		.append("svg")
-		.attr("width", wheelWidth)    
-		.attr("height", wheelHeight)
-		.attr("class", "colorInput");
-
-		secondaryHolder.append("image")
-		.attr("xlink:href", "images/circle_fifths_wheel_minor.png")
-		.attr("width", wheelWidth)    
-		.attr("height", wheelHeight)
-		.attr("x", wheelX)
-		.attr("y", wheelY);
-
-
-		// when the input range changes update the angle 
-		d3.select("#primaryAngle").on("input", function() {
-			updateAngle(+this.value, 0);
-		});
-
-		d3.select("#secondaryAngle").on("input", function() {
-			updateAngle(+this.value, 1);
-		});
-
-
-		updateAngle(0,0);
-		updateAngle(0,1);
-		// set default colors
-		resetColorWheel();
 	}
 
 	setup();
+
+	////// D3 Rotating input functionality
+	var wheelWidth = 200;
+	var wheelHeight = 200;
+	var wheelX = 0;
+	var wheelY = 0;
+
+	primaryHolder = d3.select("body")
+	.append("svg")
+	.attr("width", wheelWidth)    
+	.attr("height", wheelHeight)
+	.attr("class", "colorInput");
+
+	primaryHolder.append("image")
+	.attr("xlink:href", "images/circle_fifths_wheel.png")
+	.attr("width", wheelWidth)    
+	.attr("height", wheelHeight)
+	.attr("x", wheelX)
+	.attr("y", wheelY);
+
+	secondaryHolder = d3.select("body")
+	.append("svg")
+	.attr("width", wheelWidth)    
+	.attr("height", wheelHeight)
+	.attr("class", "colorInput");
+
+	secondaryHolder.append("image")
+	.attr("xlink:href", "images/circle_fifths_wheel_minor.png")
+	.attr("width", wheelWidth)    
+	.attr("height", wheelHeight)
+	.attr("x", wheelX)
+	.attr("y", wheelY);
+
+
+	// when the input range changes update the angle 
+	d3.select("#primaryAngle").on("input", function() {
+		updateAngle(+this.value, 0);
+	});
+
+	d3.select("#secondaryAngle").on("input", function() {
+		updateAngle(+this.value, 1);
+	});
+
+
+	updateAngle(0,0);
+	updateAngle(0,1);
+	// set default colors
+	resetColorWheel();
+
 
 function init() {
 
@@ -412,10 +413,6 @@ function init() {
 
 	// update the element
 	function updateAngle(angle, id) {
-		var wheelX = primaryHolder.select("image").attr("x");
-		var wheelY = primaryHolder.select("image").attr("y");
-		var wheelWidth = primaryHolder.select("image").attr("width");
-		var wheelHeight = primaryHolder.select("image").attr("height");
 
 		if (id == 0) {
 			// adjust the text on the range slider
