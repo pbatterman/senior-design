@@ -377,30 +377,6 @@ function init() {
 		  	colorMap[i] = new Array(6);
 		}
 
-		// var x = 0; 
-		// var y = 0;
-		// var noteOrder = [7, 11, 3, 2, 6, 10, 9, 1, 5];
-		// var nIdx = 0;
-
-		// for (var x = 0; x < 3; x++) {
-		// 	for (var y = 0; y < 3; y++) {
-		// 		var note = noteOrder[nIdx];
-		// 		var color = colorset[note];
-		// 		colorMap[x][y] = color;
-		// 		colorMap[x][y + 3] = color;
-		// 		colorMap[x + 4][y + 2] = color;
-		// 		colorMap[x + 4][(y + 5) % 6] = color;
-		// 		nIdx++;
-		// 	}
-		// }
-
-		// colorMap[3][0] = colorset[4];
-		// colorMap[3][3] = colorset[4];
-		// colorMap[3][1] = colorset[8];
-		// colorMap[3][4] = colorset[8];
-		// colorMap[3][2] = colorset[0];
-		// colorMap[3][5] = colorset[0];
-
 		for (var x = 0; x < 7; x++) {
 			for (var y = 0; y < 6; y++) {
 				var note = noteVertices[x][y];
@@ -531,14 +507,16 @@ function init() {
 
 					// if user changes color shift
 					if (currPOffset != pAngleOffset || currSOffset != sAngleOffset) {
-						console.log("acp0 " + allColors.primary[0]);
+						console.log("acp 0 " + allColors.primary[0]);
+						console.log("pc 0 " + primaryColors[0]);
 						pAngleOffset = currPOffset;
 						sAngleOffset = currSOffset;
-						offsetColors = getOffsetColors(pAngleOffset, sAngleOffset);
-						allColors = getColorMap(offsetColors);
+						getOffsetColors(pAngleOffset, sAngleOffset);
+						allColors = getColorMap();
 						console.log("P " + pAngleOffset + " s " + sAngleOffset);
-						console.log("acp1 " + allColors.primary[0]);
-						var vertexColorMap = mapColorsToVertices(offsetColors.primary);
+						console.log("acp 1 " + allColors.primary[0]);
+						console.log("pc 1 " + primaryColors[0]);
+						var vertexColorMap = mapColorsToVertices(primaryColors);
 						updateMesh(mesh, vertexColorMap);
 					}
 
@@ -550,14 +528,13 @@ function init() {
 							numNotes++;
 							if (numNotes > 1) {
 								colorset = allColors.secondary;
-								console.log('secondary');
 							}
 							else {
 								colorset = allColors.primary;
-								console.log('primary');
 							}
 							d.style.background = HSLArrayToString(colorset[note]);
 							console.log("acp 2 " + allColors.primary[0]);
+							console.log("pc 2 " + primaryColors[0]);
 							console.log("cs " + colorset[0]);
 							activeNotes[note] = colorset[note];
 							displaceVertex(note, data.velocity);
@@ -725,17 +702,14 @@ function init() {
 		return allColors;
 	}
 
-	function getColorMap(allColors) {
-
-		var primaryNoteColors = {};
-		var secondaryNoteColors = {};
+	function getColorMap() {
 
 		for (var note = 0; note < 88; note++) {
 
-			var pCol = allColors.primary[(note + 9) % 12];
+			var pCol = primaryColors[(note + 9) % 12];
 			primaryNoteColors[note] = pCol;
 
-			var sCol = allColors.secondary[(note + 9) % 12];
+			var sCol = secondaryColors[(note + 9) % 12];
 			secondaryNoteColors[note] = sCol;
 		}
 
