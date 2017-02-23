@@ -123,24 +123,7 @@
 			11: [ 60, 100, 52 ] // 2 D
 		};
 
-		function setColors(noteOrder) {
-			var dAngle = 360/noteOrder.length;
-			var colorMap = {};
-			for (var n = 0; n < noteOrder.length; n++) {
-				var hue = n*dAngle;
-				colorMap[noteOrder[n]] = [hue, 100, 50];
-			}
-			return colorMap;
-		}
 
-	function resetColorWheel() {
-		primaryColors = setColors(fifthsOrder);
-		secondaryColors = {};
-		for (var i = 0; i < 12; i++) {
-			secondaryColors[i] = primaryColors[(i + 3) % 12];
-		}
-		// updateAngle(5, 1);
-	}
 
 	// change type of ring control
 	function changeRing(level, ringType) {
@@ -444,6 +427,27 @@ function init() {
 		}
 	}
 
+
+	function setColors(noteOrder) {
+			var dAngle = 360/noteOrder.length;
+			var colorMap = {};
+			for (var n = 0; n < noteOrder.length; n++) {
+				var hue = n*dAngle;
+				colorMap[noteOrder[n]] = [hue, 100, 50];
+			}
+			return colorMap;
+		}
+
+	function resetColorWheel() {
+		console.log("reset wheel");
+		primaryColors = setColors(fifthsOrder);
+		secondaryColors = {};
+		for (var i = 0; i < 12; i++) {
+			secondaryColors[i] = primaryColors[(i + 3) % 12];
+		}
+		updateAngle(0, 0);
+		updateAngle(5, 1);
+	}
 
 
 	// Toggle between Pause and Play modes.
