@@ -511,11 +511,15 @@ function init() {
 
 		for (var v = 0; v < vertexKey.length; v++) {
 			if (vertexKey[v] == n) {
+				var oldVertex = mesh.geometry.vertices[v];
 
-				mesh.geometry.vertices[v].z = 100;
+				var newVertex = new THREE.Vector3(oldVertex.x, oldVertex.y, dz);
+	   		geometry.vertices.push(vertex);
+				mesh.geometry.vertices[v].z = dz;
 				mesh.geometry.__dirtyVertices = true;
 				mesh.geometry.dynamic = true;
 				mesh.verticesNeedUpdate = true;
+				mesh.geometry.attributes.position.needsUpdate = true;
 				animate();
 			}
 		}
