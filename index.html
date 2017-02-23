@@ -544,20 +544,26 @@ function init() {
 					var d = colorElements[note];
 					var colorset;
 					if (d) {
-						if (numNotes > 0) {
-							colorset = allColors.secondary;
-						}
-						else {
-							colorset = allColors.primary;
-						}
 						if (data.message === 144) {
 							numNotes++;
+							if (numNotes > 0) {
+								colorset = allColors.secondary;
+							}
+							else {
+								colorset = allColors.primary;
+							}
 							d.style.background = HSLArrayToString(colorset[note]);
 							activeNotes[note] = colorset[note];
 							displaceVertex(note, data.velocity);
 						} else {
 							numNotes--;
 							numNotes = Math.max(numNotes, 0);
+							if (numNotes > 0) {
+								colorset = allColors.secondary;
+							}
+							else {
+								colorset = allColors.primary;
+							}
 							d.style.background = "";
 							activeNotes[note] = 0;
 							displaceVertex(note, data.velocity);
