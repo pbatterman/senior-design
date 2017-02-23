@@ -165,11 +165,15 @@ background: linear-gradient(to right, rgba(0,0,0,1) 0%,rgba(125,185,232,0) 50%);
 }
 
 #sortable {
-	height: 200px;
+	list-style: none;
+    text-align: right;
+    cursor: pointer;
+    margin-right: -10%;
 }
 
 #sortableGradient {
-	height: 200px;
+	height: 210px;
+	margin-top: 5px;
 }
 
 #canvas {
