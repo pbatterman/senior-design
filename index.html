@@ -508,8 +508,9 @@ function init() {
 	}
 
 	function displaceVertex(note, dz) {
-		var n = (note + 9 % 12);
+		var n = ((note + 9) % 12);
 		console.log(vertexKey);
+		console.log('note ' + n);
 
 		for (var v = 0; v < vertexKey.length; v++) {
 			if (vertexKey[v] == n) {
