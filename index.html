@@ -432,11 +432,9 @@ function init() {
 
 	function setColors(noteOrder) {
 			var dAngle = 360/noteOrder.length;
-			console.log(dAngle);
 			var colorMap = {};
 			for (var n = 0; n < noteOrder.length; n++) {
 				var hue = n*dAngle;
-				console.log("note " + noteOrder[n] + " " + "h: " + hue);
 				colorMap[noteOrder[n]] = [hue, 100, 50];
 			}
 			return colorMap;
