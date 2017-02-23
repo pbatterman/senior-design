@@ -182,7 +182,7 @@ function init() {
 
 	   	for (var y = 0; y < 6; y++) {
 	   		for (var x = 0; x < 7; x++) {
-	   			var vertex = new THREE.Vector3(100*x + 50*y, 100*y, 0);
+	   			var vertex = new THREE.Vector3(100*x + 50*y, 100*y, x+y);
 	   			geometry.vertices.push(vertex);
 	   			vertexKey.push(noteVertices[x][y]);
 	   			var col = HSLArrayToString(colorMap[x][y]);
@@ -510,14 +510,11 @@ function init() {
 		for (var v = 0; v < vertexKey.length; v++) {
 			if (vertexKey[v] == n) {
 
-				console.log(mesh.geometry.vertices[v]);
-				console.log("--");
 				mesh.geometry.vertices[v].z = 100;
 				mesh.geometry.__dirtyVertices = true;
 				mesh.geometry.dynamic = true;
 				mesh.verticesNeedUpdate = true;
 				animate();
-				console.log(mesh.geometry.vertices[v]);
 			}
 		}
 
