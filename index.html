@@ -65,20 +65,13 @@
 				<input type="range" min="0" max="360" class="angleInput" id="primaryAngle">
 				<label class="angleInputLabel">Inner</label>
 				<input type="range" min="0" max="360" class="angleInput" id="secondaryAngle">
-				<div class="dropdown" id="ringSelector">
-			  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-			    Ring Notes
-			    <span class="caret"></span>
-			  </button>
-			  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-			  	<li class="dropdown-header">Outer Ring</li>
-			    <li><a onclick="changeRing(0,0)">Circle of Fifths</a></li>
-			    <li><a onclick="changeRing(0,1)">Circle of Thirds</a></li>
-			    <li class="dropdown-header">Inner Ring</li>
-			    <li><a onclick="changeRing(1,0)">Circle of Fifths</a></li>
-			    <li><a onclick="changeRing(1,1)">Circle of Thirds</a></li>
-			  </ul>
+				
 			</div>
+			<div id="ringButtons">
+				<div class="btn-group btn-group-xs" role="group" aria-label="...">
+					<button type="button" class="btn btn-default" onclick="resetColorWheel()">Circle of Thirds</button>
+					<button type="button" class="btn btn-default">Custom</button>
+				</div>
 			</div>
 			<img id="colorwheel" src="images/colorwheel_hsl.png">
 			<div id="blender"></div>
@@ -91,32 +84,6 @@
 	if (typeof (console) === "undefined") var console = {
 		log: function() {}
 	};
-
-	// change type of ring control
-	function changeRing(level, ringType) {
-		// outer ring
-		if (level == 0) {
-			switch (ringType) {
-				case 0:
-					console.log("outer 0");
-					break;
-				case 1:
-					console.log("outer 1");
-					break;
-			}
-		}
-		// inner ring
-		else {
-			switch (ringType) {
-				case 0:
-					console.log("inner 0");
-					break;
-				case 1:
-					console.log("inner 1");
-					break;
-			}
-		}
-	}
 
 	// Threejs
 	var scene, camera, renderer, noteVertices, vertexColors, vertexKey;
@@ -156,6 +123,50 @@
 			11: [ 60, 100, 52 ] // 2 D
 		};
 
+		function setColors(noteOrder) {
+			var dAngle = 360/noteOrder.length;
+			var colorMap = {};
+			for (var n = 0; n < noteOrder.length; n++) {
+				var hue = n*dAngle;
+				colorMap[noteOrder[n]] = [hue, 100, 50];
+			}
+			return colorMap;
+		}
+
+	function resetColorWheel() {
+		primaryColors = setColors(fifthsOrder);
+		secondaryColors = {};
+		for (var i = 0; i < 12; i++) {
+			secondaryColors[i] = primaryColors[(i + 3) % 12];
+		}
+		// updateAngle(5, 1);
+	}
+
+	// change type of ring control
+	function changeRing(level, ringType) {
+		// outer ring
+		if (level == 0) {
+			switch (ringType) {
+				case 0:
+					console.log("outer 0");
+					break;
+				case 1:
+					console.log("outer 1");
+					break;
+			}
+		}
+		// inner ring
+		else {
+			switch (ringType) {
+				case 0:
+					console.log("inner 0");
+					break;
+				case 1:
+					console.log("inner 1");
+					break;
+			}
+		}
+	}
 
 	function setup() {
 		noteVertices = new Array(7);
@@ -185,10 +196,7 @@
 		vertexKey = [];
 
 		// set default colors
-		primaryColors = circleOfFifthsMap;
-		for (var i = 0; i < 12; i++) {
-			secondaryColors[i] = primaryColors[(i + 3) % 12];
-		}
+		resetColorWheel();
 	}
 
 	setup();
