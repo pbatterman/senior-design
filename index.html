@@ -460,7 +460,7 @@ function init() {
 							numNotes++;
 							d.style.background = HSLArrayToString(colorset[note]);
 							activeNotes[note] = colorset[note];
-							displaceVertex(notes, 100);
+							displaceVertex(note, 100);
 						} else {
 							numNotes--;
 							numNotes = Math.max(numNotes, 0);
