@@ -182,9 +182,7 @@ function init() {
 
 	   	for (var y = 0; y < 6; y++) {
 	   		for (var x = 0; x < 7; x++) {
-	   			var dz = 0;
-	   			if (x == 4) { dz = 100;}
-	   			var vertex = new THREE.Vector3(100*x + 50*y, 100*y, dz);
+	   			var vertex = new THREE.Vector3(100*x + 50*y, 100*y, 0);
 	   			geometry.vertices.push(vertex);
 	   			vertexKey.push(noteVertices[x][y]);
 	   			var col = HSLArrayToString(colorMap[x][y]);
@@ -513,7 +511,7 @@ function init() {
 			if (vertexKey[v] == n) {
 				var oldVert = mesh.geometry.vertices[v];
 				// var newVert = new THREE.Vector3(oldVert.x, oldVert.y, 100);
-				mesh.geometry.vertices[v].set(oldVert.x, oldVert.y, 100);
+				mesh.geometry.vertices[v].set(oldVert.x, oldVert.y, dz);
 				mesh.geometry.__dirtyVertices = true;
 				mesh.geometry.dynamic = true;
 				mesh.geometry.verticesNeedUpdate = true;
