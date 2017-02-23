@@ -492,10 +492,15 @@ function init() {
 	// highlight active notes
 	function highlightVertices(activeColors, blendColor, colorset) {
 		// copy colorset, appparently this is the fastest way
+		console.log(blendColor);
 		var cs = JSON.parse(JSON.stringify(colorset)); 
 		if (blendColor[0] < 0) {
-			blendColor[0] = parseInt(360 + blendColor[0]);
+			blendColor[0] = (360 + blendColor[0]);
 		}
+		blendColor[0] = parseInt(blendColor[0]);
+		blendColor[1] = parseInt(blendColor[1]);
+		blendColor[2] = parseInt(blendColor[2]);
+
 		for (var i = 0; i < 88; i++) {
 			var col = activeColors[i];
 			if (Array.isArray(col) && col.length == 3) {
