@@ -412,15 +412,15 @@ function init() {
 
 	// update the element
 	function updateAngle(angle, id) {
+		var wheelX = primaryHolder.select("image").attr("x");
+		var wheelY = primaryHolder.select("image").attr("y");
+		var wheelWidth = primaryHolder.select("image").attr("width");
+		var wheelHeight = primaryHolder.select("image").attr("height");
 
 		if (id == 0) {
 			// adjust the text on the range slider
 			d3.select("#primaryAngle").property("value", angle);
 
-			var wheelWidth = 200;
-			var wheelHeight = 200;
-			var wheelX = 0;
-			var wheelY = 0;
 			// rotate the text
 			primaryHolder.select("image") 
 			.attr("transform", "rotate(" + angle + "," + (wheelX + wheelWidth/2) + ","+ (wheelY+wheelHeight/2) +")")
