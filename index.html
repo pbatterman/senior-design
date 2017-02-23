@@ -421,7 +421,7 @@ function init() {
 		primaryColors = setColors(noteOrder);
 		secondaryColors = {};
 		for (var i = 0; i < 12; i++) {
-			secondaryColors[i] = primaryColors[(i + 3) % 12];
+			secondaryColors[i] = primaryColors[(i + 3) % 12].slice();
 		}
 	}
 
