@@ -703,7 +703,8 @@ function init() {
 	}
 
 	function getColorMap() {
-
+		var primaryNoteColors = {};
+		var secondaryNoteColors = {};
 		for (var note = 0; note < 88; note++) {
 
 			var pCol = primaryColors[(note + 9) % 12];
