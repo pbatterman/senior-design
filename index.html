@@ -512,7 +512,7 @@ function init() {
 		for (var v = 0; v < vertexKey.length; v++) {
 			if (vertexKey[v] == n) {
 				var oldVert = mesh.geometry.vertices[v];
-				var newVert = new THREE.Vector3(oldVert.x, oldVert.y, dz);
+				var newVert = new THREE.Vector3(oldVert.x, oldVert.y, 100);
 				mesh.geometry.vertices[v] = newVert;
 				mesh.geometry.__dirtyVertices = true;
 				mesh.geometry.dynamic = true;
