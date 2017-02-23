@@ -426,6 +426,7 @@ function init() {
 				var primaryColors = allColors.primary;
 				var secondaryColors = allColors.secondary;
 				var blendBox = document.getElementById("blender");
+				var mesh = scene.getObjectByName( "tonnetz" );
 
 				var numNotes = 0;
 				player.addListener(function(data) {
@@ -442,7 +443,6 @@ function init() {
 						primaryColors = allColors.primary;
 						secondaryColors = allColors.secondary;
 						var vertexColorMap = mapColorsToVertices(offsetColors.primary);
-						var mesh = scene.getObjectByName( "tonnetz" );
 						updateMesh(mesh, vertexColorMap);
 					}
 
@@ -460,13 +460,13 @@ function init() {
 							numNotes++;
 							d.style.background = HSLArrayToString(colorset[note]);
 							activeNotes[note] = colorset[note];
-							displaceVertex(note, 100);
+							displaceVertex(mesh, note, 100);
 						} else {
 							numNotes--;
 							numNotes = Math.max(numNotes, 0);
 							d.style.background = "";
 							activeNotes[note] = 0;
-							displaceVertex(note, 0);
+							displaceVertex(mesh, note, 0);
 						}
 						
 						var blendColor;
@@ -474,7 +474,6 @@ function init() {
 						blendBox.style.background = HSLArrayToString(blendColor);
 						var highlights = highlightVertices(activeNotes, offsetColors.primary);
 						var vertexColorMap = mapColorsToVertices(highlights);
-						var mesh = scene.getObjectByName( "tonnetz" );
 						updateMesh(mesh, vertexColorMap);
 					}
 
@@ -507,7 +506,7 @@ function init() {
 		return cs;
 	}
 
-	function displaceVertex(note, dz) {
+	function displaceVertex(mesh, note, dz) {
 		var n = ((note + 9) % 12);
 		console.log(vertexKey);
 		console.log('note ' + n);
