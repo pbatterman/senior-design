@@ -87,28 +87,32 @@
 			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			        <h4 class="modal-title" id="myModalLabel">Custom Note Order</h4>
 			      </div>
+			      <div class="modal-body">
 			      	<div class="col-xs-4" id="sortableTip">Drag notes to re-order</div>
 			      	<div class="col-xs-4">
 				      	<ul id="sortable">
-								  <li class="sortNote">C</li>
-								  <li class="sortNote">C#/Db</li>
-								  <li class="sortNote">D</li>
-								  <li class="sortNote">E#/Eb</li>
-								  <li class="sortNote">F</li>
-								  <li class="sortNote">F#/Gb</li>
-								  <li class="sortNote">G</li>
-								  <li class="sortNote">G#/Ab</li>
-								  <li class="sortNote">A</li>
-								  <li class="sortNote">A#/Bb</li>
-								  <li class="sortNote">B</li>
+								  <li id="0" class="sortNote">C</li>
+								  <li id="1" class="sortNote">C#/Db</li>
+								  <li id="2" class="sortNote">D</li>
+								  <li id="3" class="sortNote">D#/Eb</li>
+								  <li id="4" class="sortNote">E</li>
+								  <li id="5" class="sortNote">F</li>
+								  <li id="6" class="sortNote">F#/Gb</li>
+								  <li id="7" class="sortNote">G</li>
+								  <li id="8" class="sortNote">G#/Ab</li>
+								  <li id="9" class="sortNote">A</li>
+								  <li id="10" class="sortNote">A#/Bb</li>
+								  <li id="11" class="sortNote">B</li>
 								</ul>
 							</div>
 							<div class="col-xs-4">
 								<img id="sortableGradient" src="images/colorGradient.png">
 							</div>
 			      </div>
-		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		        <button type="button" class="btn btn-primary">Save</button>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			        <button type="button" class="btn btn-primary" onclick="customRing(0)">Save</button>
+			      </div>
 			    </div>
 			  </div>
 			</div>
@@ -444,6 +448,12 @@ function init() {
 		updateAngle(15, 1);
 	}
 
+	function customRing(id) {
+		if (id == 0) {
+			var sortedIDs = $( "#sortable" ).sortable( "toArray" );
+			console.log(sortedIDs);
+		}
+	}
 
 	// Toggle between Pause and Play modes.
 	function pausePlayStop(stop) {
