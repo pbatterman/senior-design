@@ -532,8 +532,10 @@ function init() {
 					if (currPOffset != pAngleOffset || currSOffset != sAngleOffset) {
 						pAngleOffset = currPOffset;
 						sAngleOffset = currSOffset;
+						console.log(pAngleOffset + " " + sAngleOffset);
 						offsetColors = getOffsetColors(pAngleOffset, sAngleOffset);
 						allColors = getColorMap(offsetColors);
+						console.log(allColors.primary[0]);
 						var vertexColorMap = mapColorsToVertices(offsetColors.primary);
 						updateMesh(mesh, vertexColorMap);
 					}
@@ -560,7 +562,7 @@ function init() {
 							activeNotes[note] = 0;
 							displaceVertex(note, data.velocity);
 						}
-						console.log(numNotes);
+
 						var blendColor;
 						blendColor = blendColors(activeNotes);
 						blendBox.style.background = HSLArrayToString(blendColor);
