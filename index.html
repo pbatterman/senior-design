@@ -75,7 +75,7 @@
 	};
 
 	// Threejs
-	var scene, camera, renderer, noteVertices, vertexColors, vertexKey;
+	var scene, camera, renderer, noteVertices, vertexColors, vertexKey, displacementMap;
 
 	function setup() {
 		noteVertices = new Array(7);
@@ -103,6 +103,11 @@
 		noteVertices[3][5] = 0;
 
 		vertexKey = [];
+
+		displacementMap = new Array(7);
+		for (var i = 0; i < 7; i++) {
+			displacementMap[i] = new Array(6).fill(0);
+		}
 	}
 
 	setup();
@@ -146,7 +151,8 @@ function init() {
 		    wireframe: true
 		});
 
-   	var geometry = buildTonnetzGeometry(colorMap);
+
+  var geometry = buildTonnetzGeometry(colorMap);
 
 	var mesh = new THREE.Mesh( geometry, material );
 	mesh.name = "tonnetz";
@@ -181,9 +187,7 @@ function init() {
 
 	   	for (var y = 0; y < 6; y++) {
 	   		for (var x = 0; x < 7; x++) {
-	   			var dz = 0;
-	   			if (x == 4) { dz = 100;}
-	   			var vertex = new THREE.Vector3(100*x + 50*y, 100*y, dz);
+	   			var vertex = new THREE.Vector3(100*x + 50*y, 100*y, this.displacementMap[x][y]);
 	   			geometry.vertices.push(vertex);
 	   			vertexKey.push(noteVertices[x][y]);
 	   			var col = HSLArrayToString(colorMap[x][y]);
@@ -457,13 +461,13 @@ function init() {
 							numNotes++;
 							d.style.background = HSLArrayToString(colorset[note]);
 							activeNotes[note] = colorset[note];
-							displaceVertex(note, 100);
+							// displaceVertex(note, 100);
 						} else {
 							numNotes--;
 							numNotes = Math.max(numNotes, 0);
 							d.style.background = "";
 							activeNotes[note] = 0;
-							displaceVertex(note, 0);
+							// displaceVertex(note, 0);
 						}
 						
 						var blendColor;
@@ -471,6 +475,7 @@ function init() {
 						blendBox.style.background = HSLArrayToString(blendColor);
 						var highlights = highlightVertices(activeNotes, offsetColors.primary);
 						var vertexColorMap = mapColorsToVertices(highlights);
+						buildDisplacementMap(activeNotes);
 						updateMesh(mesh, vertexColorMap);
 					}
 
@@ -519,9 +524,9 @@ function init() {
 	}
 	function buildDisplacementMap(activeColors) {
 		var dz = 100;
-		var dMap = new Array(7);
+		displacementMap = new Array(7);
 		for (var i = 0; i < 7; i++) {
-		  	dMap[i] = new Array(6).fill(0);
+		  	displacementMap[i] = new Array(6).fill(0);
 		}
 
 		var notesToMove = [];
@@ -537,13 +542,11 @@ function init() {
 			for (var x = 0; x < 7; x++) {
 				for (var y = 0; y < 6; y++) {
 					if (noteVertices[x][y] == notesToMove[n]) {
-						dMap[x][y] = dz;
+						displacementMap[x][y] = dz;
 					}
 				}
 			}
 		}
-
-		return dMap;
 	}
 
 
