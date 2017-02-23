@@ -237,7 +237,7 @@ function init() {
    	for (var m = 0; m < 3; m++) {
    		for (var n = 0; n < 3; n++) {
    			var mesh = new THREE.Mesh( geometry, material );
-   			mesh.position.set(600*x,500*y,0)
+   			mesh.position.set(600*m,500*n,0)
    			scene.add(mesh);
    		}
    	}
