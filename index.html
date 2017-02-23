@@ -494,7 +494,7 @@ function init() {
 		// copy colorset, appparently this is the fastest way
 		var cs = JSON.parse(JSON.stringify(colorset)); 
 		if (blendColor[0] < 0) {
-			blendColor[0] = (360 + blendColor[0]);
+			blendColor[0] = parseInt(360 + blendColor[0]);
 		}
 		for (var i = 0; i < 88; i++) {
 			var col = activeColors[i];
