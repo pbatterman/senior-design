@@ -417,6 +417,10 @@ function init() {
 			// adjust the text on the range slider
 			d3.select("#primaryAngle").property("value", angle);
 
+			var wheelX = primaryHolder.select("image").attr("x");
+			var wheelY = primaryHolder.select("image").attr("y");
+			var wheelWidth = primaryHolder.select("image").attr("width");
+			var wheelHeight = primaryHolder.select("image").attr("height");
 			// rotate the text
 			primaryHolder.select("image") 
 			.attr("transform", "rotate(" + angle + "," + (wheelX + wheelWidth/2) + ","+ (wheelY+wheelHeight/2) +")")
