@@ -70,11 +70,11 @@
 			  </button>
 			  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
 			  	<li class="dropdown-header">Outer Ring</li>
-			    <li><a href="#">Circle of Fifths</a></li>
-			    <li><a href="#">Circle of Thirds</a></li>
+			    <li><a onclick="changeRing(0,0)">Circle of Fifths</a></li>
+			    <li><a onclick="changeRing(0,1)">Circle of Thirds</a></li>
 			    <li class="dropdown-header">Inner Ring</li>
-			    <li><a href="#">Circle of Fifths</a></li>
-			    <li><a href="#">Circle of Thirds</a></li>
+			    <li><a onclick="changeRing(1,0)">Circle of Fifths</a></li>
+			    <li><a onclick="changeRing(1,1)">Circle of Thirds</a></li>
 			  </ul>
 			</div>
 			</div>
@@ -90,8 +90,64 @@
 		log: function() {}
 	};
 
+	// change type of ring control
+	function changeRing(level, ringType) {
+		// outer ring
+		if (level == 0) {
+			switch (ringType) {
+				case 0:
+					break;
+				case 1:
+					break;
+			}
+		}
+		// inner ring
+		else {
+			switch (ringType) {
+				case 0:
+					break;
+				case 1:
+					break;
+			}
+		}
+	}
+
 	// Threejs
 	var scene, camera, renderer, noteVertices, vertexColors, vertexKey;
+
+	var primaryColors, secondaryColors;
+
+	var circleOfFifthsMap = {
+			0: [ 0, 100, 51 ], // 0 C
+			1: [ 210, 100, 28 ], // 7 G
+			2: [ 60, 100, 52 ], // 2 D
+			3: [ 270, 100, 50 ], // 9 A
+			4: [ 120, 100, 60 ], // 4 E
+			5: [ 330, 100, 46 ] // 11 B 
+			6: [ 180, 100, 34 ], // 6 Gb
+			7: [ 30, 100, 51 ], // 1 Db
+			8: [ 240, 100, 27 ], // 8 Ab
+			9: [ 90, 100, 60 ], // 3 Eb
+			10: [ 300, 100, 37 ], // 10 Bb
+			11: [ 150, 100, 32 ], // 5 F
+		};
+
+		var secondaryColors = { //offset by half from primary for testing
+			
+			0: [ 270, 100, 50 ], // 9 A
+			1: [ 120, 100, 60 ], // 4 E
+			2: [ 330, 100, 46 ], // 11 B 
+			3: [ 180, 100, 34 ], // 6 Gb
+			4: [ 30, 100, 51 ], // 1 Db
+			5: [ 240, 100, 27 ], // 8 Ab
+			6: [ 90, 100, 60 ], // 3 Eb
+			7: [ 300, 100, 37 ], // 10 Bb
+			8: [ 150, 100, 32 ], // 5 F
+			9: [ 0, 100, 51 ], // 0 C
+			10: [ 210, 100, 28 ], // 7 G
+			11: [ 60, 100, 52 ] // 2 D
+		};
+
 
 	function setup() {
 		noteVertices = new Array(7);
@@ -119,6 +175,13 @@
 		noteVertices[3][5] = 0;
 
 		vertexKey = [];
+
+		// set default colors
+		primaryColors = circleOfFifthsMap;
+		for (var i = 0; i < 12; i++) {
+			secondaryColors[i] = primaryColors[(i + 3) % 12];
+		}
+		console.log(secondaryColors[0]);
 	}
 
 	setup();
@@ -249,20 +312,7 @@ function init() {
 
 	function mapColorsToVertices(colorset) {
 		if (!colorset) { // default
-			colorset  = {
-				0: [ 0, 100, 51 ], // 0 C
-				7: [ 30, 100, 51 ], // 1 Db
-				2: [ 60, 100, 52 ], // 2 D
-				9: [ 90, 100, 60 ], // 3 Eb
-				4: [ 120, 100, 60 ], // 4 E
-				11: [ 150, 100, 32 ], // 5 F
-				6: [ 180, 100, 34 ], // 6 Gb
-				1: [ 210, 100, 28 ], // 7 G
-				8: [ 240, 100, 27 ], // 8 Ab
-				3: [ 270, 100, 50 ], // 9 A
-				10: [ 300, 100, 37 ], // 10 Bb
-				5: [ 330, 100, 46 ] // 11 B 
-			};
+			colorset  = primaryColors;
 		}
 
 		var colorMap = new Array(7);
@@ -436,8 +486,6 @@ function init() {
 
 				var offsetColors = getOffsetColors(pAngleOffset, sAngleOffset);
 				var allColors = getColorMap(offsetColors);
-				var primaryColors = allColors.primary;
-				var secondaryColors = allColors.secondary;
 				var blendBox = document.getElementById("blender");
 				var mesh = scene.getObjectByName( "tonnetz" );
 
@@ -453,8 +501,6 @@ function init() {
 						sAngleOffset = currSOffset;
 						offsetColors = getOffsetColors(pAngleOffset, sAngleOffset);
 						allColors = getColorMap(offsetColors);
-						primaryColors = allColors.primary;
-						secondaryColors = allColors.secondary;
 						var vertexColorMap = mapColorsToVertices(offsetColors.primary);
 						updateMesh(mesh, vertexColorMap);
 					}
@@ -464,10 +510,10 @@ function init() {
 					var colorset;
 					if (d) {
 						if (numNotes > 0) {
-							colorset = secondaryColors;
+							colorset = allColors.secondary;
 						}
 						else {
-							colorset = primaryColors;
+							colorset = allColors.primary;
 						}
 						if (data.message === 144) {
 							numNotes++;
@@ -615,37 +661,6 @@ function init() {
 	}
 
 	function getOffsetColors(pOffset, sOffset) {
-		var primaryColors = {
-			0: [ 0, 100, 51 ], // 0 C
-			7: [ 30, 100, 51 ], // 1 Db
-			2: [ 60, 100, 52 ], // 2 D
-			9: [ 90, 100, 60 ], // 3 Eb
-			4: [ 120, 100, 60 ], // 4 E
-			11: [ 150, 100, 32 ], // 5 F
-			6: [ 180, 100, 34 ], // 6 Gb
-			1: [ 210, 100, 28 ], // 7 G
-			8: [ 240, 100, 27 ], // 8 Ab
-			3: [ 270, 100, 50 ], // 9 A
-			10: [ 300, 100, 37 ], // 10 Bb
-			5: [ 330, 100, 46 ] // 11 B 
-		};
-
-		var secondaryColors = { //offset by half from primary for testing
-			
-			0: [ 270, 100, 50 ], // 9 A
-			1: [ 120, 100, 60 ], // 4 E
-			2: [ 330, 100, 46 ], // 11 B 
-			3: [ 180, 100, 34 ], // 6 Gb
-			4: [ 30, 100, 51 ], // 1 Db
-			5: [ 240, 100, 27 ], // 8 Ab
-			6: [ 90, 100, 60 ], // 3 Eb
-			7: [ 300, 100, 37 ], // 10 Bb
-			8: [ 150, 100, 32 ], // 5 F
-			9: [ 0, 100, 51 ], // 0 C
-			10: [ 210, 100, 28 ], // 7 G
-			11: [ 60, 100, 52 ] // 2 D
-		};
-
 		// add offset
 		for (var c = 0; c < 12; c++) {
 			var col = primaryColors[c];
@@ -664,19 +679,16 @@ function init() {
 	}
 
 	function getColorMap(allColors) {
-		var primaryColors = allColors.primary;
-		var secondaryColors = allColors.secondary;
-		
 
 		var primaryNoteColors = {};
 		var secondaryNoteColors = {};
 
 		for (var note = 0; note < 88; note++) {
 
-			var pCol = primaryColors[(note + 9) % 12];
+			var pCol = allColors.primary[(note + 9) % 12];
 			primaryNoteColors[note] = pCol;
 
-			var sCol = secondaryColors[(note + 9) % 12];
+			var sCol = allColors.secondary[(note + 9) % 12];
 			secondaryNoteColors[note] = sCol;
 		}
 
