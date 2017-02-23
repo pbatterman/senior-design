@@ -610,7 +610,6 @@ function init() {
 				var oldVert = mesh.geometry.vertices[v];
 				// var newVert = new THREE.Vector3(oldVert.x, oldVert.y, 100);
 				mesh.geometry.vertices[v].set(oldVert.x, oldVert.y, dz);
-				mesh.geometry.__dirtyVertices = true;
 				mesh.geometry.dynamic = true;
 				mesh.geometry.verticesNeedUpdate = true;
 				animate();
