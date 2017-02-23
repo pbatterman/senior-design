@@ -550,9 +550,11 @@ function init() {
 							numNotes++;
 							if (numNotes > 1) {
 								colorset = allColors.secondary;
+								console.log('secondary');
 							}
 							else {
 								colorset = allColors.primary;
+								console.log('primary');
 							}
 							d.style.background = HSLArrayToString(colorset[note]);
 							console.log("acp 2 " + allColors.primary[0]);
