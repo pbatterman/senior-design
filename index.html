@@ -457,19 +457,18 @@ function init() {
 							numNotes++;
 							d.style.background = HSLArrayToString(colorset[note]);
 							activeNotes[note] = colorset[note];
-							displaceVertex(note, 100);
+							displaceVertex(note, data.velocity);
 						} else {
 							numNotes--;
 							numNotes = Math.max(numNotes, 0);
 							d.style.background = "";
 							activeNotes[note] = 0;
-							displaceVertex(note, 0);
+							displaceVertex(note, data.velocity);
 						}
 						
 						var blendColor;
 						blendColor = blendColors(activeNotes);
 						blendBox.style.background = HSLArrayToString(blendColor);
-						scene.background = new THREE.Color( HSLArrayToString(blendColor) );
 						var highlights = highlightVertices(activeNotes, offsetColors.primary);
 						var vertexColorMap = mapColorsToVertices(highlights);
 						updateMesh(mesh, vertexColorMap);
