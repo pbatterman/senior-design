@@ -469,7 +469,7 @@ function init() {
 						var blendColor;
 						blendColor = blendColors(activeNotes);
 						blendBox.style.background = HSLArrayToString(blendColor);
-						var highlights = highlightVertices(activeNotes, offsetColors.primary);
+						var highlights = highlightVertices(activeNotes, blendColor, offsetColors.primary);
 						var vertexColorMap = mapColorsToVertices(highlights);
 						updateMesh(mesh, vertexColorMap);
 					}
@@ -490,14 +490,16 @@ function init() {
 });
 
 	// highlight active notes
-	function highlightVertices(activeColors, colorset) {
+	function highlightVertices(activeColors, blendColor, colorset) {
 		// copy colorset, appparently this is the fastest way
 		var cs = JSON.parse(JSON.stringify(colorset)); 
-		var white = [0, 0, 100];
+		if (blendColor[0] < 0) {
+			blendColor[0] = (360 + blendColor[0]);
+		}
 		for (var i = 0; i < 88; i++) {
 			var col = activeColors[i];
 			if (Array.isArray(col) && col.length == 3) {
-				cs[(i + 9) % 12] = white;
+				cs[(i + 9) % 12] = blendColor;
 			}
 		}
 		return cs;
