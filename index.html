@@ -456,13 +456,13 @@ function init() {
 							numNotes++;
 							d.style.background = HSLArrayToString(colorset[note]);
 							activeNotes[note] = colorset[note];
-							displaceVertex(mesh, note, 100);
+							displaceVertex(note, 100);
 						} else {
 							numNotes--;
 							numNotes = Math.max(numNotes, 0);
 							d.style.background = "";
 							activeNotes[note] = 0;
-							displaceVertex(mesh, note, 0);
+							displaceVertex(note, 0);
 						}
 						
 						var blendColor;
@@ -502,8 +502,10 @@ function init() {
 		return cs;
 	}
 
-	function displaceVertex(mesh, note, dz) {
+	function displaceVertex(note, dz) {
 		var n = ((note + 9) % 12);
+
+		var mesh = scene.getObjectByName( "tonnetz" );
 
 		for (var v = 0; v < vertexKey.length; v++) {
 			if (vertexKey[v] == n) {
