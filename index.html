@@ -234,13 +234,11 @@ function init() {
 
    	var geometry = buildTonnetzGeometry(colorMap);
 
-   	for (var m = 0; m < 3; m++) {
-   		for (var n = 0; n < 3; n++) {
-   			var mesh = new THREE.Mesh( geometry, material );
-   			mesh.position.set(600*m,500*n,0)
-   			scene.add(mesh);
-   		}
-   	}
+   	
+	var mesh = new THREE.Mesh( geometry, material );
+
+	mesh.name = "tonnetz";
+	scene.add(mesh);
 
  	controls = new THREE.OrbitControls(camera, renderer.domElement);
 }
@@ -254,21 +252,16 @@ function init() {
 
 	}
 
-	function updateMesh(colorMap) {
+	function updateMesh(mesh, colorMap) {
 		var newGeometry = buildTonnetzGeometry(colorMap);
-		scene.traverse( function( node ) {
+		mesh.geometry.dynamic = true;
 
-		    if ( node instanceof THREE.Mesh ) {
-		    	node.geometry.dynamic = true;
+		for (var f = 0; f < newGeometry.faces.length; f++) {
+			mesh.geometry.faces[ f ].vertexColors[ 0 ].copy(newGeometry.faces[f].vertexColors[0]);
+		}
 
-					for (var f = 0; f < newGeometry.faces.length; f++) {
-						node.geometry.faces[ f ].vertexColors[ 0 ].copy(newGeometry.faces[f].vertexColors[0]);
-					}
-					node.geometry.colorsNeedUpdate = true;
-					animate();
-		    }
-		} );
-		
+		mesh.geometry.colorsNeedUpdate = true;
+		animate();
 	}
 
 	function buildTonnetzGeometry(colorMap) {
@@ -503,7 +496,7 @@ function init() {
 				var offsetColors = getOffsetColors(pAngleOffset, sAngleOffset);
 				var allColors = getColorMap(offsetColors);
 				var blendBox = document.getElementById("blender");
-				// var mesh = scene.getObjectByName( "tonnetz" );
+				var mesh = scene.getObjectByName( "tonnetz" );
 
 				var numNotes = 0;
 				player.addListener(function(data) {
@@ -518,7 +511,7 @@ function init() {
 						offsetColors = getOffsetColors(pAngleOffset, sAngleOffset);
 						allColors = getColorMap(offsetColors);
 						var vertexColorMap = mapColorsToVertices(offsetColors.primary);
-						updateMesh(vertexColorMap);
+						updateMesh(mesh, vertexColorMap);
 					}
 
 					var note = data.note - 21;
@@ -549,7 +542,7 @@ function init() {
 						blendBox.style.background = HSLArrayToString(blendColor);
 						var highlights = highlightVertices(activeNotes, blendColor, offsetColors.primary);
 						var vertexColorMap = mapColorsToVertices(highlights);
-						updateMesh(vertexColorMap);
+						updateMesh(mesh, vertexColorMap);
 					}
 
 					// var cd = channels[data.channel];
@@ -590,24 +583,19 @@ function init() {
 	function displaceVertex(note, dz) {
 		var n = ((note + 9) % 12);
 
-		scene.traverse( function( node ) {
+		var mesh = scene.getObjectByName( "tonnetz" );
 
-		    if ( node instanceof THREE.Mesh ) {
-		    	for (var v = 0; v < vertexKey.length; v++) {
-						if (vertexKey[v] == n) {
-							var oldVert = node.geometry.vertices[v];
-							// var newVert = new THREE.Vector3(oldVert.x, oldVert.y, 100);
-							node.geometry.vertices[v].set(oldVert.x, oldVert.y, dz);
-							node.geometry.__dirtyVertices = true;
-							node.geometry.dynamic = true;
-							node.geometry.verticesNeedUpdate = true;
-							animate();
-						}
-					}
-		    }
-		} );
-
-		
+		for (var v = 0; v < vertexKey.length; v++) {
+			if (vertexKey[v] == n) {
+				var oldVert = mesh.geometry.vertices[v];
+				// var newVert = new THREE.Vector3(oldVert.x, oldVert.y, 100);
+				mesh.geometry.vertices[v].set(oldVert.x, oldVert.y, dz);
+				mesh.geometry.__dirtyVertices = true;
+				mesh.geometry.dynamic = true;
+				mesh.geometry.verticesNeedUpdate = true;
+				animate();
+			}
+		}
 
 	}
 	function buildDisplacementMap(activeColors) {
