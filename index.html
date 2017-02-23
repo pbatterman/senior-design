@@ -146,11 +146,7 @@ function init() {
 		    wireframe: true
 		});
 
-		var dMap = new Array(7);
-			for (var i = 0; i < 7; i++) {
-			  	dMap[i] = new Array(6).fill(0);
-			}
-   	var geometry = buildTonnetzGeometry(colorMap, dMap);
+   	var geometry = buildTonnetzGeometry(colorMap);
 
 	var mesh = new THREE.Mesh( geometry, material );
 	mesh.name = "tonnetz";
@@ -511,7 +507,7 @@ function init() {
 
 		for (var v = 0; v < vertexKey.length; v++) {
 			if (vertexKey[v] == n) {
-				mesh.geometry.vertices[v].z = dz;
+				mesh.geometry.vertices[v].position.z = dz;
 				mesh.geometry.__dirtyVertices = true;
 				mesh.geometry.dynamic = true;
 				mesh.verticesNeedUpdate = true;
