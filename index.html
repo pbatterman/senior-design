@@ -507,13 +507,15 @@ function init() {
 
 		for (var v = 0; v < vertexKey.length; v++) {
 			if (vertexKey[v] == n) {
-				console.log("va: " + mesh.geometry.vertices[v]);
+
+				console.log(mesh.geometry.vertices[v]);
+				console.log("--");
 				mesh.geometry.vertices[v].z = 100;
 				mesh.geometry.__dirtyVertices = true;
 				mesh.geometry.dynamic = true;
 				mesh.verticesNeedUpdate = true;
 				animate();
-				console.log("vb: " + mesh.geometry.vertices[v]);
+				console.log(mesh.geometry.vertices[v]);
 			}
 		}
 
