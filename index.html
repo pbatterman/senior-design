@@ -75,7 +75,7 @@
 	};
 
 	// Threejs
-	var scene, camera, renderer, noteVertices, vertexColors, vertexKey, displacementMap;
+	var scene, camera, renderer, noteVertices, vertexColors, vertexKey;
 
 	function setup() {
 		noteVertices = new Array(7);
@@ -103,11 +103,6 @@
 		noteVertices[3][5] = 0;
 
 		vertexKey = [];
-
-		displacementMap = new Array(7);
-		for (var i = 0; i < 7; i++) {
-			displacementMap[i] = new Array(6).fill(0);
-		}
 	}
 
 	setup();
@@ -145,14 +140,13 @@ function init() {
 
    	var colorMap = mapColorsToVertices();
 
-		var material = new THREE.MeshBasicMaterial( { 
+	var material = new THREE.MeshBasicMaterial( { 
 		    shading: THREE.FlatShading,
 		    vertexColors: THREE.VertexColors,
 		    wireframe: true
 		});
 
-
-  var geometry = buildTonnetzGeometry(colorMap);
+   	var geometry = buildTonnetzGeometry(colorMap);
 
 	var mesh = new THREE.Mesh( geometry, material );
 	mesh.name = "tonnetz";
@@ -171,25 +165,14 @@ function init() {
 
 	function updateMesh(mesh, colorMap) {
 		var newGeometry = buildTonnetzGeometry(colorMap);
-		scene.remove(mesh);
-		mesh.dispose(); 
-		geometry.dispose();
-		material.dispose();
-		texture.dispose();
-		// mesh.geometry.dynamic = true;
-		var material = new THREE.MeshBasicMaterial( { 
-		    shading: THREE.FlatShading,
-		    vertexColors: THREE.VertexColors,
-		    wireframe: true
-		});
+		mesh.geometry.dynamic = true;
 
-		var newMesh = new THREE.Mesh( newGeometry, material );
-		newMesh.name = "tonnetz";
-		scene.add(newMesh);
+		for (var f = 0; f < newGeometry.faces.length; f++) {
+			mesh.geometry.faces[ f ].vertexColors[ 0 ].copy(newGeometry.faces[f].vertexColors[0]);
+		}
+
+		mesh.geometry.colorsNeedUpdate = true;
 		animate();
-		// for (var f = 0; f < newGeometry.faces.length; f++) {
-		// 	mesh.geometry.faces[ f ].vertexColors[ 0 ].copy(newGeometry.faces[f].vertexColors[0]);
-		// }
 	}
 
 	function buildTonnetzGeometry(colorMap) {
@@ -199,7 +182,9 @@ function init() {
 
 	   	for (var y = 0; y < 6; y++) {
 	   		for (var x = 0; x < 7; x++) {
-	   			var vertex = new THREE.Vector3(100*x + 50*y, 100*y, this.displacementMap[x][y]);
+	   			var dz = 0;
+	   			if (x == 4) { dz = 100;}
+	   			var vertex = new THREE.Vector3(100*x + 50*y, 100*y, dz);
 	   			geometry.vertices.push(vertex);
 	   			vertexKey.push(noteVertices[x][y]);
 	   			var col = HSLArrayToString(colorMap[x][y]);
@@ -473,13 +458,13 @@ function init() {
 							numNotes++;
 							d.style.background = HSLArrayToString(colorset[note]);
 							activeNotes[note] = colorset[note];
-							// displaceVertex(note, 100);
+							displaceVertex(note, 100);
 						} else {
 							numNotes--;
 							numNotes = Math.max(numNotes, 0);
 							d.style.background = "";
 							activeNotes[note] = 0;
-							// displaceVertex(note, 0);
+							displaceVertex(note, 0);
 						}
 						
 						var blendColor;
@@ -487,7 +472,6 @@ function init() {
 						blendBox.style.background = HSLArrayToString(blendColor);
 						var highlights = highlightVertices(activeNotes, offsetColors.primary);
 						var vertexColorMap = mapColorsToVertices(highlights);
-						buildDisplacementMap(activeNotes);
 						updateMesh(mesh, vertexColorMap);
 					}
 
@@ -527,18 +511,23 @@ function init() {
 
 		for (var v = 0; v < vertexKey.length; v++) {
 			if (vertexKey[v] == n) {
-
-				mesh.geometry.vertices[v].z = dz;
+				var oldVert = mesh.geometry.vertices[v];
+				var newVert = new THREE.Vector3(oldVert.x, oldVert.y, dz);
+				mesh.geometry.vertices[v] = newVert;
+				mesh.geometry.__dirtyVertices = true;
+				mesh.geometry.dynamic = true;
 				mesh.verticesNeedUpdate = true;
+				mesh.geometry.attributes.position.needsUpdate = true;
+				animate();
 			}
 		}
 
 	}
 	function buildDisplacementMap(activeColors) {
 		var dz = 100;
-		displacementMap = new Array(7);
+		var dMap = new Array(7);
 		for (var i = 0; i < 7; i++) {
-		  	displacementMap[i] = new Array(6).fill(0);
+		  	dMap[i] = new Array(6).fill(0);
 		}
 
 		var notesToMove = [];
@@ -554,11 +543,13 @@ function init() {
 			for (var x = 0; x < 7; x++) {
 				for (var y = 0; y < 6; y++) {
 					if (noteVertices[x][y] == notesToMove[n]) {
-						displacementMap[x][y] = dz;
+						dMap[x][y] = dz;
 					}
 				}
 			}
 		}
+
+		return dMap;
 	}
 
 
