@@ -123,13 +123,13 @@
 			2: [ 60, 100, 52 ], // 2 D
 			3: [ 270, 100, 50 ], // 9 A
 			4: [ 120, 100, 60 ], // 4 E
-			5: [ 330, 100, 46 ] // 11 B 
+			5: [ 330, 100, 46 ], // 11 B 
 			6: [ 180, 100, 34 ], // 6 Gb
 			7: [ 30, 100, 51 ], // 1 Db
 			8: [ 240, 100, 27 ], // 8 Ab
 			9: [ 90, 100, 60 ], // 3 Eb
 			10: [ 300, 100, 37 ], // 10 Bb
-			11: [ 150, 100, 32 ], // 5 F
+			11: [ 150, 100, 32 ] // 5 F
 		};
 
 		var secondaryColors = { //offset by half from primary for testing
@@ -240,7 +240,6 @@ function init() {
 	    // Render the scene.
 	    renderer.render(scene, camera);
 	    controls.update();
-	    console.log(camera.position);
 	}
 
 	function updateMesh(mesh, colorMap) {
