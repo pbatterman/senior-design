@@ -690,6 +690,9 @@ function init() {
 
 
 	function colorSolidMesh(blendColor) {
+		if (!blendColor) {
+			blendColor = [0, 0, 30];
+		}
 		var mesh = scene.getObjectByName("solidMesh");
 		var h = blendColor[0] / 360.0;
 		var s = blendColor[1] / 100.0;
