@@ -668,7 +668,8 @@ function init() {
 		for (var f = 0; f < mesh.geometry.faces.length; f++) {
 			mesh.geometry.faces[ f ].color.setHSL(h, s, l);
 		}
-
+		mesh.geometry.colorsNeedUpdate = true;
+		animate();
 	}
 
 	// highlight active notes
@@ -695,14 +696,19 @@ function init() {
 		var n = ((note + 9) % 12);
 
 		var mesh = scene.getObjectByName( "tonnetz" );
+		var solidMesh = scene.getObjectByName("solidMesh");
 
 		for (var v = 0; v < vertexKey.length; v++) {
 			if (vertexKey[v] == n) {
 				var oldVert = mesh.geometry.vertices[v];
-				// var newVert = new THREE.Vector3(oldVert.x, oldVert.y, 100);
+
 				mesh.geometry.vertices[v].set(oldVert.x, oldVert.y, dz);
 				mesh.geometry.dynamic = true;
 				mesh.geometry.verticesNeedUpdate = true;
+
+				solidMesh.geometry.vertices[v].set(oldVert.x, oldVert.y, dz);
+				solidMesh.geometry.dynamic = true;
+				solidMesh.geometry.verticesNeedUpdate = true;
 				animate();
 			}
 		}
