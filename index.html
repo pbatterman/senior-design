@@ -133,7 +133,7 @@
   } );
 
 	// Threejs
-	var scene, camera, renderer, noteVertices, vertexColors, vertexKey;
+	var scene, camera, renderer, noteVertices, vertexColors, vertexKey, cacheVertexColors;
 
 	var primaryColors, secondaryColors;
 
@@ -328,7 +328,7 @@ function init() {
 		for (var f = 0; f < newGeometry.faces.length; f++) {
 			mesh.geometry.faces[ f ].vertexColors[ 0 ].copy(newGeometry.faces[f].vertexColors[0]);
 		}
-
+		console.log(mesh.geometry);
 		mesh.geometry.colorsNeedUpdate = true;
 		animate();
 	}
@@ -348,6 +348,7 @@ function init() {
 	   			vertexColors.push(vertColor);
 	   		}
 	   	}
+	   	cacheVertexColors = JSON.parse(JSON.stringify(vertexColors)); 
 
 	   	for (var v = 0; v < geometry.vertices.length - 1; v++) {
 	   		// first row
@@ -664,6 +665,8 @@ function init() {
 		}
 
 	}
+
+
 	function buildDisplacementMap(activeColors) {
 		var dz = 100;
 		var dMap = new Array(7);
