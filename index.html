@@ -324,7 +324,7 @@ function init() {
 	function cacheVertexColors(geometry) {
 		vertexColorCache = [];
 		for (var f = 0; f < geometry.faces.length; f++) {
-			vertexColorCache.push(mesh.geometry.faces[ f ].vertexColors[ 0 ]);
+			vertexColorCache.push(geometry.faces[ f ].vertexColors[ 0 ]);
 		}
 
 		console.log(vertexColorCache);
