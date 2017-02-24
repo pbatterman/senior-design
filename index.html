@@ -133,7 +133,7 @@
   } );
 
 	// Threejs
-	var scene, camera, renderer, noteVertices, vertexColors, vertexKey, cacheVertexColors;
+	var scene, camera, renderer, noteVertices, vertexColors, vertexKey, vertexColorCache;
 
 	var primaryColors, secondaryColors;
 
@@ -302,7 +302,7 @@ function init() {
 		});
 
    	var geometry = buildTonnetzGeometry(colorMap);
-
+   	cacheVertexColors(geometry);
 
 	var mesh = new THREE.Mesh( geometry, material );
 
@@ -321,14 +321,35 @@ function init() {
 
 	}
 
-	function updateMesh(mesh, colorMap) {
-		var newGeometry = buildTonnetzGeometry(colorMap);
-		mesh.geometry.dynamic = true;
-
-		for (var f = 0; f < newGeometry.faces.length; f++) {
-			mesh.geometry.faces[ f ].vertexColors[ 0 ].copy(newGeometry.faces[f].vertexColors[0]);
+	function cacheVertexColors(geometry) {
+		vertexColorCache = [];
+		for (var f = 0; f < geometry.faces.length; f++) {
+			vertexColorCache.push(mesh.geometry.faces[ f ].vertexColors[ 0 ]);
 		}
-		console.log(mesh.geometry);
+
+		console.log(vertexColorCache);
+	}
+
+	function updateMesh(mesh, colorOffset) {
+		// var newGeometry = buildTonnetzGeometry(colorMap);
+		// mesh.geometry.dynamic = true;
+		var cacheCopy = JSON.parse(JSON.stringify(vertexColorCache));
+
+		if (colorOffset != 0) {
+			for (var i = 0; i < cacheCopy.length; i++) {
+				var col = cacheCopy[i];
+				col[0] = (col[0] + colorOffset) % 360;
+				cacheCopy[i] = col;
+			}
+		}
+		
+
+		var cIdx = 0;
+		for (var f = 0; f < newGeometry.faces.length; f++) {
+			mesh.geometry.faces[ f ].vertexColors[ 0 ].copy(cacheCopy[cIdx]);
+			cIdx++;
+		}
+
 		mesh.geometry.colorsNeedUpdate = true;
 		animate();
 	}
@@ -348,7 +369,6 @@ function init() {
 	   			vertexColors.push(vertColor);
 	   		}
 	   	}
-	   	cacheVertexColors = JSON.parse(JSON.stringify(vertexColors)); 
 
 	   	for (var v = 0; v < geometry.vertices.length - 1; v++) {
 	   		// first row
@@ -572,8 +592,8 @@ function init() {
 						sAngleOffset = currSOffset;
 						getOffsetColors(pAngleOffset, sAngleOffset);
 						allColors = getColorMap();
-						var vertexColorMap = mapColorsToVertices(primaryColors);
-						updateMesh(mesh, vertexColorMap);
+						// var vertexColorMap = mapColorsToVertices(primaryColors);
+						updateMesh(mesh, pAngleOffset);
 					}
 
 					var note = data.note - 21;
