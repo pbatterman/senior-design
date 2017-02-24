@@ -302,12 +302,14 @@ function init() {
 		});
 
    	var geometry = buildTonnetzGeometry(colorMap);
-   	cacheVertexColors(geometry);
 
 	var mesh = new THREE.Mesh( geometry, material );
 
 	mesh.name = "tonnetz";
 	scene.add(mesh);
+
+	   	cacheVertexColors(mesh);
+
 
  	controls = new THREE.OrbitControls(camera, renderer.domElement);
 }
@@ -321,10 +323,10 @@ function init() {
 
 	}
 
-	function cacheVertexColors(geometry) {
+	function cacheVertexColors(mesh) {
 		vertexColorCache = [];
-		for (var f = 0; f < geometry.faces.length; f++) {
-			vertexColorCache.push(geometry.faces[ f ].vertexColors[ 0 ]);
+		for (var f = 0; f < mesh.geometry.faces.length; f++) {
+			vertexColorCache.push(mesh.geometry.faces[ f ].vertexColors[ 0 ]);
 		}
 
 		console.log(vertexColorCache);
