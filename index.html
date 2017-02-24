@@ -473,10 +473,16 @@ function init() {
 		}
 		this.currentNoteOrder = customNoteOrder;
 		if($("#outerCheckbox").is(':checked')) {
+			console.log("outer check");
 			setColorRing(customNoteOrder, 0);
-		}
-		    
+
+			if ($("#innerCheckbox").is(':checked')) {
+				console.log("inner check");
+			  setColorRing(customNoteOrder, 1);
+			}
+		}    
 		else if ($("#innerCheckbox").is(':checked')) {
+			console.log("inner check");
 		  setColorRing(customNoteOrder, 1);
 		}
 		else {
