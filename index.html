@@ -389,7 +389,7 @@ function init() {
 	   		// first row
 	   		if ( v < 6 ) {
 	   			var face1 = new THREE.Face3( v, v+1, v+7 );
-	   			
+	   			face1.normal.set(0,0,1);
 	   			if (hasVertexColors) {
 	   				face1.vertexColors[0] = vertexColors[v];
 						face1.vertexColors[1] = vertexColors[v+1];
@@ -405,7 +405,7 @@ function init() {
 	   		// middle rows
 	   		else if (( v > 6 && v < 13 ) || (v > 13 && v < 20) || (v > 20 && v < 27) || (v > 27 && v < 34)) {
 	   			var face0 = new THREE.Face3( v-6, v+1, v);
-	   			
+	   			face0.normal.set(0,0,1);
 	   			if (hasVertexColors) {
 		   			face0.vertexColors[0] = vertexColors[v-6];
 						face0.vertexColors[1] = vertexColors[v+1];
@@ -418,7 +418,7 @@ function init() {
 	   			geometry.faces.push( face0 );
 	   			
 	   			var face1 = new THREE.Face3( v, v+1, v+7 );
-
+	   			face1.normal.set(0,0,1);
 	   			if (hasVertexColors) {
 		   			face1.vertexColors[0] = vertexColors[v];
 						face1.vertexColors[1] = vertexColors[v+1];
@@ -432,7 +432,7 @@ function init() {
 			}
 	   		else if (v > 34 && v < 41) {
 	   			var face0 = new THREE.Face3( v-6, v+1, v);
-	   			
+	   			face0.normal.set(0,0,1);
 	   			if (hasVertexColors) {
 		   			face0.vertexColors[0] = vertexColors[v-6];
 						face0.vertexColors[1] = vertexColors[v+1];
