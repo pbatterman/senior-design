@@ -171,9 +171,13 @@ background: linear-gradient(to right, rgba(0,0,0,1) 0%,rgba(125,185,232,0) 50%);
     margin-right: -10%;
 }
 
+.modal-body {
+	height: 250px;
+}
+
 #sortableGradient {
-	height: 210px;
-	margin-top: 5px;
+	height: 220px;
+	margin-top: 3px;
 }
 
 #sortableTip {
