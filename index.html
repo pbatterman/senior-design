@@ -301,12 +301,24 @@ function init() {
 		    wireframe: true
 		});
 
+	var solidMaterial = new THREE.MeshLambertMaterial({
+        polygonOffset: true,  
+        polygonOffsetUnits: 1,
+        polygonOffsetFactor: 1,
+        color: "white",
+        vertexColors: THREE.FaceColors
+    });
+
    	var geometry = buildTonnetzGeometry(colorMap);
 
 	var mesh = new THREE.Mesh( geometry, material );
 
 	mesh.name = "tonnetz";
 	scene.add(mesh);
+
+	var solidMesh = new THREE.Mesh( geometry, solidMaterial );
+	solidMesh.name = "solidMesh";
+	scene.add(solidMesh)
 
 	cacheVertexColors(mesh);
 
@@ -328,16 +340,12 @@ function init() {
 		vertexColorCache = [];
 		for (var f = 0; f < mesh.geometry.faces.length; f++) {
 			var faceCol = mesh.geometry.faces[ f ].vertexColors[ 0 ].getHSL();
-			console.log(faceCol);
 			var h = faceCol.h * 360;
-			console.log(h);
 			vertexColorCache.push(h);
 		}
 	}
 
 	function updateMesh(mesh, colorOffset) {
-		// var newGeometry = buildTonnetzGeometry(colorMap);
-		// mesh.geometry.dynamic = true;
 		
 		if (colorOffset != 0) {
 			var cacheCopy = vertexColorCache.slice();
@@ -632,8 +640,7 @@ function init() {
 						var blendColor;
 						blendColor = blendColors(activeNotes);
 						blendBox.style.background = HSLArrayToString(blendColor);
-						var highlights = highlightVertices(activeNotes, blendColor, offsetColors.primary);
-						var vertexColorMap = mapColorsToVertices(highlights);
+						colorSolidMesh(blendColor);
 						updateMesh(mesh, pAngleOffset);
 					}
 
@@ -651,6 +658,18 @@ function init() {
 			}
 		});
 });
+
+
+	function colorSolidMesh(blendColor) {
+		var mesh = scene.getObjectByName("solidMesh");
+		var h = blendColor[0] / 360.0;
+		var s = blendColor[1] / 100.0;
+		var l = blendColor[2] / 100.0;
+		for (var f = 0; f < mesh.geometry.faces.length; f++) {
+			mesh.geometry.faces[ f ].color.setHSL(h, s, l);
+		}
+
+	}
 
 	// highlight active notes
 	function highlightVertices(activeColors, blendColor, colorset) {
