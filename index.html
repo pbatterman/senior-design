@@ -63,7 +63,7 @@
 		<div id="colorController">
 			<div id="sliders">
 				<label class="angleInputLabel">Outer</label>
-				<input type="range" min="0" max="360" class="angleInput" id="primaryAngle">
+				<input type="range" min="0" max="360" class="angleInput" id="primaryAngle"><br>
 				<label class="angleInputLabel">Inner</label>
 				<input type="range" min="0" max="360" class="angleInput" id="secondaryAngle">
 				<div id="ringButtons">
@@ -276,7 +276,7 @@ function init() {
     var dir = new THREE.Vector3(0.86789925799970922, 0.8399987615915472, -0.5383231084649841);
     var pos = new THREE.Vector3(532, -505, 413);
 		camera.lookAt(dir + pos);
-		
+
     scene.add(camera);
     
 
