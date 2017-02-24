@@ -308,7 +308,7 @@ function init() {
 	mesh.name = "tonnetz";
 	scene.add(mesh);
 
-	   	cacheVertexColors(mesh);
+	cacheVertexColors(mesh);
 
 
  	controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -327,6 +327,7 @@ function init() {
 		vertexColorCache = [];
 		for (var f = 0; f < mesh.geometry.faces.length; f++) {
 			vertexColorCache.push(mesh.geometry.faces[ f ].vertexColors[ 0 ]);
+			console.log(mesh.geometry.faces[ f ].vertexColors[ 0 ]);
 		}
 
 		console.log(vertexColorCache);
@@ -632,7 +633,7 @@ function init() {
 						blendBox.style.background = HSLArrayToString(blendColor);
 						var highlights = highlightVertices(activeNotes, blendColor, offsetColors.primary);
 						var vertexColorMap = mapColorsToVertices(highlights);
-						updateMesh(mesh, vertexColorMap);
+						updateMesh(mesh, pAngleOffset);
 					}
 
 					// var cd = channels[data.channel];
