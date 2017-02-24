@@ -305,18 +305,20 @@ function init() {
         polygonOffset: true,  
         polygonOffsetUnits: 1,
         polygonOffsetFactor: 1,
-        color: "white",
+        shading: THREE.FlatShading,
         vertexColors: THREE.FaceColors
     });
 
-   	var geometry = buildTonnetzGeometry(colorMap);
+   	var geometry = buildTonnetzGeometry(colorMap, true);
+
+   	var solidGeometry = buildTonnetzGeometry(colorMap, false);
 
 	var mesh = new THREE.Mesh( geometry, material );
 
 	mesh.name = "tonnetz";
 	scene.add(mesh);
 
-	var solidMesh = new THREE.Mesh( geometry, solidMaterial );
+	var solidMesh = new THREE.Mesh( solidGeometry, solidMaterial );
 	solidMesh.name = "solidMesh";
 	scene.add(solidMesh)
 
@@ -367,7 +369,7 @@ function init() {
 		
 	}
 
-	function buildTonnetzGeometry(colorMap) {
+	function buildTonnetzGeometry(colorMap, hasVertexColors) {
 		var geometry = new THREE.Geometry();
 	   	vertexColors = [];
 	   	vertexKey = [];
@@ -388,31 +390,55 @@ function init() {
 	   		if ( v < 6 ) {
 	   			var face1 = new THREE.Face3( v, v+1, v+7 );
 	   			
-	   			face1.vertexColors[0] = vertexColors[v];
-					face1.vertexColors[1] = vertexColors[v+1];
-					face1.vertexColors[2] = vertexColors[v+7];
+	   			if (hasVertexColors) {
+	   				face1.vertexColors[0] = vertexColors[v];
+						face1.vertexColors[1] = vertexColors[v+1];
+						face1.vertexColors[2] = vertexColors[v+7];
+	   			}
+	   			else {
+	   				face1.color.setHSL(0, 0, 0.3);
+	   			}
+	   			
 
 					geometry.faces.push( face1 );
 	   		}
 	   		// middle rows
 	   		else if (( v > 6 && v < 13 ) || (v > 13 && v < 20) || (v > 20 && v < 27) || (v > 27 && v < 34)) {
 	   			var face0 = new THREE.Face3( v-6, v+1, v);
-	   			face0.vertexColors[0] = vertexColors[v-6];
-				face0.vertexColors[1] = vertexColors[v+1];
-				face0.vertexColors[2] = vertexColors[v];
+	   			
+	   			if (hasVertexColors) {
+		   			face0.vertexColors[0] = vertexColors[v-6];
+						face0.vertexColors[1] = vertexColors[v+1];
+						face0.vertexColors[2] = vertexColors[v];
+					else {
+	   				face0.color.setHSL(0, 0, 0.3);
+	   			}
+
 	   			geometry.faces.push( face0 );
 	   			
 	   			var face1 = new THREE.Face3( v, v+1, v+7 );
-	   			face1.vertexColors[0] = vertexColors[v];
-				face1.vertexColors[1] = vertexColors[v+1];
-				face1.vertexColors[2] = vertexColors[v+7];
-				geometry.faces.push( face1 );
+
+	   			if (hasVertexColors) {
+		   			face1.vertexColors[0] = vertexColors[v];
+						face1.vertexColors[1] = vertexColors[v+1];
+						face1.vertexColors[2] = vertexColors[v+7];
+					else {
+	   				face1.color.setHSL(0, 0, 0.3);
+	   			}
+
+					geometry.faces.push( face1 );
 			}
 	   		else if (v > 34 && v < 41) {
 	   			var face0 = new THREE.Face3( v-6, v+1, v);
-	   			face0.vertexColors[0] = vertexColors[v-6];
-				face0.vertexColors[1] = vertexColors[v+1];
-				face0.vertexColors[2] = vertexColors[v];
+	   			
+	   			if (hasVertexColors) {
+		   			face0.vertexColors[0] = vertexColors[v-6];
+						face0.vertexColors[1] = vertexColors[v+1];
+						face0.vertexColors[2] = vertexColors[v];
+					else {
+	   				face0.color.setHSL(0, 0, 0.3);
+	   			}
+
 	   			geometry.faces.push( face0 );
 	   		}
 	   		else {
