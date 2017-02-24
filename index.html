@@ -511,6 +511,10 @@ function init() {
 
 	function resetColorWheel(noteOrder) {
 		resetColors(noteOrder);
+		primaryHolder.select("image")
+		.attr("xlink:href", "images/circle_fifths_wheel.png")
+		secondaryHolder.select("image")
+		.attr("xlink:href", "images/circle_fifths_wheel_minor.png")
 		updateAngle(0, 0);
 		updateAngle(15, 1);
 	}
@@ -530,22 +534,34 @@ function init() {
 	function customRing() {
 		var sortedNotes = $( "#sortable" ).sortable( "toArray" );
 		var customNoteOrder = [];
+		var cRotate = 0;
 		for (var i = 0; i < sortedNotes.length; i++) {
 			customNoteOrder.push(parseInt(sortedNotes[i]));
+			if (parseInt(sortedNotes[i]) == 0) {
+				cRotate = i;
+			}
 		}
 		this.currentNoteOrder = customNoteOrder;
 		if($("#outerCheckbox").is(':checked')) {
-			console.log("outer check");
-			setColorRing(customNoteOrder, 0);
+			primaryHolder.select("image")
+			.attr("transform", "rotate(" + (cRotate*30) + "," + (wheelX + wheelWidth/2) + ","+ (wheelY+wheelHeight/2) +")")
+			.attr("xlink:href", "images/c_wheel_outer.png")
 
+			setColorRing(customNoteOrder, 0);
 			if ($("#innerCheckbox").is(':checked')) {
-				console.log("inner check");
+
+				secondaryHolder.select("image")
+				.attr("transform", "rotate(" + (cRotate*30) + "," + (wheelX + wheelWidth/2) + ","+ (wheelY+wheelHeight/2) +")")
+				.attr("xlink:href", "images/c_wheel_inner.png")
 			  setColorRing(customNoteOrder, 1);
 			}
 		}    
 		else if ($("#innerCheckbox").is(':checked')) {
-			console.log("inner check");
-		  setColorRing(customNoteOrder, 1);
+
+		  secondaryHolder.select("image")
+				.attr("transform", "rotate(" + (cRotate*30) + "," + (wheelX + wheelWidth/2) + ","+ (wheelY+wheelHeight/2) +")")
+				.attr("xlink:href", "images/c_wheel_inner.png")
+			  setColorRing(customNoteOrder, 1);
 		}
 		else {
 			alert('No ring specified! Reverting to default.');
