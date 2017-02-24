@@ -542,25 +542,27 @@ function init() {
 			}
 		}
 		this.currentNoteOrder = customNoteOrder;
+		console.log("cr " + cRotate);
 		if($("#outerCheckbox").is(':checked')) {
 			primaryHolder.select("image")
-			.attr("transform", "rotate(" + (cRotate*30) + "," + (wheelX + wheelWidth/2) + ","+ (wheelY+wheelHeight/2) +")")
 			.attr("xlink:href", "images/c_wheel_outer.png")
+			.attr("transform", "rotate(" + (cRotate*30) + "," + (wheelX + wheelWidth/2) + ","+ (wheelY+wheelHeight/2) +")")
+
 
 			setColorRing(customNoteOrder, 0);
 			if ($("#innerCheckbox").is(':checked')) {
 
 				secondaryHolder.select("image")
-				.attr("transform", "rotate(" + (cRotate*30) + "," + (wheelX + wheelWidth/2) + ","+ (wheelY+wheelHeight/2) +")")
 				.attr("xlink:href", "images/c_wheel_inner.png")
+				.attr("transform", "rotate(" + (cRotate*30) + "," + (wheelX + wheelWidth/2) + ","+ (wheelY+wheelHeight/2) +")")
 			  setColorRing(customNoteOrder, 1);
 			}
 		}    
 		else if ($("#innerCheckbox").is(':checked')) {
 
 		  secondaryHolder.select("image")
-				.attr("transform", "rotate(" + (cRotate*30) + "," + (wheelX + wheelWidth/2) + ","+ (wheelY+wheelHeight/2) +")")
 				.attr("xlink:href", "images/c_wheel_inner.png")
+				.attr("transform", "rotate(" + (cRotate*30) + "," + (wheelX + wheelWidth/2) + ","+ (wheelY+wheelHeight/2) +")")
 			  setColorRing(customNoteOrder, 1);
 		}
 		else {
