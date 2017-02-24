@@ -88,7 +88,11 @@
 			        <h4 class="modal-title" id="myModalLabel">Custom Note Order</h4>
 			      </div>
 			      <div class="modal-body">
-			      	<div class="col-xs-4" id="sortableTip">Drag notes to re-order</div>
+			      	<div class="col-xs-4" id="sortableTip">
+			      		Drag notes to re-order
+			      		<label><input type="checkbox" id="outerCheckbox" value="outer_checkbox"> Outer Ring</label><br>
+			      		<label><input type="checkbox" id="innerCheckbox" value="inner_checkbox"> Inner Ring</label><br>
+			      	</div>
 			      	<div class="col-xs-4">
 				      	<ul id="sortable">
 								  <li id="0" class="sortNote">C</li>
@@ -110,8 +114,8 @@
 							</div>
 			      </div>
 			      <div class="modal-footer">
-			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			        <button type="button" class="btn btn-primary" onclick="customRing(0)">Save</button>
+			        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+			        <button type="button" class="btn btn-primary btn-sm" onclick="customRing()">Save</button>
 			      </div>
 			    </div>
 			  </div>
@@ -448,11 +452,38 @@ function init() {
 		updateAngle(15, 1);
 	}
 
-	function customRing(id) {
-		if (id == 0) {
-			var sortedIDs = $( "#sortable" ).sortable( "toArray" );
-			console.log(sortedIDs);
+	// set individual ring and return to 0 rotation
+	function setColorRing(noteOrder, ring) {
+		if (ring == 0) { // primary
+			primaryColors = setColors(noteOrder);
+			updateAngle(0, 0);
 		}
+		else { // secondary
+			secondaryColors = setColors(noteOrder);
+			updateAngle(0, 1);
+		}
+	}
+
+	function customRing() {
+		var sortedNotes = $( "#sortable" ).sortable( "toArray" );
+		console.log(sortedNotes);
+		var customNoteOrder = [];
+		for (var i = 0; i < sortedNotes.length; i++) {
+			customNoteOrder.push(parseInt(sortedNotes[i]));
+		}
+		this.currentNoteOrder = customNoteOrder;
+		if($("#outerCheckbox").is(':checked')) {
+			setColorRing(customNoteOrder, 0);
+		}
+		    
+		else if ($("#innerCheckbox").is(':checked')) {
+		  setColorRing(customNoteOrder, 1);
+		}
+		else {
+			alert('No ring specified! Reverting to default.');
+			resetColorWheel(fifthsOrder);
+		}
+		console.log(currentNoteOrder);
 	}
 
 	// Toggle between Pause and Play modes.
