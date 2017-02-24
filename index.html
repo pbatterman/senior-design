@@ -335,25 +335,25 @@ function init() {
 	function updateMesh(mesh, colorOffset) {
 		// var newGeometry = buildTonnetzGeometry(colorMap);
 		// mesh.geometry.dynamic = true;
-		var cacheCopy = JSON.parse(JSON.stringify(vertexColorCache));
-
+		
 		if (colorOffset != 0) {
+			var cacheCopy = JSON.parse(JSON.stringify(vertexColorCache));
+
 			for (var i = 0; i < cacheCopy.length; i++) {
 				var col = cacheCopy[i];
 				col[0] = (col[0] + colorOffset) % 360;
 				cacheCopy[i] = col;
 			}
+			var cIdx = 0;
+			for (var f = 0; f < mesh.geometry.faces.length; f++) {
+				mesh.geometry.faces[ f ].vertexColors[ 0 ].copy(cacheCopy[cIdx]);
+				cIdx++;
+			}
+
+			mesh.geometry.colorsNeedUpdate = true;
+			animate();
 		}
 		
-
-		var cIdx = 0;
-		for (var f = 0; f < mesh.geometry.faces.length; f++) {
-			mesh.geometry.faces[ f ].vertexColors[ 0 ].copy(cacheCopy[cIdx]);
-			cIdx++;
-		}
-
-		mesh.geometry.colorsNeedUpdate = true;
-		animate();
 	}
 
 	function buildTonnetzGeometry(colorMap) {
