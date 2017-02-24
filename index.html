@@ -328,6 +328,7 @@ function init() {
 		vertexColorCache = [];
 		for (var f = 0; f < mesh.geometry.faces.length; f++) {
 			var faceCol = mesh.geometry.faces[ f ].vertexColors[ 0 ].getHSL();
+			console.log(faceCol);
 			var h = faceCol.h * 360;
 			console.log(h);
 			vertexColorCache.push(h);
@@ -348,7 +349,7 @@ function init() {
 			}
 			var cIdx = 0;
 			for (var f = 0; f < mesh.geometry.faces.length; f++) {
-				mesh.geometry.faces[ f ].vertexColors[ 0 ].copy(cacheCopy[cIdx]);
+				mesh.geometry.faces[ f ].vertexColors[ 0 ].setHSL(cacheCopy[cIdx], 1.0, 0.5);
 				cIdx++;
 			}
 
@@ -491,7 +492,6 @@ function init() {
 
 	function customRing() {
 		var sortedNotes = $( "#sortable" ).sortable( "toArray" );
-		console.log(sortedNotes);
 		var customNoteOrder = [];
 		for (var i = 0; i < sortedNotes.length; i++) {
 			customNoteOrder.push(parseInt(sortedNotes[i]));
