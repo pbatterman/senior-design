@@ -40,6 +40,12 @@
 	<script src="MIDI.js/examples/inc/colorspace.js" type="text/javascript"></script>
 	<script src="MIDI.js/examples/inc/event.js" type="text/javascript"></script>
 
+	<script src="js/jasmid/stream.js"></script>
+	<script src="js/jasmid/midifile.js"></script>
+	<script src="js/jasmid/replayer.js"></script>
+	<script src="js/jasmid/synth.js"></script>
+	<script src="js/jasmid/audio.js"></script>
+
 </head>
 <body>
 	<div id="colors"></div>
@@ -173,6 +179,25 @@
 			11: [ 60, 100, 52 ] // 2 D
 		};
 
+	function loadRemote(path, callback) {
+			var fetch = new XMLHttpRequest();
+			fetch.open('GET', path);
+			fetch.overrideMimeType("text/plain; charset=x-user-defined");
+			fetch.onreadystatechange = function() {
+				if(this.readyState == 4 && this.status == 200) {
+					/* munge response into a binary string */
+					var t = this.responseText || "" ;
+					var ff = [];
+					var mx = t.length;
+					var scc= String.fromCharCode;
+					for (var z = 0; z < mx; z++) {
+						ff[z] = scc(t.charCodeAt(z) & 255);
+					}
+					callback(ff.join(""));
+				}
+			}
+			fetch.send();
+		}
 
 
 	function setup() {
@@ -201,6 +226,15 @@
 		noteVertices[3][5] = 0;
 
 		vertexKey = [];
+
+		// try midifile parseing
+
+		var srcmidifile = 'music/triads.mid';
+		loadRemote(srcmidifile, function(data) {
+				console.log("midifile read test");
+				mfile = MidiFile(data);
+				console.log(mfile);
+			}
 
 	}
 
@@ -543,7 +577,7 @@ function init() {
 			}
 		}
 		this.currentNoteOrder = customNoteOrder;
-		console.log("cr " + cRotate);
+
 		if($("#outerCheckbox").is(':checked')) {
 			primaryHolder.select("image")
 			.attr("xlink:href", "images/custom_wheel/co"+ cRotate +".png")
@@ -568,7 +602,6 @@ function init() {
 			alert('No ring specified! Reverting to default.');
 			resetColorWheel(fifthsOrder);
 		}
-		console.log(currentNoteOrder);
 	}
 
 	// Toggle between Pause and Play modes.
