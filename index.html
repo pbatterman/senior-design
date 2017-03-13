@@ -79,7 +79,8 @@
 					</div>
 				</div>
 			</div>
-			
+			<input type='file' accept='image/*' onchange='openFile(event)'><br>
+			<img id='output'>
 			<img id="colorwheel" src="images/colorwheel_hsl.png">
 			<div id="blender"></div>
 
@@ -914,6 +915,19 @@ function init() {
 		else {
 			return 'hsl(0, 0%, 0%)';
 		}
+	}
+
+	var openFile = function(event) {
+    var input = event.target;
+
+    var reader = new FileReader();
+    reader.onload = function(){
+      var dataURL = reader.result;
+      var output = document.getElementById('output');
+      output.src = dataURL;
+    };
+    reader.readAsDataURL(input.files[0]);
+  };
 	}
 
 	function MIDIPlayerPercentage(player) {
