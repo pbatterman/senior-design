@@ -24,7 +24,7 @@ function buildSongStructure(midifile) {
 		notesForStruct[totalTime] = currentNotes.slice();
 
 	}
-	createGeometry(notesForStruct);
+	return createGeometry(notesForStruct);
 }
 
 function createGeometry(noteArray) {
