@@ -1,4 +1,4 @@
-// convert array to threejs vertices for point cloud render
+// convert array to threejs vertices for point cloud rendering
 function createGeometry(noteArray, startTime, totalTime) {
 	var geometry = new THREE.Geometry();
 	var zidx = 0;
