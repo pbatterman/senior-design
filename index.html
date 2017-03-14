@@ -903,6 +903,7 @@ function init() {
 		}
 	}
 
+	var numSongs = 0;
 	var openFile = function(event) {
     var input = event.target;
 
@@ -913,6 +914,7 @@ function init() {
       output.src = dataURL;
       song.push(dataURL);
       console.log(song);
+      numSongs++;
     };
     var uploadFile = reader.readAsDataURL(input.files[0]);
   };
