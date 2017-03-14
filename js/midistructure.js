@@ -3,8 +3,8 @@ function createGeometry(noteArray) {
 	var geometry = new THREE.Geometry();
 
  	for (var eventTime in noteArray) {
- 		for (var note in noteArray[eventTime]) {
- 			console.log(noteArray[eventTime]);
+		var notes = noteArray[eventTime];
+		for (var note in notes) {
  			for (var x = 0; x < 7; x++) {
 				for (var y = 0; y < 6; y++) {
 					if (noteVertices[x][y] == note) {
