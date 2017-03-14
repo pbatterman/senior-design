@@ -12,6 +12,7 @@ function buildSongStructure(midifile) {
 	for (var e = 0; e < events.length; e++) {
 		var noteEvent = events[e];
 		if (noteEvent.type != "channel" || (noteEvent.subtype != "noteOn" && noteEvent.subtype != "noteOff")) continue;
+		if (noteEvent.deltaTime != 0) previousEventTime = totalTime;
 		totalTime += noteEvent.deltaTime;
 		var note = (noteEvent.noteNumber + 9) % 12;
 		if (noteEvent.subtype == "noteOn") {
@@ -24,7 +25,6 @@ function buildSongStructure(midifile) {
 				previousNotes.splice(idx, 1);
 				notesForStruct[totalTime] = previousNotes;
 		}
-		previousEventTime = totalTime;
 
 	}
 	return notesForStruct;
