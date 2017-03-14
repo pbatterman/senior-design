@@ -6,6 +6,7 @@ function buildSongStructure(midifile) {
 
 	var totalTime = 0;
 	var notesForStruct = {};
+	var previousEventTime = 0;
 
 	// if event contains 'noteOn' subtype, add note to an object for each time that an event occurs
 	for (var e = 0; e < events.length; e++) {
@@ -18,15 +19,13 @@ function buildSongStructure(midifile) {
 				notesForStruct[totalTime].push(note);
 		}
 		else if(noteEvent.subtype == "noteOff") {
-			if (!notesForStruct[totalTime]) {
-				notesForStruct[totalTime] = [];
+			var previousNotes = notesForStruct[previousEventTime];
+				var idx = previousNotes.indexOf(note);
+				previousNotes.splice(idx, 1);
+				notesForStruct[totalTime] = previousNotes;
 			}
-			else {
-				var idx = notesForStruct[totalTime].indexOf(note);
-				notesForStruct[totalTime].splice(idx, 1);
-			}
-			
 		}
+		previousEventTime = totalTime;
 
 	}
 	return notesForStruct;
