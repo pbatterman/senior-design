@@ -1,3 +1,24 @@
+// convert array to threejs vertices for point cloud
+function createGeometry(noteArray) {
+	var geometry = new THREE.Geometry();
+
+ 	for (var eventTime in noteArray) {
+ 		for (var note in noteArray[eventTime]) {
+ 			for (var x = 0; x < 7; x++) {
+				for (var y = 0; y < 6; y++) {
+					if (noteVertices[x][y] == note) {
+						// var vertex = new THREE.Vector3(100*x + 50*y, 500 - (100*y), eventTime*0.25);
+						var vertex = new THREE.Vector3(x, y, 0);
+						geometry.vertices.push(vertex);
+					}
+				}
+			}
+ 		}
+ 	}
+
+ 	return geometry;
+}
+
 function buildSongStructure(midifile) {
 	var header = midifile.header;
 	var tracks = midifile.tracks;
@@ -24,26 +45,6 @@ function buildSongStructure(midifile) {
 		notesForStruct[totalTime] = currentNotes.slice();
 
 	}
-	return createGeometry(notesForStruct);
+	var geometry = createGeometry(notesForStruct);
+	return geometry;
 }
-
-// convert array to threejs vertices for point cloud
-function createGeometry(noteArray) {
-	var geometry = new THREE.Geometry();
-
- 	for (var eventTime in noteArray) {
- 		for (var note in noteArray[eventTime]) {
- 			for (var x = 0; x < 7; x++) {
-				for (var y = 0; y < 6; y++) {
-					if (noteVertices[x][y] == note) {
-						// var vertex = new THREE.Vector3(100*x + 50*y, 500 - (100*y), eventTime*0.25);
-						var vertex = new THREE.Vector3(x, y, 0);
-						geometry.vertices.push(vertex);
-					}
-				}
-			}
- 		}
- 	}
-
- 	return geometry;
-	}
