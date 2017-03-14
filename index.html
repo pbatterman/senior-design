@@ -297,7 +297,7 @@ function init() {
 	camera.up = new THREE.Vector3(0,0,1);
   var dir = new THREE.Vector3(0.86789925799970922, 0.8399987615915472, -0.5383231084649841);
   var pos = new THREE.Vector3(532, -505, 413);
-	camera.lookAt(dir + pos);
+	camera.lookAt(0,0,0);
 
   scene.add(camera);
   
@@ -340,11 +340,20 @@ function init() {
 			console.log(mfile);
 
 			var midiGeometry = buildSongStructure(mfile);
-			
-			var pointMaterial = new THREE.PointsMaterial( { color: 0xFFFFFF, size: 20 } )
+			console.log(midiGeometry);
+			var pointMaterial = new THREE.PointsMaterial( { 
+				color: 0xFFFFFF, 
+				size: 20,
+				sizeAttenuation: false } )
 			var dot = new THREE.Points( midiGeometry, pointMaterial );
 			scene.add( dot );
 
+// test cube
+			cube = new THREE.Mesh( new THREE.CubeGeometry( 200, 200, 200 ), new THREE.MeshNormalMaterial() );
+			cube.position.x = 0;
+			cube.position.y = 0;
+			cube.position.z = 0;
+			scene.add(cube);
 			// mesh.name = "tonnetz";
 			// scene.add(mesh);
 			animate();
