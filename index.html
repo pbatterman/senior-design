@@ -341,8 +341,8 @@ function init() {
 
 			var midiGeometry = buildSongStructure(mfile);
 			
-			var dotMaterial = new THREE.PointCloudMaterial( { size: 1, sizeAttenuation: false } );
-			var dot = new THREE.PointCloud( midiGeometry, dotMaterial );
+			var pointMaterial = new new THREE.PointsMaterial( { color: 0xFFFFFF } )
+			var dot = new THREE.Points( midiGeometry, pointMaterial );
 			scene.add( dot );
 
 			// mesh.name = "tonnetz";
