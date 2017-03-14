@@ -40,6 +40,8 @@
 	<script src="MIDI.js/examples/inc/colorspace.js" type="text/javascript"></script>
 	<script src="MIDI.js/examples/inc/event.js" type="text/javascript"></script>
 
+	<script src="js/midistructure.js" type="text/javascript"></script>
+
 
 </head>
 <body>
@@ -225,11 +227,14 @@
 
 		// try midifile parseing
 
-		var srcmidifile = 'music/fur_elise.mid';
+		var srcmidifile = 'music/triads.mid';
 		loadRemote(srcmidifile, function(data) {
 				console.log("midifile read test");
 				mfile = MidiFile(data);
 				console.log(mfile);
+
+				var midiArray = buildSongStructure(mfile);
+				console.log(midiArray);
 			});
 
 	}
