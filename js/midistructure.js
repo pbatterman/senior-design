@@ -12,9 +12,20 @@ function buildSongStructure(midifile) {
 		var noteEvent = events[e];
 		if (noteEvent.type != "channel" || (noteEvent.subtype != "noteOn" && noteEvent.subtype != "noteOff")) continue;
 		totalTime += noteEvent.deltaTime;
+		var note = (noteEvent.noteNumber + 9) % 12;
 		if (noteEvent.subtype == "noteOn") {
 			if (!notesForStruct[totalTime]) notesForStruct[totalTime] = [];
-			notesForStruct[totalTime].push((noteEvent.noteNumber + 9) % 12);
+				notesForStruct[totalTime].push(note);
+		}
+		else if(noteEvent.subtype == "noteOff") {
+			if (!notesForStruct[totalTime]) {
+				notesForStruct[totalTime] = [];
+			}
+			else {
+				var idx = notesForStruct[totalTime].indexOf(note);
+				notesForStruct[totalTime].splice(idx, 1);
+			}
+			
 		}
 
 	}
