@@ -341,10 +341,12 @@ function init() {
 
 			var midiGeometry = buildSongStructure(mfile);
 			
-			var mesh = new THREE.Mesh( midiGeometry, material );
+			var dotMaterial = new THREE.PointCloudMaterial( { size: 1, sizeAttenuation: false } );
+			var dot = new THREE.PointCloud( dotGeometry, dotMaterial );
+			scene.add( dot );
 
-			mesh.name = "tonnetz";
-			scene.add(mesh);
+			// mesh.name = "tonnetz";
+			// scene.add(mesh);
 			animate();
 
 
