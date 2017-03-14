@@ -16,13 +16,12 @@ function buildSongStructure(midifile) {
 		var note = (noteEvent.noteNumber + 9) % 12;
 		if (noteEvent.subtype == "noteOn") {
 			currentNotes.push(note);
-			notesForStruct[totalTime] = currentNotes;
 		}
 		else if(noteEvent.subtype == "noteOff") {
 			var idx = currentNotes.indexOf(note);
 			currentNotes.splice(idx, 1);
-			notesForStruct[totalTime] = currentNotes;
 		}
+		notesForStruct[totalTime] = currentNotes;
 
 	}
 	return notesForStruct;
