@@ -8,7 +8,7 @@ function buildSongStructure(midifile) {
 	var notesForStruct = {};
 	var currentNotes = [];
 
-	// if event contains 'noteOn' or 'noteOff' subtype, add note to an object for each time that an event occurs
+	// if event contains 'noteOn' or 'noteOff' subtypes, add note to an object for each time that an event occurs
 	for (var e = 0; e < events.length; e++) {
 		var noteEvent = events[e];
 		if (noteEvent.type != "channel" || (noteEvent.subtype != "noteOn" && noteEvent.subtype != "noteOff")) continue;
