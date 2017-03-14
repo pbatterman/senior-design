@@ -24,5 +24,29 @@ function buildSongStructure(midifile) {
 		notesForStruct[totalTime] = currentNotes.slice();
 
 	}
-	return notesForStruct;
+	createGeometry(notesForStruct);
 }
+
+function createGeometry(noteArray) {
+	var geometry = new THREE.Geometry();
+ 	vertexColors = [];
+ 	vertexKey = [];
+
+ 	for (var eventTime in noteArray) {
+ 		for (var note in noteArray[eventTime]) {
+ 			for (var x = 0; x < 7; x++) {
+				for (var y = 0; y < 6; y++) {
+					if (noteVertices[x][y] == note) {
+						var vertex = new THREE.Vector3(100*x + 50*y, 500 - (100*y), eventTime*0.25);
+						geometry.vertices.push(vertex);
+					}
+				}
+			}
+ 		}
+
+ 		var vertex = new THREE.Vector3(100*x + 50*y, 500 - (100*y), 0);
+ 		geometry.vertices.push(vertex);
+ 	}
+
+ 	return geometry;
+	}

@@ -224,19 +224,6 @@
 		noteVertices[3][5] = 0;
 
 		vertexKey = [];
-
-		// try midifile parseing
-
-		var srcmidifile = 'music/triads.mid';
-		loadRemote(srcmidifile, function(data) {
-				console.log("midifile read test");
-				mfile = MidiFile(data);
-				console.log(mfile);
-
-				var midiArray = buildSongStructure(mfile);
-				console.log(midiArray);
-			});
-
 	}
 
 	setup();
@@ -300,36 +287,36 @@ function init() {
 	document.body.appendChild( container );
 
 	renderer = new THREE.WebGLRenderer({antialias:true});
-    renderer.setSize(WIDTH, HEIGHT);
+  renderer.setSize(WIDTH, HEIGHT);
 	container.appendChild( renderer.domElement );
 
-    camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT, 0.1, 20000);
-    camera.position.set(532, -505, 413);
+  camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT, 0.1, 20000);
+  camera.position.set(532, -505, 413);
 //     {x: 0.06789925799970922, y: 0.8399987615915472, z: -0.5383231084649841}
 // (index):247 q {x: 532.3324120127733, y: -505.8011184302427, z: 413.26422056914737}
-		camera.up = new THREE.Vector3(0,0,1);
-    var dir = new THREE.Vector3(0.86789925799970922, 0.8399987615915472, -0.5383231084649841);
-    var pos = new THREE.Vector3(532, -505, 413);
-		camera.lookAt(dir + pos);
+	camera.up = new THREE.Vector3(0,0,1);
+  var dir = new THREE.Vector3(0.86789925799970922, 0.8399987615915472, -0.5383231084649841);
+  var pos = new THREE.Vector3(532, -505, 413);
+	camera.lookAt(dir + pos);
 
-    scene.add(camera);
-    
+  scene.add(camera);
+  
 
-    window.addEventListener('resize', function() {
-      var WIDTH = window.innerWidth,
-          HEIGHT = window.innerHeight;
-      renderer.setSize(WIDTH, HEIGHT);
-      camera.aspect = WIDTH / HEIGHT;
-      camera.updateProjectionMatrix();
-    });
+  window.addEventListener('resize', function() {
+    var WIDTH = window.innerWidth,
+        HEIGHT = window.innerHeight;
+    renderer.setSize(WIDTH, HEIGHT);
+    camera.aspect = WIDTH / HEIGHT;
+    camera.updateProjectionMatrix();
+  });
 
-    var light = new THREE.PointLight(0xffffff);
-    light.position.set(-100,200,100);
-    scene.add(light);
- 
-   	var geometry = new THREE.Geometry(); 
+  var light = new THREE.PointLight(0xffffff);
+  light.position.set(-100,200,100);
+  scene.add(light);
 
-   	var colorMap = mapColorsToVertices();
+ 	var geometry = new THREE.Geometry(); 
+
+ 	var colorMap = mapColorsToVertices();
 
 	var material = new THREE.MeshBasicMaterial( { 
 		    shading: THREE.FlatShading,
@@ -345,9 +332,25 @@ function init() {
         vertexColors: THREE.FaceColors
     });
 
-   	var geometry = buildTonnetzGeometry(colorMap, true);
 
-   	var solidGeometry = buildTonnetzGeometry(colorMap, false);
+	var srcmidifile = 'music/triads.mid';
+	loadRemote(srcmidifile, function(data) {
+			console.log("midifile read test");
+			mfile = MidiFile(data);
+			console.log(mfile);
+
+			var midiGeometry = buildSongStructure(mfile);
+			
+			var mesh = new THREE.Mesh( midiGeometry, material );
+
+			mesh.name = "tonnetz";
+			scene.add(mesh);
+
+	});
+/*
+ 	var geometry = buildTonnetzGeometry(colorMap, true);
+
+ 	var solidGeometry = buildTonnetzGeometry(colorMap, false);
 
 	var mesh = new THREE.Mesh( geometry, material );
 
@@ -359,649 +362,649 @@ function init() {
 	scene.add(solidMesh)
 
 	cacheVertexColors(mesh);
-
+*/
 
  	controls = new THREE.OrbitControls(camera, renderer.domElement);
 }
 
-	function animate() {
-		requestAnimationFrame(animate);
-	 
-	    // Render the scene.
-	    renderer.render(scene, camera);
-	    controls.update();
+function animate() {
+	requestAnimationFrame(animate);
+ 
+    // Render the scene.
+    renderer.render(scene, camera);
+    controls.update();
 
+}
+
+// cache vertex hues
+function cacheVertexColors(mesh) {
+	vertexColorCache = [];
+	for (var f = 0; f < mesh.geometry.faces.length; f++) {
+		var faceCol = mesh.geometry.faces[ f ].vertexColors[ 0 ].getHSL();
+		var h = faceCol.h * 360;
+		vertexColorCache.push(h);
 	}
+}
 
-	// cache vertex hues
-	function cacheVertexColors(mesh) {
-		vertexColorCache = [];
-		for (var f = 0; f < mesh.geometry.faces.length; f++) {
-			var faceCol = mesh.geometry.faces[ f ].vertexColors[ 0 ].getHSL();
-			var h = faceCol.h * 360;
-			vertexColorCache.push(h);
-		}
-	}
-
-	function updateMesh(mesh, colorOffset) {
-		
-		if (colorOffset != 0) {
-			var cacheCopy = vertexColorCache.slice();
-
-			// 
-			for (var i = 0; i < cacheCopy.length; i++) {
-				cacheCopy[i] = (cacheCopy[i] + colorOffset) % 360;
-				cacheCopy[i] /= 360.0;
-			}
-			var cIdx = 0;
-			for (var f = 0; f < mesh.geometry.faces.length; f++) {
-				mesh.geometry.faces[ f ].vertexColors[ 0 ].setHSL(cacheCopy[cIdx], 1.0, 0.5);
-				cIdx++;
-			}
-
-			mesh.geometry.colorsNeedUpdate = true;
-			animate();
-		}
-		
-	}
-
-	function buildTonnetzGeometry(colorMap, hasVertexColors) {
-		var geometry = new THREE.Geometry();
-	   	vertexColors = [];
-	   	vertexKey = [];
-
-	   	for (var y = 0; y < 6; y++) {
-	   		for (var x = 0; x < 7; x++) {
-	   			var vertex = new THREE.Vector3(100*x + 50*y, 500 - (100*y), 0);
-	   			geometry.vertices.push(vertex);
-	   			vertexKey.push(noteVertices[x][y]);
-	   			var col = HSLArrayToString(colorMap[x][y]);
-	   			var vertColor = new THREE.Color( col );
-	   			vertexColors.push(vertColor);
-	   		}
-	   	}
-
-	   	for (var v = 0; v < geometry.vertices.length - 1; v++) {
-	   		// first row
-	   		if ( v < 6 ) {
-	   			var face1 = new THREE.Face3( v, v+1, v+7 );
-	   			face1.normal.set(0,0,1);
-	   			if (hasVertexColors) {
-	   				face1.vertexColors[0] = vertexColors[v];
-						face1.vertexColors[1] = vertexColors[v+1];
-						face1.vertexColors[2] = vertexColors[v+7];
-	   			}
-	   			else {
-	   				face1.color.setHSL(0, 0, 0.3);
-	   			}
-	   			
-
-					geometry.faces.push( face1 );
-	   		}
-	   		// middle rows
-	   		else if (( v > 6 && v < 13 ) || (v > 13 && v < 20) || (v > 20 && v < 27) || (v > 27 && v < 34)) {
-	   			var face0 = new THREE.Face3( v-6, v+1, v);
-	   			face0.normal.set(0,0,1);
-	   			if (hasVertexColors) {
-		   			face0.vertexColors[0] = vertexColors[v-6];
-						face0.vertexColors[1] = vertexColors[v+1];
-						face0.vertexColors[2] = vertexColors[v];
-					}
-					else {
-	   				face0.color.setHSL(0, 0, 0.3);
-	   			}
-
-	   			geometry.faces.push( face0 );
-	   			
-	   			var face1 = new THREE.Face3( v, v+1, v+7 );
-	   			face1.normal.set(0,0,1);
-	   			if (hasVertexColors) {
-		   			face1.vertexColors[0] = vertexColors[v];
-						face1.vertexColors[1] = vertexColors[v+1];
-						face1.vertexColors[2] = vertexColors[v+7];
-					}
-					else {
-	   				face1.color.setHSL(0, 0, 0.3);
-	   			}
-
-					geometry.faces.push( face1 );
-			}
-	   		else if (v > 34 && v < 41) {
-	   			var face0 = new THREE.Face3( v-6, v+1, v);
-	   			face0.normal.set(0,0,1);
-	   			if (hasVertexColors) {
-		   			face0.vertexColors[0] = vertexColors[v-6];
-						face0.vertexColors[1] = vertexColors[v+1];
-						face0.vertexColors[2] = vertexColors[v];
-					}
-					else {
-	   				face0.color.setHSL(0, 0, 0.3);
-	   			}
-
-	   			geometry.faces.push( face0 );
-	   		}
-	   		else {
-	   			continue;
-	   		}
-	   	}
-	   	return geometry;
-	}
-
-	function mapColorsToVertices(colorset) {
-		if (!colorset) { // default
-			colorset  = primaryColors;
-		}
-
-		var colorMap = new Array(7);
-		for (var i = 0; i < 7; i++) {
-		  	colorMap[i] = new Array(6);
-		}
-
-		for (var x = 0; x < 7; x++) {
-			for (var y = 0; y < 6; y++) {
-				var note = noteVertices[x][y];
-				colorMap[x][y] = colorset[note];
-			}
-		}
-
-		return colorMap;
-	}
+function updateMesh(mesh, colorOffset) {
 	
+	if (colorOffset != 0) {
+		var cacheCopy = vertexColorCache.slice();
 
-	// update the element
-	function updateAngle(angle, id) {
-
-		if (id == 0) {
-			// adjust the text on the range slider
-			d3.select("#primaryAngle").property("value", angle);
-
-			// rotate the text
-			primaryHolder.select("image") 
-			.attr("transform", "rotate(" + angle + "," + (wheelX + wheelWidth/2) + ","+ (wheelY+wheelHeight/2) +")")
-
-		} else {
-			d3.select("#secondaryAngle").property("value", angle);
-			secondaryHolder.select("image") 
-			.attr("transform", "rotate(" + angle + "," + (wheelX + wheelWidth/2) + ","+ (wheelY+wheelHeight/2) +")")
+		// 
+		for (var i = 0; i < cacheCopy.length; i++) {
+			cacheCopy[i] = (cacheCopy[i] + colorOffset) % 360;
+			cacheCopy[i] /= 360.0;
 		}
-	}
-
-
-	function setColors(noteOrder) {
-			var dAngle = 360/noteOrder.length;
-			var colorMap = {};
-			for (var n = 0; n < noteOrder.length; n++) {
-				var hue = n*dAngle;
-				colorMap[noteOrder[n]] = [hue, 100, 50];
-			}
-			return colorMap;
-		}
-
-	function resetColors(noteOrder) {
-		primaryColors = setColors(noteOrder);
-		secondaryColors = {};
-		for (var i = 0; i < 12; i++) {
-			secondaryColors[i] = primaryColors[(i + 3) % 12].slice();
-		}
-	}
-
-	function resetColorWheel(noteOrder) {
-		resetColors(noteOrder);
-		primaryHolder.select("image")
-		.attr("xlink:href", "images/circle_fifths_wheel.png")
-		secondaryHolder.select("image")
-		.attr("xlink:href", "images/circle_fifths_wheel_minor.png")
-		updateAngle(0, 0);
-		updateAngle(15, 1);
-	}
-
-	// set individual ring and return to 0 rotation
-	function setColorRing(noteOrder, ring) {
-		if (ring == 0) { // primary
-			primaryColors = setColors(noteOrder);
-			updateAngle(0, 0);
-		}
-		else { // secondary
-			secondaryColors = setColors(noteOrder);
-			updateAngle(0, 1);
-		}
-	}
-
-	function customRing() {
-		var sortedNotes = $( "#sortable" ).sortable( "toArray" );
-		var customNoteOrder = [];
-		var cRotate = 0;
-		for (var i = 0; i < sortedNotes.length; i++) {
-			customNoteOrder.push(parseInt(sortedNotes[i]));
-			if (parseInt(sortedNotes[i]) == 0) {
-				cRotate = i;
-			}
-		}
-		this.currentNoteOrder = customNoteOrder;
-
-		if($("#outerCheckbox").is(':checked')) {
-			primaryHolder.select("image")
-			.attr("xlink:href", "images/custom_wheel/co"+ cRotate +".png")
-
-			setColorRing(customNoteOrder, 0);
-
-			if ($("#innerCheckbox").is(':checked')) {
-
-				secondaryHolder.select("image")
-				.attr("xlink:href", "images/custom_wheel/ci"+ cRotate +".png")
-
-			  setColorRing(customNoteOrder, 1);
-			}
-		}    
-		else if ($("#innerCheckbox").is(':checked')) {
-
-		  secondaryHolder.select("image")
-				.attr("xlink:href", "images/custom_wheel/ci"+ cRotate +".png")
-			  setColorRing(customNoteOrder, 1);
-		}
-		else {
-			alert('No ring specified! Reverting to default.');
-			resetColorWheel(fifthsOrder);
-		}
-	}
-
-	// Toggle between Pause and Play modes.
-	function pausePlayStop(stop) {
-		var d = document.getElementById("pausePlayStop");
-		if (stop) {
-			MIDI.Player.stop();
-			d.src = "images/play.png";
-		} else if (MIDI.Player.playing) {
-			d.src = "images/play.png";
-			MIDI.Player.pause(true);
-		} else {
-			d.src = "images/pause.png";
-			MIDI.Player.resume();
-		}
-	};
-	eventjs.add(window, "load", function(event) {
-
-		var colors = document.getElementById("colors");
-		var colorElements = [];
-		var activeNotes = [];
-		for (var n = 0; n < 88; n++) {
-			var d = document.createElement("div");
-			d.className = "keyColor"
-			d.innerHTML = MIDI.noteToKey[n + 21];
-			var col = parseInt(255 - ((255 / 88) * n));
-			var stringNum = col.toString(16);
-			if (col < 16) {
-				stringNum = "0" + stringNum;
-			}
-			colorElements.push(d);
-			colors.appendChild(d);
-			activeNotes.push(0);
-		}
-
-		MIDI.loader = new sketch.ui.Timer;
-		MIDI.loadPlugin({
-			soundfontUrl: "MIDI.js/examples/soundfont/",
-			onprogress: function(state, progress) {
-				MIDI.loader.setValue(progress * 100);
-			},
-			onsuccess: function() {
-				/// this is the language we are running in
-				/// this sets up the MIDI.Player and gets things going...
-				player = MIDI.Player;
-				// var channels = [];
-				// var channelCount = 0;
-				// var channelContainer = document.getElementById("channels");
-				// for (var channel in MIDI.channels) {
-				// 	var chanDiv = document.createElement("div");
-				// 	chanDiv.className = "channel"
-				// 	chanDiv.id = "channel" + channelCount;
-				// 	chanDiv.innerHTML = "channel " + channelCount;
-				// 	channelCount++;
-				// 	channelContainer.appendChild(chanDiv);
-				// 	channels.push(chanDiv);
-				// }
-				player.timeWarp = 1; // speed the song is played back
-				player.loadFile(song[songid++ % song.length], player.start);
-
-				// fetch primary and secondary angles
-				var pAngleOffset = parseInt(d3.select("#primaryAngle").property("value"));
-				var sAngleOffset = parseInt(d3.select("#secondaryAngle").property("value"));
-
-				var offsetColors = getOffsetColors(pAngleOffset, sAngleOffset);
-				var allColors = getColorMap(offsetColors);
-				var blendBox = document.getElementById("blender");
-				// var mesh = scene.getObjectByName( "tonnetz" );
-
-				var numNotes = 0;
-				player.addListener(function(data) {
-
-					var currPOffset = parseInt(d3.select("#primaryAngle").property("value"));
-					var currSOffset = parseInt(d3.select("#secondaryAngle").property("value"));
-
-					// if user changes color shift
-					if (currPOffset != pAngleOffset || currSOffset != sAngleOffset) {
-						pAngleOffset = currPOffset;
-						sAngleOffset = currSOffset;
-						getOffsetColors(pAngleOffset, sAngleOffset);
-						allColors = getColorMap();
-						// updateMesh(mesh, pAngleOffset);
-					}
-
-					var note = data.note - 21;
-					var d = colorElements[note];
-					var colorset;
-					if (d) {
-						if (data.message === 144) {
-							numNotes++;
-							if (numNotes > 1) {
-								colorset = allColors.secondary;
-							}
-							else {
-								colorset = allColors.primary;
-							}
-							d.style.background = HSLArrayToString(colorset[note]);
-							activeNotes[note] = colorset[note];
-							// displaceVertex(note, data.velocity);
-						} else {
-							numNotes--;
-							numNotes = Math.max(numNotes, 0);
-							if (numNotes > 0) {
-								colorset = allColors.secondary;
-							}
-							else {
-								colorset = allColors.primary;
-							}
-							d.style.background = "";
-							activeNotes[note] = 0;
-							// displaceVertex(note, data.velocity);
-						}
-
-						var blendColor;
-						blendColor = blendColors(activeNotes);
-						blendBox.style.background = HSLArrayToString(blendColor);
-						// colorSolidMesh(blendColor);
-						// updateMesh(mesh, pAngleOffset);
-					}
-
-				});
-				///
-				MIDIPlayerPercentage(player);
-			}
-		});
-});
-
-
-	function colorSolidMesh(blendColor) {
-		if (!blendColor) {
-			blendColor = [0, 0, 30];
-		}
-		var mesh = scene.getObjectByName("solidMesh");
-		var h = blendColor[0] / 360.0;
-		var s = blendColor[1] / 100.0;
-		var l = blendColor[2] / 100.0;
+		var cIdx = 0;
 		for (var f = 0; f < mesh.geometry.faces.length; f++) {
-			mesh.geometry.faces[ f ].color.setHSL(h, s, l);
+			mesh.geometry.faces[ f ].vertexColors[ 0 ].setHSL(cacheCopy[cIdx], 1.0, 0.5);
+			cIdx++;
 		}
+
 		mesh.geometry.colorsNeedUpdate = true;
 		animate();
 	}
+	
+}
 
-	// highlight active notes
-	function highlightVertices(activeColors, blendColor, colorset) {
-		// copy colorset, appparently this is the fastest way
-		var cs = JSON.parse(JSON.stringify(colorset)); 
-		if (blendColor[0] < 0) {
-			blendColor[0] = (360 + blendColor[0]);
-		}
-		blendColor[0] = parseInt(blendColor[0]);
-		blendColor[1] = parseInt(blendColor[1]);
-		blendColor[2] = parseInt(blendColor[2]);
+function buildTonnetzGeometry(colorMap, hasVertexColors) {
+	var geometry = new THREE.Geometry();
+   	vertexColors = [];
+   	vertexKey = [];
 
-		for (var i = 0; i < 88; i++) {
-			var col = activeColors[i];
-			if (Array.isArray(col) && col.length == 3) {
-				cs[(i + 9) % 12] = blendColor;
-			}
+   	for (var y = 0; y < 6; y++) {
+   		for (var x = 0; x < 7; x++) {
+   			var vertex = new THREE.Vector3(100*x + 50*y, 500 - (100*y), 0);
+   			geometry.vertices.push(vertex);
+   			vertexKey.push(noteVertices[x][y]);
+   			var col = HSLArrayToString(colorMap[x][y]);
+   			var vertColor = new THREE.Color( col );
+   			vertexColors.push(vertColor);
+   		}
+   	}
+
+   	for (var v = 0; v < geometry.vertices.length - 1; v++) {
+   		// first row
+   		if ( v < 6 ) {
+   			var face1 = new THREE.Face3( v, v+1, v+7 );
+   			face1.normal.set(0,0,1);
+   			if (hasVertexColors) {
+   				face1.vertexColors[0] = vertexColors[v];
+					face1.vertexColors[1] = vertexColors[v+1];
+					face1.vertexColors[2] = vertexColors[v+7];
+   			}
+   			else {
+   				face1.color.setHSL(0, 0, 0.3);
+   			}
+   			
+
+				geometry.faces.push( face1 );
+   		}
+   		// middle rows
+   		else if (( v > 6 && v < 13 ) || (v > 13 && v < 20) || (v > 20 && v < 27) || (v > 27 && v < 34)) {
+   			var face0 = new THREE.Face3( v-6, v+1, v);
+   			face0.normal.set(0,0,1);
+   			if (hasVertexColors) {
+	   			face0.vertexColors[0] = vertexColors[v-6];
+					face0.vertexColors[1] = vertexColors[v+1];
+					face0.vertexColors[2] = vertexColors[v];
+				}
+				else {
+   				face0.color.setHSL(0, 0, 0.3);
+   			}
+
+   			geometry.faces.push( face0 );
+   			
+   			var face1 = new THREE.Face3( v, v+1, v+7 );
+   			face1.normal.set(0,0,1);
+   			if (hasVertexColors) {
+	   			face1.vertexColors[0] = vertexColors[v];
+					face1.vertexColors[1] = vertexColors[v+1];
+					face1.vertexColors[2] = vertexColors[v+7];
+				}
+				else {
+   				face1.color.setHSL(0, 0, 0.3);
+   			}
+
+				geometry.faces.push( face1 );
 		}
-		return cs;
+   		else if (v > 34 && v < 41) {
+   			var face0 = new THREE.Face3( v-6, v+1, v);
+   			face0.normal.set(0,0,1);
+   			if (hasVertexColors) {
+	   			face0.vertexColors[0] = vertexColors[v-6];
+					face0.vertexColors[1] = vertexColors[v+1];
+					face0.vertexColors[2] = vertexColors[v];
+				}
+				else {
+   				face0.color.setHSL(0, 0, 0.3);
+   			}
+
+   			geometry.faces.push( face0 );
+   		}
+   		else {
+   			continue;
+   		}
+   	}
+   	return geometry;
+}
+
+function mapColorsToVertices(colorset) {
+	if (!colorset) { // default
+		colorset  = primaryColors;
 	}
 
-	function displaceVertex(note, dz) {
-		var n = ((note + 9) % 12);
-
-		var mesh = scene.getObjectByName( "tonnetz" );
-		var solidMesh = scene.getObjectByName("solidMesh");
-
-		for (var v = 0; v < vertexKey.length; v++) {
-			if (vertexKey[v] == n) {
-				var oldVert = mesh.geometry.vertices[v];
-
-				mesh.geometry.vertices[v].set(oldVert.x, oldVert.y, dz);
-				mesh.geometry.dynamic = true;
-				mesh.geometry.verticesNeedUpdate = true;
-
-				solidMesh.geometry.vertices[v].set(oldVert.x, oldVert.y, dz);
-				solidMesh.geometry.dynamic = true;
-				solidMesh.geometry.verticesNeedUpdate = true;
-				animate();
-			}
-		}
-
+	var colorMap = new Array(7);
+	for (var i = 0; i < 7; i++) {
+	  	colorMap[i] = new Array(6);
 	}
 
-
-	function buildDisplacementMap(activeColors) {
-		var dz = 100;
-		var dMap = new Array(7);
-		for (var i = 0; i < 7; i++) {
-		  	dMap[i] = new Array(6).fill(0);
+	for (var x = 0; x < 7; x++) {
+		for (var y = 0; y < 6; y++) {
+			var note = noteVertices[x][y];
+			colorMap[x][y] = colorset[note];
 		}
+	}
 
-		var notesToMove = [];
-		for (var i = 0; i < 88; i++) {
-			var col = activeColors[i];
-			if (Array.isArray(col) && col.length == 3) {
-				var note = (i + 9) % 12;
-				notesToMove.push(note);
-			}
+	return colorMap;
+}
+
+
+// update the element
+function updateAngle(angle, id) {
+
+	if (id == 0) {
+		// adjust the text on the range slider
+		d3.select("#primaryAngle").property("value", angle);
+
+		// rotate the text
+		primaryHolder.select("image") 
+		.attr("transform", "rotate(" + angle + "," + (wheelX + wheelWidth/2) + ","+ (wheelY+wheelHeight/2) +")")
+
+	} else {
+		d3.select("#secondaryAngle").property("value", angle);
+		secondaryHolder.select("image") 
+		.attr("transform", "rotate(" + angle + "," + (wheelX + wheelWidth/2) + ","+ (wheelY+wheelHeight/2) +")")
+	}
+}
+
+
+function setColors(noteOrder) {
+		var dAngle = 360/noteOrder.length;
+		var colorMap = {};
+		for (var n = 0; n < noteOrder.length; n++) {
+			var hue = n*dAngle;
+			colorMap[noteOrder[n]] = [hue, 100, 50];
 		}
+		return colorMap;
+	}
 
-		for (var n = 0; n < notesToMove.length; n++) {
-			for (var x = 0; x < 7; x++) {
-				for (var y = 0; y < 6; y++) {
-					if (noteVertices[x][y] == notesToMove[n]) {
-						dMap[x][y] = dz;
+function resetColors(noteOrder) {
+	primaryColors = setColors(noteOrder);
+	secondaryColors = {};
+	for (var i = 0; i < 12; i++) {
+		secondaryColors[i] = primaryColors[(i + 3) % 12].slice();
+	}
+}
+
+function resetColorWheel(noteOrder) {
+	resetColors(noteOrder);
+	primaryHolder.select("image")
+	.attr("xlink:href", "images/circle_fifths_wheel.png")
+	secondaryHolder.select("image")
+	.attr("xlink:href", "images/circle_fifths_wheel_minor.png")
+	updateAngle(0, 0);
+	updateAngle(15, 1);
+}
+
+// set individual ring and return to 0 rotation
+function setColorRing(noteOrder, ring) {
+	if (ring == 0) { // primary
+		primaryColors = setColors(noteOrder);
+		updateAngle(0, 0);
+	}
+	else { // secondary
+		secondaryColors = setColors(noteOrder);
+		updateAngle(0, 1);
+	}
+}
+
+function customRing() {
+	var sortedNotes = $( "#sortable" ).sortable( "toArray" );
+	var customNoteOrder = [];
+	var cRotate = 0;
+	for (var i = 0; i < sortedNotes.length; i++) {
+		customNoteOrder.push(parseInt(sortedNotes[i]));
+		if (parseInt(sortedNotes[i]) == 0) {
+			cRotate = i;
+		}
+	}
+	this.currentNoteOrder = customNoteOrder;
+
+	if($("#outerCheckbox").is(':checked')) {
+		primaryHolder.select("image")
+		.attr("xlink:href", "images/custom_wheel/co"+ cRotate +".png")
+
+		setColorRing(customNoteOrder, 0);
+
+		if ($("#innerCheckbox").is(':checked')) {
+
+			secondaryHolder.select("image")
+			.attr("xlink:href", "images/custom_wheel/ci"+ cRotate +".png")
+
+		  setColorRing(customNoteOrder, 1);
+		}
+	}    
+	else if ($("#innerCheckbox").is(':checked')) {
+
+	  secondaryHolder.select("image")
+			.attr("xlink:href", "images/custom_wheel/ci"+ cRotate +".png")
+		  setColorRing(customNoteOrder, 1);
+	}
+	else {
+		alert('No ring specified! Reverting to default.');
+		resetColorWheel(fifthsOrder);
+	}
+}
+
+// Toggle between Pause and Play modes.
+function pausePlayStop(stop) {
+	var d = document.getElementById("pausePlayStop");
+	if (stop) {
+		MIDI.Player.stop();
+		d.src = "images/play.png";
+	} else if (MIDI.Player.playing) {
+		d.src = "images/play.png";
+		MIDI.Player.pause(true);
+	} else {
+		d.src = "images/pause.png";
+		MIDI.Player.resume();
+	}
+};
+eventjs.add(window, "load", function(event) {
+
+	var colors = document.getElementById("colors");
+	var colorElements = [];
+	var activeNotes = [];
+	for (var n = 0; n < 88; n++) {
+		var d = document.createElement("div");
+		d.className = "keyColor"
+		d.innerHTML = MIDI.noteToKey[n + 21];
+		var col = parseInt(255 - ((255 / 88) * n));
+		var stringNum = col.toString(16);
+		if (col < 16) {
+			stringNum = "0" + stringNum;
+		}
+		colorElements.push(d);
+		colors.appendChild(d);
+		activeNotes.push(0);
+	}
+
+	MIDI.loader = new sketch.ui.Timer;
+	MIDI.loadPlugin({
+		soundfontUrl: "MIDI.js/examples/soundfont/",
+		onprogress: function(state, progress) {
+			MIDI.loader.setValue(progress * 100);
+		},
+		onsuccess: function() {
+			/// this is the language we are running in
+			/// this sets up the MIDI.Player and gets things going...
+			player = MIDI.Player;
+			// var channels = [];
+			// var channelCount = 0;
+			// var channelContainer = document.getElementById("channels");
+			// for (var channel in MIDI.channels) {
+			// 	var chanDiv = document.createElement("div");
+			// 	chanDiv.className = "channel"
+			// 	chanDiv.id = "channel" + channelCount;
+			// 	chanDiv.innerHTML = "channel " + channelCount;
+			// 	channelCount++;
+			// 	channelContainer.appendChild(chanDiv);
+			// 	channels.push(chanDiv);
+			// }
+			player.timeWarp = 1; // speed the song is played back
+			player.loadFile(song[songid++ % song.length], player.start);
+
+			// fetch primary and secondary angles
+			var pAngleOffset = parseInt(d3.select("#primaryAngle").property("value"));
+			var sAngleOffset = parseInt(d3.select("#secondaryAngle").property("value"));
+
+			var offsetColors = getOffsetColors(pAngleOffset, sAngleOffset);
+			var allColors = getColorMap(offsetColors);
+			var blendBox = document.getElementById("blender");
+			// var mesh = scene.getObjectByName( "tonnetz" );
+
+			var numNotes = 0;
+			player.addListener(function(data) {
+
+				var currPOffset = parseInt(d3.select("#primaryAngle").property("value"));
+				var currSOffset = parseInt(d3.select("#secondaryAngle").property("value"));
+
+				// if user changes color shift
+				if (currPOffset != pAngleOffset || currSOffset != sAngleOffset) {
+					pAngleOffset = currPOffset;
+					sAngleOffset = currSOffset;
+					getOffsetColors(pAngleOffset, sAngleOffset);
+					allColors = getColorMap();
+					// updateMesh(mesh, pAngleOffset);
+				}
+
+				var note = data.note - 21;
+				var d = colorElements[note];
+				var colorset;
+				if (d) {
+					if (data.message === 144) {
+						numNotes++;
+						if (numNotes > 1) {
+							colorset = allColors.secondary;
+						}
+						else {
+							colorset = allColors.primary;
+						}
+						d.style.background = HSLArrayToString(colorset[note]);
+						activeNotes[note] = colorset[note];
+						// displaceVertex(note, data.velocity);
+					} else {
+						numNotes--;
+						numNotes = Math.max(numNotes, 0);
+						if (numNotes > 0) {
+							colorset = allColors.secondary;
+						}
+						else {
+							colorset = allColors.primary;
+						}
+						d.style.background = "";
+						activeNotes[note] = 0;
+						// displaceVertex(note, data.velocity);
 					}
+
+					var blendColor;
+					blendColor = blendColors(activeNotes);
+					blendBox.style.background = HSLArrayToString(blendColor);
+					// colorSolidMesh(blendColor);
+					// updateMesh(mesh, pAngleOffset);
+				}
+
+			});
+			///
+			MIDIPlayerPercentage(player);
+		}
+	});
+});
+
+
+function colorSolidMesh(blendColor) {
+	if (!blendColor) {
+		blendColor = [0, 0, 30];
+	}
+	var mesh = scene.getObjectByName("solidMesh");
+	var h = blendColor[0] / 360.0;
+	var s = blendColor[1] / 100.0;
+	var l = blendColor[2] / 100.0;
+	for (var f = 0; f < mesh.geometry.faces.length; f++) {
+		mesh.geometry.faces[ f ].color.setHSL(h, s, l);
+	}
+	mesh.geometry.colorsNeedUpdate = true;
+	animate();
+}
+
+// highlight active notes
+function highlightVertices(activeColors, blendColor, colorset) {
+	// copy colorset, appparently this is the fastest way
+	var cs = JSON.parse(JSON.stringify(colorset)); 
+	if (blendColor[0] < 0) {
+		blendColor[0] = (360 + blendColor[0]);
+	}
+	blendColor[0] = parseInt(blendColor[0]);
+	blendColor[1] = parseInt(blendColor[1]);
+	blendColor[2] = parseInt(blendColor[2]);
+
+	for (var i = 0; i < 88; i++) {
+		var col = activeColors[i];
+		if (Array.isArray(col) && col.length == 3) {
+			cs[(i + 9) % 12] = blendColor;
+		}
+	}
+	return cs;
+}
+
+function displaceVertex(note, dz) {
+	var n = ((note + 9) % 12);
+
+	var mesh = scene.getObjectByName( "tonnetz" );
+	var solidMesh = scene.getObjectByName("solidMesh");
+
+	for (var v = 0; v < vertexKey.length; v++) {
+		if (vertexKey[v] == n) {
+			var oldVert = mesh.geometry.vertices[v];
+
+			mesh.geometry.vertices[v].set(oldVert.x, oldVert.y, dz);
+			mesh.geometry.dynamic = true;
+			mesh.geometry.verticesNeedUpdate = true;
+
+			solidMesh.geometry.vertices[v].set(oldVert.x, oldVert.y, dz);
+			solidMesh.geometry.dynamic = true;
+			solidMesh.geometry.verticesNeedUpdate = true;
+			animate();
+		}
+	}
+
+}
+
+
+function buildDisplacementMap(activeColors) {
+	var dz = 100;
+	var dMap = new Array(7);
+	for (var i = 0; i < 7; i++) {
+	  	dMap[i] = new Array(6).fill(0);
+	}
+
+	var notesToMove = [];
+	for (var i = 0; i < 88; i++) {
+		var col = activeColors[i];
+		if (Array.isArray(col) && col.length == 3) {
+			var note = (i + 9) % 12;
+			notesToMove.push(note);
+		}
+	}
+
+	for (var n = 0; n < notesToMove.length; n++) {
+		for (var x = 0; x < 7; x++) {
+			for (var y = 0; y < 6; y++) {
+				if (noteVertices[x][y] == notesToMove[n]) {
+					dMap[x][y] = dz;
 				}
 			}
 		}
-
-		return dMap;
 	}
 
-
-	// blend multiple colors together - raw average
-	function blendColors(activeColors) {
-		var toBlend = [];
-		for (var i = 0; i < 88; i++) {
-			var col = activeColors[i];
-			if (Array.isArray(col) && col.length == 3) {
-				toBlend.push(col);
-			}
-		}
-		var numColors = toBlend.length;
-		if (!numColors) return "";
-
-		// convert from polar (HSL) coordinates to average color
-		var colY = 0;
-		var colX = 0;
-
-		var avgS = 0;
-		var avgL = 0;
-
-		for (var color = 0; color < numColors; color++) {
-			var colorAngle = toBlend[color][0] * Math.PI / 180; // convert to radians
-			colY += Math.sin(colorAngle);
-			colX += Math.cos(colorAngle);
-			avgS += toBlend[color][1];
-			avgL += toBlend[color][2];
-		}
-
-		var magnitude = Math.sqrt(Math.pow(colY, 2) + Math.pow(colX, 2));
-		magnitude /= numColors; // normalize by potential longest length (all tones coincident)
-		avgS = Math.min(magnitude*100, 100);
-		avgL /= numColors;
-
-		var avgRadAngle = Math.atan2(colY, colX); // new color direction
-		var avgColor = avgRadAngle * 180/Math.PI; // convert back to degrees (hue)
-
-		// format for hsl
-		var blendedColor = [avgColor, avgS, avgL];
-		return blendedColor;
-	}
-
-	function getOffsetColors(pOffset, sOffset) {
-		resetColors(currentNoteOrder);
-		// add offset
-		for (var c = 0; c < 12; c++) {
-			var col = primaryColors[c];
-			col[0] = (col[0] + pOffset) % 360;
-			primaryColors[c] = col;
-
-			var scol = secondaryColors[c];
-			scol[0] = (scol[0] + sOffset) % 360;
-			secondaryColors[c] = scol;
-		}
-
-		var allColors = {};
-		allColors.primary = primaryColors;
-		allColors.secondary = secondaryColors;
-		return allColors;
-	}
-
-	function getColorMap() {
-		var primaryNoteColors = {};
-		var secondaryNoteColors = {};
-		for (var note = 0; note < 88; note++) {
-
-			var pCol = primaryColors[(note + 9) % 12];
-			primaryNoteColors[note] = pCol;
-
-			var sCol = secondaryColors[(note + 9) % 12];
-			secondaryNoteColors[note] = sCol;
-		}
-
-		var allColors = {};
-		allColors.primary = primaryNoteColors;
-		allColors.secondary = secondaryNoteColors;
-
-		return allColors;
-	}
+	return dMap;
+}
 
 
-	function HSLArrayToString(col) {
+// blend multiple colors together - raw average
+function blendColors(activeColors) {
+	var toBlend = [];
+	for (var i = 0; i < 88; i++) {
+		var col = activeColors[i];
 		if (Array.isArray(col) && col.length == 3) {
-			return 'hsl(' + col[0] + ',' + col[1] + '%,' + col[2] + '%)';
-		}
-		else {
-			return 'hsl(0, 0%, 0%)';
+			toBlend.push(col);
 		}
 	}
+	var numColors = toBlend.length;
+	if (!numColors) return "";
 
-	var numSongs = 0;
-	var openFile = function(event) {
-    var input = event.target;
+	// convert from polar (HSL) coordinates to average color
+	var colY = 0;
+	var colX = 0;
 
-    var reader = new FileReader();
-    reader.onload = function(){
-      var dataURL = reader.result;
-      var output = document.getElementById('output');
-      output.src = dataURL;
-      song.push(dataURL);
-      console.log(song);
-      numSongs++;
-    };
-    var uploadFile = reader.readAsDataURL(input.files[0]);
+	var avgS = 0;
+	var avgL = 0;
+
+	for (var color = 0; color < numColors; color++) {
+		var colorAngle = toBlend[color][0] * Math.PI / 180; // convert to radians
+		colY += Math.sin(colorAngle);
+		colX += Math.cos(colorAngle);
+		avgS += toBlend[color][1];
+		avgL += toBlend[color][2];
+	}
+
+	var magnitude = Math.sqrt(Math.pow(colY, 2) + Math.pow(colX, 2));
+	magnitude /= numColors; // normalize by potential longest length (all tones coincident)
+	avgS = Math.min(magnitude*100, 100);
+	avgL /= numColors;
+
+	var avgRadAngle = Math.atan2(colY, colX); // new color direction
+	var avgColor = avgRadAngle * 180/Math.PI; // convert back to degrees (hue)
+
+	// format for hsl
+	var blendedColor = [avgColor, avgS, avgL];
+	return blendedColor;
+}
+
+function getOffsetColors(pOffset, sOffset) {
+	resetColors(currentNoteOrder);
+	// add offset
+	for (var c = 0; c < 12; c++) {
+		var col = primaryColors[c];
+		col[0] = (col[0] + pOffset) % 360;
+		primaryColors[c] = col;
+
+		var scol = secondaryColors[c];
+		scol[0] = (scol[0] + sOffset) % 360;
+		secondaryColors[c] = scol;
+	}
+
+	var allColors = {};
+	allColors.primary = primaryColors;
+	allColors.secondary = secondaryColors;
+	return allColors;
+}
+
+function getColorMap() {
+	var primaryNoteColors = {};
+	var secondaryNoteColors = {};
+	for (var note = 0; note < 88; note++) {
+
+		var pCol = primaryColors[(note + 9) % 12];
+		primaryNoteColors[note] = pCol;
+
+		var sCol = secondaryColors[(note + 9) % 12];
+		secondaryNoteColors[note] = sCol;
+	}
+
+	var allColors = {};
+	allColors.primary = primaryNoteColors;
+	allColors.secondary = secondaryNoteColors;
+
+	return allColors;
+}
+
+
+function HSLArrayToString(col) {
+	if (Array.isArray(col) && col.length == 3) {
+		return 'hsl(' + col[0] + ',' + col[1] + '%,' + col[2] + '%)';
+	}
+	else {
+		return 'hsl(0, 0%, 0%)';
+	}
+}
+
+var numSongs = 0;
+var openFile = function(event) {
+  var input = event.target;
+
+  var reader = new FileReader();
+  reader.onload = function(){
+    var dataURL = reader.result;
+    var output = document.getElementById('output');
+    output.src = dataURL;
+    song.push(dataURL);
+    console.log(song);
+    numSongs++;
   };
+  var uploadFile = reader.readAsDataURL(input.files[0]);
+};
 
-	function MIDIPlayerPercentage(player) {
-		// update the timestamp
-		var time1 = document.getElementById("time1");
-		var time2 = document.getElementById("time2");
-		var capsule = document.getElementById("capsule");
-		var timeCursor = document.getElementById("cursor");
-		//
-		eventjs.add(capsule, "drag", function(event, self) {
-			eventjs.cancel(event);
-			player.currentTime = (self.x) / 420 * player.endTime;
-			if (player.currentTime < 0) player.currentTime = 0;
-			if (player.currentTime > player.endTime) player.currentTime = player.endTime;
-			if (self.state === "down") {
-				player.pause(true);
-			} else if (self.state === "up") {
-				player.resume();
-			}
-		});
-		
-		function timeFormatting(n) {
-			var minutes = n / 60 >> 0;
-			var seconds = String(n - (minutes * 60) >> 0);
-			if (seconds.length == 1) seconds = "0" + seconds;
-			return minutes + ":" + seconds;
-		};
-		player.getNextSong = function(n) {
-			var id = Math.abs((songid += n) % song.length);
-			player.loadFile(song[id], player.start); // load MIDI
-		};
-		player.setAnimation(function(data, element) {
-			var percent = data.now / data.end;
-			var now = data.now >> 0; // where we are now
-			var end = data.end >> 0; // end of song
-			if (now === end) { // go to next song
-				var id = ++songid % song.length;
-				player.loadFile(song[id], player.start); // load MIDI
-			}
-			// display the information to the user
-			timeCursor.style.width = (percent * 100) + "%";
-			time1.innerHTML = timeFormatting(now);
-			time2.innerHTML = "-" + timeFormatting(end - now);
-		});
-	};
+function MIDIPlayerPercentage(player) {
+	// update the timestamp
+	var time1 = document.getElementById("time1");
+	var time2 = document.getElementById("time2");
+	var capsule = document.getElementById("capsule");
+	var timeCursor = document.getElementById("cursor");
+	//
+	eventjs.add(capsule, "drag", function(event, self) {
+		eventjs.cancel(event);
+		player.currentTime = (self.x) / 420 * player.endTime;
+		if (player.currentTime < 0) player.currentTime = 0;
+		if (player.currentTime > player.endTime) player.currentTime = player.endTime;
+		if (self.state === "down") {
+			player.pause(true);
+		} else if (self.state === "up") {
+			player.resume();
+		}
+	});
 	
-	// function animatePlayer(id) {
-	// 	document.getElementById(id).animate([
-	// 	  // keyframes
-	// 	  { transform: 'translateX(0px)' }, 
-	// 	  { transform: 'translateX(1000px)' }
-	// 	  ], { 
-	// 	  // timing options
-	// 	  duration: 1000,
-	// 	  iterations: 1
-	// 	});
-	// };
-			// Begin loading indication.
-			var player;
-			// MIDI files from Disklavier World
-			var songid = 0;
-			var song = [
-		// Test 1
-		 'data:audio/mid;base64,TVRoZAAAAAYAAQABAMBNVHJrAAAARwD/WAQEAhgIAP9RAwehIAD/AwlOZXcgVHJhY2sAwHMAkDxkMoA8MIEOkDxkMoA8MIEOkDxkMoA8MIEOkDxkgT+APDAB/y8A',
-		// Test 2
-		// 'data:audio/mid;base64,TVRoZAAAAAYAAQABAMBNVHJrAAAAVwD/WAQEAhgIAP9RAwehIAD/AwlOZXcgVHJhY2sAwAAAkDxkgRCAPDAwkDxkgRCAPDAwkDxkAJBAZACQQ2SBEIA8MACAQDAAgEMwMJA8ZIE/gDwwJv8vAA==',
-		// Test 3
+	function timeFormatting(n) {
+		var minutes = n / 60 >> 0;
+		var seconds = String(n - (minutes * 60) >> 0);
+		if (seconds.length == 1) seconds = "0" + seconds;
+		return minutes + ":" + seconds;
+	};
+	player.getNextSong = function(n) {
+		var id = Math.abs((songid += n) % song.length);
+		player.loadFile(song[id], player.start); // load MIDI
+	};
+	player.setAnimation(function(data, element) {
+		var percent = data.now / data.end;
+		var now = data.now >> 0; // where we are now
+		var end = data.end >> 0; // end of song
+		if (now === end) { // go to next song
+			var id = ++songid % song.length;
+			player.loadFile(song[id], player.start); // load MIDI
+		}
+		// display the information to the user
+		timeCursor.style.width = (percent * 100) + "%";
+		time1.innerHTML = timeFormatting(now);
+		time2.innerHTML = "-" + timeFormatting(end - now);
+	});
+};
+
+// function animatePlayer(id) {
+// 	document.getElementById(id).animate([
+// 	  // keyframes
+// 	  { transform: 'translateX(0px)' }, 
+// 	  { transform: 'translateX(1000px)' }
+// 	  ], { 
+// 	  // timing options
+// 	  duration: 1000,
+// 	  iterations: 1
+// 	});
+// };
+		// Begin loading indication.
+		var player;
+		// MIDI files from Disklavier World
+		var songid = 0;
+		var song = [
+	// Test 1
+	 'data:audio/mid;base64,TVRoZAAAAAYAAQABAMBNVHJrAAAARwD/WAQEAhgIAP9RAwehIAD/AwlOZXcgVHJhY2sAwHMAkDxkMoA8MIEOkDxkMoA8MIEOkDxkMoA8MIEOkDxkgT+APDAB/y8A',
+	// Test 2
+	// 'data:audio/mid;base64,TVRoZAAAAAYAAQABAMBNVHJrAAAAVwD/WAQEAhgIAP9RAwehIAD/AwlOZXcgVHJhY2sAwAAAkDxkgRCAPDAwkDxkgRCAPDAwkDxkAJBAZACQQ2SBEIA8MACAQDAAgEMwMJA8ZIE/gDwwJv8vAA==',
+	// Test 3
 //		'data:audio/mid;base64,TVRoZAAAAAYAAQABAMBNVHJrAAAAXwD/WAQEAhgIAP9RAwehIAD/AwlOZXcgVHJhY2sAwAAAkDxkgRCAPDAwkDxkgRCAPDAwkDxkAJBAZACQQ2QHkEhkgQmAPDAAgEAwAIBDMACASDAwkDxkgT+APDAm/y8A',
 
-		//'data:audio/mid;base64,TVRoZAAAAAYAAQACAeBNVHJrAAAAnwD/Awh1bnRpdGxlZAD/AihDb3B5cmlnaHQgKGMpIDIwMTIgUHJvc29uaWMgU3R1ZGlvcywgTExDAP9YBAwDDAgA/1kCAAAA/1EDCSfAAP8GBUkgMm5khVD/BgQtVklJkHD/BgZ2aSAxc3SFUP8GBC1WSUmQcP8GBUkgMm5khVD/BgQtVklJkHD/BgZ2aSAxc3SFUP8GBVYgMXN0AP8vAE1UcmsAAADNAP8DLFRyaWFkc15NYWpvcl4xMi04XkkgLVZJSSB2aSAtVklJIEkgLVZJSSB2aSBWAZBAeQBEeQI7eoVCOwAARAAAQAAHRWsEPm4BQm6QZEIAAD4AAEUAB0l0AUB2AUR2hUdEAABAAABJAAdFawRCbgM+cJBiPgAAQgAARQAKO3cBQHgDRHqFQkQAAEAAADsABUJpAUVqAT5rkGk+AABFAABCAAZJdABEdAhAeoVCQAAARAAASQAIP2sCR20BQm6QZUIAAEcAAD8AAP8vAA==',
+	//'data:audio/mid;base64,TVRoZAAAAAYAAQACAeBNVHJrAAAAnwD/Awh1bnRpdGxlZAD/AihDb3B5cmlnaHQgKGMpIDIwMTIgUHJvc29uaWMgU3R1ZGlvcywgTExDAP9YBAwDDAgA/1kCAAAA/1EDCSfAAP8GBUkgMm5khVD/BgQtVklJkHD/BgZ2aSAxc3SFUP8GBC1WSUmQcP8GBUkgMm5khVD/BgQtVklJkHD/BgZ2aSAxc3SFUP8GBVYgMXN0AP8vAE1UcmsAAADNAP8DLFRyaWFkc15NYWpvcl4xMi04XkkgLVZJSSB2aSAtVklJIEkgLVZJSSB2aSBWAZBAeQBEeQI7eoVCOwAARAAAQAAHRWsEPm4BQm6QZEIAAD4AAEUAB0l0AUB2AUR2hUdEAABAAABJAAdFawRCbgM+cJBiPgAAQgAARQAKO3cBQHgDRHqFQkQAAEAAADsABUJpAUVqAT5rkGk+AABFAABCAAZJdABEdAhAeoVCQAAARAAASQAIP2sCR20BQm6QZUIAAEcAAD8AAP8vAA==',
 
-		// 'data:audio/mid;base64,TVRoZAAAAAYAAQACAeBNVHJrAAAAdQD/Awh1bnRpdGxlZAD/AihDb3B5cmlnaHQgKGMpIDIwMTIgUHJvc29uaWMgU3R1ZGlvcywgTExDAP9YBAQCGAgA/1kCAAAA/1EDCSfAAP8GBUkgMm5kjwD/BgZJViAxc3SPAP8GAVaPAP8GBUkgMm5kAP8vAE1UcmsAAABuAP8DGVRyaWFkc15NYWpvcl40LTReSSBJViBJIFYAkEdqAENqAD5rjnFDAAU+AABHAAZIagFDawNAbo52QAAAQwAASAAFRWoFQm4APm6OcT4ABUIAAEUABz5sA0NuAkdwjnRHAABDAAA+AAD/LwA='
+	// 'data:audio/mid;base64,TVRoZAAAAAYAAQACAeBNVHJrAAAAdQD/Awh1bnRpdGxlZAD/AihDb3B5cmlnaHQgKGMpIDIwMTIgUHJvc29uaWMgU3R1ZGlvcywgTExDAP9YBAQCGAgA/1kCAAAA/1EDCSfAAP8GBUkgMm5kjwD/BgZJViAxc3SPAP8GAVaPAP8GBUkgMm5kAP8vAE1UcmsAAABuAP8DGVRyaWFkc15NYWpvcl40LTReSSBJViBJIFYAkEdqAENqAD5rjnFDAAU+AABHAAZIagFDawNAbo52QAAAQwAASAAFRWoFQm4APm6OcT4ABUIAAEUABz5sA0NuAkdwjnRHAABDAAA+AAD/LwA='
 
-		// Sinding - Rustles of Spring Op-32 No-3
-		// 'data:audio/midi;base64,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',
-		];
+	// Sinding - Rustles of Spring Op-32 No-3
+	// 'data:audio/midi;base64,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',
+	];
 
 
-	//init();
-	//animate();
+init();
+animate();
 		</script>
 		<!-- <script src="js/tonnetz.js" type="text/javascript"></script> -->
 	</body>
