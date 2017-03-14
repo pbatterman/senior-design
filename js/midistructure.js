@@ -1,14 +1,14 @@
 // convert array to threejs vertices for point cloud render
 function createGeometry(noteArray) {
 	var geometry = new THREE.Geometry();
-
+	var zidx = 0;
  	for (var eventTime in noteArray) {
 		var notes = noteArray[eventTime];
 		for (var note in notes) {
  			for (var x = 0; x < 7; x++) {
 				for (var y = 0; y < 6; y++) {
 					if (noteVertices[x][y] == note) {
-						var vertex = new THREE.Vector3(100*x + 50*y, 500 - (100*y), eventTime*0.15);
+						var vertex = new THREE.Vector3(100*x + 50*y, 500 - (100*y), zidx);
 						// var vertex = new THREE.Vector3(x, y, 0);
 						geometry.vertices.push(vertex);
 						var col = HSLArrayToString(gColorMap[note]);
@@ -18,6 +18,7 @@ function createGeometry(noteArray) {
 				}
 			}
  		}
+ 		zidx += 50;
  	}
 
  	return geometry;
