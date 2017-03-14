@@ -11,6 +11,9 @@ function createGeometry(noteArray) {
 						var vertex = new THREE.Vector3(100*x + 50*y, 500 - (100*y), eventTime*0.15);
 						// var vertex = new THREE.Vector3(x, y, 0);
 						geometry.vertices.push(vertex);
+						var col = HSLArrayToString(gColorMap[x][y]);
+   					var vertColor = new THREE.Color( col );
+   					geometry.colors.push(vertColor);
 					}
 				}
 			}
