@@ -343,7 +343,8 @@ function init() {
 			console.log(midiGeometry);
 			var pointMaterial = new THREE.PointsMaterial( { 
 				color: 0xFFFFFF, 
-				size: 20,
+				visible: true, 
+				size: 128,
 				sizeAttenuation: false } )
 			var dot = new THREE.Points( midiGeometry, pointMaterial );
 			scene.add( dot );
