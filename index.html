@@ -932,6 +932,7 @@ function init() {
       var output = document.getElementById('output');
       output.src = dataURL;
       song.push(dataURL);
+      player.getNextSong(+1);
     };
     var uploadFile = reader.readAsDataURL(input.files[0]);
   };
@@ -954,7 +955,7 @@ function init() {
 				player.resume();
 			}
 		});
-		//
+		
 		function timeFormatting(n) {
 			var minutes = n / 60 >> 0;
 			var seconds = String(n - (minutes * 60) >> 0);
