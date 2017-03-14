@@ -21,7 +21,7 @@ function buildSongStructure(midifile) {
 			var idx = currentNotes.indexOf(note);
 			currentNotes.splice(idx, 1);
 		}
-		notesForStruct[totalTime] = currentNotes;
+		notesForStruct[totalTime] = currentNotes.slice();
 
 	}
 	return notesForStruct;
