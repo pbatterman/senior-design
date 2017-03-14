@@ -4,7 +4,8 @@ function createGeometry(noteArray) {
 	var zidx = 0;
  	for (var eventTime in noteArray) {
 		var notes = noteArray[eventTime];
-		for (var note in notes) {
+		for (var n = 0; n < notes.length; n++) {
+			var note = notes[n];
  			for (var x = 0; x < 7; x++) {
 				for (var y = 0; y < 6; y++) {
 					if (noteVertices[x][y] == note) {
