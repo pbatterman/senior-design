@@ -23,7 +23,6 @@ function buildSongStructure(midifile) {
 				var idx = previousNotes.indexOf(note);
 				previousNotes.splice(idx, 1);
 				notesForStruct[totalTime] = previousNotes;
-			}
 		}
 		previousEventTime = totalTime;
 
