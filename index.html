@@ -925,6 +925,7 @@ function init() {
       var dataURL = reader.result;
       var output = document.getElementById('output');
       output.src = dataURL;
+      console.log(dataURL);
     };
     var uploadFile = reader.readAsDataURL(input.files[0]);
     console.log(uploadFile);
