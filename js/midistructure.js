@@ -27,7 +27,7 @@ function buildSongStructure(midifile) {
 	return createGeometry(notesForStruct);
 }
 
-// convert array to threejs vertices
+// convert array to threejs vertices for point cloud
 function createGeometry(noteArray) {
 	var geometry = new THREE.Geometry();
 
