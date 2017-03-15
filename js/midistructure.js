@@ -16,7 +16,7 @@ function createGeometry(noteArray, totalTime) {
 				for (var y = 0; y < 6; y++) {
 					if (noteVertices[x][y] == (note % 12)) {
 						octaveShift = Math.floor(note / 12) * 280;
-						var vertex = new THREE.Vector3(40*x + 20*y + octaveShift - (280*0.5), 200 - (40*y), t);
+						var vertex = new THREE.Vector3(40*x + 20*y + octaveShift - (280*3.5), 200 - (40*y), t);
 						// var vertex = new THREE.Vector3(x, y, 0);
 						geometry.vertices.push(vertex);
 						var col = HSLArrayToString(gColorMap[note]);
