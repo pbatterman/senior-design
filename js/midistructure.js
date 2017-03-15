@@ -14,8 +14,9 @@ function createGeometry(noteArray, totalTime) {
 			var note = notes[n];
  			for (var x = 0; x < 7; x++) {
 				for (var y = 0; y < 6; y++) {
-					if (noteVertices[x][y] == note) {
-						var vertex = new THREE.Vector3(100*x + 50*y, 500 - (100*y), t);
+					if (noteVertices[x][y] == (note % 12)) {
+						octaveShift = Math.floor(note / 12) * 700;
+						var vertex = new THREE.Vector3(100*x + 50*y + octaveShift - 350, 500 - (100*y), t);
 						// var vertex = new THREE.Vector3(x, y, 0);
 						geometry.vertices.push(vertex);
 						var col = HSLArrayToString(gColorMap[note]);
@@ -46,7 +47,7 @@ function buildSongStructure(midifile) {
 		var noteEvent = events[e];
 		if (noteEvent.type != "channel" || (noteEvent.subtype != "noteOn" && noteEvent.subtype != "noteOff")) continue;
 		totalTime += noteEvent.deltaTime;
-		var note = (noteEvent.noteNumber + 9) % 12;
+		var note = (noteEvent.noteNumber + 9);
 		if (noteEvent.subtype == "noteOn") {
 			currentNotes.push(note);
 		}
