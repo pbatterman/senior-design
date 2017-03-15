@@ -69,7 +69,7 @@ function buildTemplateTonnetzGeometry() {
 // convert array to threejs vertices for point cloud rendering
 function createGeometry(noteArray, totalTime) {
 	var geometry = new THREE.Geometry();
-	var tonnetzGeo = new THREE.Geometry();
+	var tonnetzGeo = [];
 	var zidx = 0;
 	var notes;
 	var result = {};
@@ -78,7 +78,7 @@ function createGeometry(noteArray, totalTime) {
  		if (noteArray[t]) {
  			notes = noteArray[t];
  			var singleTon = buildTemplateTonnetzGeometry();
- 			tonnetzGeo.merge(singleTon.geometry, singleTon.matrix);
+ 			tonnetzGeo.push(singleTon);
  		}
  		if (!notes) continue;
 		// var notes = noteArray[eventTime];
