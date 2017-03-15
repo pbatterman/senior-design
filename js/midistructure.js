@@ -2,6 +2,7 @@
 function createGeometry(noteArray, totalTime) {
 	var geometry = new THREE.Geometry();
 	var zidx = 0;
+	var notes;
  	// for (var eventTime in noteArray) {
  	for (var t = 0; t < totalTime; t++) {
  		if (noteArray[t]) {
