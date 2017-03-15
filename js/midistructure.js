@@ -41,7 +41,6 @@ function buildTemplateTonnetzGeometry() {
    			
    			var face1 = new THREE.Face3( v, v+1, v+7 );
    			face1.normal.set(0,0,1);
-   			if (hasVertexColors) {
    			face1.vertexColors[0] = vertexColors[v];
 				face1.vertexColors[1] = vertexColors[v+1];
 				face1.vertexColors[2] = vertexColors[v+7];
