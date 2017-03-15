@@ -343,10 +343,14 @@ function init() {
 				size: 60 } )
 			var dot = new THREE.Points( midiGeometry.notes, pointMaterial );
 			scene.add( dot );
-
 			
+			var meshMaterial = new THREE.MeshBasicMaterial( { 
+				    shading: THREE.FlatShading,
+				    vertexColors: THREE.VertexColors,
+				    wireframe: true
+				});
 			for (var i = 0; i < midiGeometry.tonnetz.length; i++) {
-				var tonnetzMesh = new THREE.Mesh(midiGeometry.tonnetz[i], material);
+				var tonnetzMesh = new THREE.Mesh(midiGeometry.tonnetz[i], meshMaterial);
 				scene.add(tonnetzMesh);
 			}
 			
