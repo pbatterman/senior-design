@@ -335,25 +335,18 @@ function init() {
 
 	var srcmidifile = 'music/fur_elise.mid';
 	loadRemote(srcmidifile, function(data) {
-			console.log("midifile read test");
 			mfile = MidiFile(data);
-			console.log(mfile);
 
 			var midiGeometry = buildSongStructure(mfile);
-			console.log(midiGeometry);
 			var pointMaterial = new THREE.PointsMaterial( { 
 				vertexColors: THREE.VertexColors,
 				visible: true, 
 				size: 60 } )
-			var dot = new THREE.Points( midiGeometry, pointMaterial );
+			var dot = new THREE.Points( midiGeometry.notes, pointMaterial );
 			scene.add( dot );
 
-// test comment
-// test cube
-			cube = new THREE.Mesh( new THREE.CubeGeometry( 200, 200, 200 ), new THREE.MeshNormalMaterial() );
-			cube.position.x = 0;
-			cube.position.y = 0;
-			cube.position.z = 0;
+			var tonnetzMesh = new THREE.Mesh(midiGeometry.tonnetz, material);
+			scene.add(tonnetzMesh);
 			// scene.add(cube);
 			// mesh.name = "tonnetz";
 			// scene.add(mesh);
