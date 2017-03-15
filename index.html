@@ -345,8 +345,12 @@ function init() {
 			var dot = new THREE.Points( midiGeometry.notes, pointMaterial );
 			scene.add( dot );
 
-			var tonnetzMesh = new THREE.Mesh(midiGeometry.tonnetz, material);
-			scene.add(tonnetzMesh);
+			
+			for (var i = 0; i < tonnetzGeo.length; i++) {
+				var tonnetzMesh = new THREE.Mesh(midiGeometry.tonnetz[i], material);
+				scene.add(tonnetzMesh);
+			}
+			
 			// scene.add(cube);
 			// mesh.name = "tonnetz";
 			// scene.add(mesh);
