@@ -145,21 +145,6 @@
 	var fifthsOrder = [0, 7, 2, 9, 4, 11, 6, 1, 8, 3, 10, 5];
 	var currentNoteOrder = fifthsOrder;
 
-	var circleOfFifthsMap = {
-			0: [ 0, 100, 51 ], // 0 C
-			1: [ 210, 100, 28 ], // 7 G
-			2: [ 60, 100, 52 ], // 2 D
-			3: [ 270, 100, 50 ], // 9 A
-			4: [ 120, 100, 60 ], // 4 E
-			5: [ 330, 100, 46 ], // 11 B 
-			6: [ 180, 100, 34 ], // 6 Gb
-			7: [ 30, 100, 51 ], // 1 Db
-			8: [ 240, 100, 27 ], // 8 Ab
-			9: [ 90, 100, 60 ], // 3 Eb
-			10: [ 300, 100, 37 ], // 10 Bb
-			11: [ 150, 100, 32 ] // 5 F
-		};
-
 		var secondaryColors = { //offset by half from primary for testing
 			
 			0: [ 270, 100, 50 ], // 9 A
@@ -343,7 +328,7 @@ function init() {
 				size: 60 } )
 			var dot = new THREE.Points( midiGeometry.notes, pointMaterial );
 			scene.add( dot );
-			
+
 			var meshMaterial = new THREE.MeshBasicMaterial( { 
 				    shading: THREE.FlatShading,
 				    vertexColors: THREE.VertexColors,
@@ -520,7 +505,7 @@ function mapColorsToVertices(colorset) {
 			colorMap[x][y] = colorset[note];
 		}
 	}
-
+	gColorMap = colorMap;
 	return colorMap;
 }
 
@@ -551,7 +536,6 @@ function setColors(noteOrder) {
 			var hue = n*dAngle;
 			colorMap[noteOrder[n]] = [hue, 100, 50];
 		}
-		gColorMap = colorMap;
 		return colorMap;
 	}
 
@@ -1024,7 +1008,7 @@ function buildTemplateTonnetzGeometry(time) {
    	vertexKey = [];
 
    	var mag = 40;
-
+   	console.log(vertexColors);
    	for (var y = 0; y < 6; y++) {
    		for (var x = 0; x < 7; x++) {
    			var vertex = new THREE.Vector3(mag*x + mag*0.5*y, mag*5 - (mag*y), time);
@@ -1110,7 +1094,7 @@ function createGeometry(noteArray, totalTime) {
 						var vertex = new THREE.Vector3(40*x + 20*y + octaveShift - (280*3.5), 200 - (40*y), t);
 						// var vertex = new THREE.Vector3(x, y, 0);
 						geometry.vertices.push(vertex);
-						var col = HSLArrayToString(gColorMap[note % 12]);
+						var col = HSLArrayToString(primaryColors[note % 12]);
    					var vertColor = new THREE.Color( col );
    					geometry.colors.push(vertColor);
 					}
