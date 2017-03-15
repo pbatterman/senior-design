@@ -1,5 +1,5 @@
 // convert array to threejs vertices for point cloud rendering
-function createGeometry(noteArray, startTime, totalTime) {
+function createGeometry(noteArray, totalTime) {
 	var geometry = new THREE.Geometry();
 	var zidx = 0;
  	// for (var eventTime in noteArray) {
