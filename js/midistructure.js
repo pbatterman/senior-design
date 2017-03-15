@@ -1,3 +1,4 @@
+// construct template tonnetz geometry
 function buildTemplateTonnetzGeometry() {
 	var geometry = new THREE.Geometry();
    	vertexColors = [];
