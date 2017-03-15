@@ -62,7 +62,6 @@ function buildTemplateTonnetzGeometry() {
    			continue;
    		}
    	}
-  }
   return geometry;
 }
 
