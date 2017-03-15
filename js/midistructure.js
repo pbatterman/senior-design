@@ -1,4 +1,4 @@
-function buildTonnetzGeometry() {
+function buildTemplateTonnetzGeometry() {
 	var geometry = new THREE.Geometry();
    	vertexColors = [];
    	vertexKey = [];
@@ -78,7 +78,7 @@ function createGeometry(noteArray, totalTime) {
  	for (var t = 0; t < totalTime; t++) {
  		if (noteArray[t]) {
  			notes = noteArray[t];
- 			var singleTon = buildTonnetzGeometry();
+ 			var singleTon = buildTemplateTonnetzGeometry();
  			tonnetzGeo.merge(singleTon.geometry, singleTon.matrix);
  		}
  		if (!notes) continue;
