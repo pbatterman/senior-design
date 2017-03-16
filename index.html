@@ -265,7 +265,6 @@
 
 
 function init() {
-	pausePlayStop(true);
 	resetColorWheel(fifthsOrder);
 	scene = new THREE.Scene();
 	var WIDTH = 0.8*window.innerWidth,
@@ -732,7 +731,7 @@ eventjs.add(window, "load", function(event) {
 					// colorSolidMesh(blendColor);
 					// updateMesh(mesh, pAngleOffset);
 				}
-
+				player.pause();
 			});
 			///
 			MIDIPlayerPercentage(player);
