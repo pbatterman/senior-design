@@ -328,10 +328,7 @@ function init() {
 	var srcmidifile = 'music/fur_elise.mid';
 
 	loadRemote(srcmidifile, function(data) {
-			mfile = MidiFile(data);
-			uploadedMidiFile = mfile;
-			var parent = new THREE.Object3D();
-			parent.name = "musicStructure"
+			uploadedMidiFile = MidiFile(data);
 			constructVisualization(0.5);
 			
 			// scene.add(cube);
@@ -363,6 +360,9 @@ function init() {
 
 function constructVisualization(scale) {
 	var midiGeometry = buildSongStructure(uploadedMidiFile, scale);
+	var parent = new THREE.Object3D();
+	parent.name = "musicStructure"
+
 	var pointMaterial = new THREE.PointsMaterial( { 
 		vertexColors: THREE.VertexColors,
 		visible: true, 
