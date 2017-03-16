@@ -720,11 +720,12 @@ eventjs.add(window, "load", function(event) {
 					// updateMesh(mesh, pAngleOffset);
 				}
 
-				var parent =  scene.getObjectByName("musicStructure");
-				var dz = data.now * (songTicks / data.end);
-				parent.position.set( 0, 0, -dz);
-				// parent.translateOnAxis( new THREE.Vector3(0,0,1), -data.now );
-
+				var parent = scene.getObjectByName("musicStructure");
+				if (parent) {
+					var dz = data.now * (songTicks / data.end);
+					parent.position.set( 0, 0, -dz);
+				}
+				
 				var note = data.note - 21;
 				var d = colorElements[note];
 				var colorset;
