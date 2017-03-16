@@ -735,8 +735,7 @@ eventjs.add(window, "load", function(event) {
 						// displaceVertex(note, data.velocity);
 					}
 
-					var blendColor;
-					blendColor = blendColors(activeNotes);
+					var blendColor = blendColors(activeNotes);
 					blendBox.style.background = HSLArrayToString(blendColor);
 					// colorSolidMesh(blendColor);
 					// updateMesh(mesh, pAngleOffset);
@@ -1012,10 +1011,17 @@ function MIDIPlayerPercentage(player) {
 	];
 
 // construct template tonnetz geometry
-function buildTemplateTonnetzGeometry(time) {
+function buildTemplateTonnetzGeometry(time, notes) {
 	var geometry = new THREE.Geometry();
    	vertexColors = [];
    	vertexKey = [];
+
+   	var activeColors = [];
+   	activeColors.push(primaryColors(notes[0]));
+   	for (var i = 1; i < notes.length; i++) {
+   		activeColors.push(secondaryColors(notes[i]));
+   	}
+   	var blendColor = blendColors(activeColors);
 
    	var mag = 40;
    	for (var y = 0; y < 6; y++) {
@@ -1023,7 +1029,8 @@ function buildTemplateTonnetzGeometry(time) {
    			var vertex = new THREE.Vector3(mag*x + mag*0.5*y, mag*5 - (mag*y), time);
    			geometry.vertices.push(vertex);
    			vertexKey.push(noteVertices[x][y]);
-   			var col = HSLArrayToString(gColorMap[x][y]);
+   			// var col = HSLArrayToString(gColorMap[x][y]);
+   			var col = HSLArrayToString(blendColor);
    			var vertColor = new THREE.Color( col );
    			vertexColors.push(vertColor);
    		}
@@ -1089,7 +1096,7 @@ function createGeometry(noteArray, startTime, totalTime) {
  	for (var t = startTime; t < totalTime; t++) {
  		if (noteArray[t]) {
  			notes = noteArray[t];
- 			var singleTon = buildTemplateTonnetzGeometry(t - startTime);
+ 			var singleTon = buildTemplateTonnetzGeometry(t - startTime, notes);
  			tonnetzGeo.push(singleTon);
  		}
  		if (!notes) continue;
@@ -1099,8 +1106,8 @@ function createGeometry(noteArray, startTime, totalTime) {
  			for (var x = 0; x < 7; x++) {
 				for (var y = 0; y < 6; y++) {
 					if (noteVertices[x][y] == (note % 12)) {
-						octaveShift = (Math.floor(note / 12) * 280) - (280*3.5);
-						// octaveShift = 0;
+						// octaveShift = (Math.floor(note / 12) * 280) - (280*3.5);
+						octaveShift = 0;
 						var vertex = new THREE.Vector3(40*x + 20*y + octaveShift, 200 - (40*y), t - startTime);
 						// var vertex = new THREE.Vector3(x, y, 0);
 						geometry.vertices.push(vertex);
