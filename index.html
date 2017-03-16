@@ -961,15 +961,18 @@ var openFile = function(event) {
 
   };
   reader.readAsDataURL(input.files[0]);
-  loadRemote(input.files[0], function(data) {
-			uploadedMidiFile = MidiFile(data);
-			constructVisualization(visScale);
+  uploadedMidiFile = input.files[0];
+  constructVisualization(visScale);
+
+ //  loadRemote(input.files[0], function(data) {
+	// 		uploadedMidiFile = MidiFile(data);
+	// 		constructVisualization(visScale);
 			
-			// scene.add(cube);
-			// mesh.name = "tonnetz";
-			// scene.add(mesh);
-			animate();
-	});
+	// 		// scene.add(cube);
+	// 		// mesh.name = "tonnetz";
+	// 		// scene.add(mesh);
+	// 		animate();
+	// });
 }
 
 function MIDIPlayerPercentage(player) {
