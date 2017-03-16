@@ -70,6 +70,7 @@
 					<div class="btn-group btn-group-xs" role="group" aria-label="...">
 						<button type="button" class="btn btn-default" onclick="resetColorWheel(fifthsOrder)">Circle of Thirds</button>
 						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#customOuterRingModal" onclick="pausePlayStop()">Custom</button>
+						<button type="button" class="btn btn-success" onclick="startAnimation()">GO</button>
 						<input type='file' accept='audio/midi' onchange='openFile(event)'><br>
 						<img id='output'>
 					</div>
@@ -138,6 +139,7 @@
 
 	// camera movement
 	var ticksPerBeat = 0;
+	var animating = false;
 
 	var primaryColors, secondaryColors;
 
@@ -319,6 +321,7 @@ function init() {
 
 
 	var srcmidifile = 'music/fur_elise.mid';
+
 	loadRemote(srcmidifile, function(data) {
 			mfile = MidiFile(data);
 
@@ -369,7 +372,10 @@ function init() {
 
 function animate() {
 	requestAnimationFrame(animate);
- 	camera.position.z += ticksPerBeat;
+	if (animating) {
+		camera.position.z += ticksPerBeat;
+	}
+ 	
   // Render the scene.
   renderer.render(scene, camera);
   controls.update();
@@ -651,6 +657,7 @@ eventjs.add(window, "load", function(event) {
 			/// this is the language we are running in
 			/// this sets up the MIDI.Player and gets things going...
 			player = MIDI.Player;
+			pausePlayStop(true);
 			// var channels = [];
 			// var channelCount = 0;
 			// var channelContainer = document.getElementById("channels");
@@ -920,11 +927,12 @@ var openFile = function(event) {
     var dataURL = reader.result;
     var output = document.getElementById('output');
     output.src = dataURL;
+    song = [];
     song.push(dataURL);
     console.log(song);
     numSongs++;
   };
-  var uploadFile = reader.readAsDataURL(input.files[0]);
+  reader.readAsDataURL(input.files[0]);
 };
 
 function MIDIPlayerPercentage(player) {
@@ -1145,6 +1153,14 @@ function buildSongStructure(midifile) {
 	return geometry;
 }
 
+function startAnimation() {
+	animating = true;
+	pausePlayStop();
+}
+
+function toggleAnimation() {
+	animating = !animating;
+}
 
 init();
 		</script>
