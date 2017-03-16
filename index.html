@@ -411,7 +411,7 @@ function updateMesh(mesh, colorOffset) {
 		}
 
 		mesh.geometry.colorsNeedUpdate = true;
-		animate();
+		// animate();
 	}
 	
 }
@@ -753,7 +753,6 @@ function colorSolidMesh(blendColor) {
 		mesh.geometry.faces[ f ].color.setHSL(h, s, l);
 	}
 	mesh.geometry.colorsNeedUpdate = true;
-	animate();
 }
 
 // highlight active notes
@@ -793,7 +792,6 @@ function displaceVertex(note, dz) {
 			solidMesh.geometry.vertices[v].set(oldVert.x, oldVert.y, dz);
 			solidMesh.geometry.dynamic = true;
 			solidMesh.geometry.verticesNeedUpdate = true;
-			animate();
 		}
 	}
 
