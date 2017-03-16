@@ -1128,7 +1128,7 @@ function createGeometry(noteArray, startTime, totalTime, scale) {
  		var zPos = (t - startTime) * scale;
  		if (noteArray[t]) {
  			notes = noteArray[t];
- 			for (var o = 0; o < 7; o++) {
+ 			for (var o = 0; o < 8; o++) {
  				var singleTon = buildTemplateTonnetzGeometry(zPos, notes, o);
  				tonnetzGeo.push(singleTon);
  			}
