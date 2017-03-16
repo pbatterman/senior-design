@@ -40,8 +40,6 @@
 	<script src="MIDI.js/examples/inc/colorspace.js" type="text/javascript"></script>
 	<script src="MIDI.js/examples/inc/event.js" type="text/javascript"></script>
 
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.3.5/Tween.min.js"></script>	
-
 </head>
 <body>
 	<div id="colors"></div>
@@ -137,6 +135,9 @@
 
 	// Threejs
 	var scene, camera, renderer, noteVertices, vertexColors, vertexKey, vertexColorCache, gColorMap;
+
+	// camera movement
+	var ticksPerBeat = 0;
 
 	var primaryColors, secondaryColors;
 
@@ -275,7 +276,7 @@ function init() {
 	container.appendChild( renderer.domElement );
 
   camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT, 0.1, 20000);
-  camera.position.set(532, -505, 413);
+  camera.position.set(532, -500, 100);
 //     {x: 0.06789925799970922, y: 0.8399987615915472, z: -0.5383231084649841}
 // (index):247 q {x: 532.3324120127733, y: -505.8011184302427, z: 413.26422056914737}
 	camera.up = new THREE.Vector3(0,0,1);
@@ -368,7 +369,7 @@ function init() {
 
 function animate() {
 	requestAnimationFrame(animate);
- 	camera.position.z += 0.5;
+ 	camera.position.z += ticksPerBeat;
   // Render the scene.
   renderer.render(scene, camera);
   controls.update();
@@ -1113,6 +1114,8 @@ function createGeometry(noteArray, startTime, totalTime) {
 function buildSongStructure(midifile) {
 	var header = midifile.header;
 	var tracks = midifile.tracks;
+
+	ticksPerBeat = header.ticksPerBeat;
 
 	var events = tracks[1];
 
