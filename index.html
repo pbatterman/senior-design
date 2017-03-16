@@ -328,7 +328,7 @@ function init() {
 			mfile = MidiFile(data);
 			var parent = new THREE.Object3D();
 			parent.name = "musicStructure"
-			var midiGeometry = buildSongStructure(mfile, 0.2);
+			var midiGeometry = buildSongStructure(mfile, 0.5);
 			var pointMaterial = new THREE.PointsMaterial( { 
 				vertexColors: THREE.VertexColors,
 				visible: true, 
