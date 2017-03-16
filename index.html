@@ -1023,6 +1023,9 @@ function buildTemplateTonnetzGeometry(time, notes) {
    		activeColors[notes[i]] = (primaryColors[notes[i] % 12]);
    	}
    	var blendColor = blendColors(activeColors);
+   	if (blendColor[0] < 0) {
+			blendColor[0] = (360 + blendColor[0]);
+		}
    	blendColor[0] = parseInt(blendColor[0]);
 		blendColor[1] = parseInt(blendColor[1]);
 		blendColor[2] = parseInt(blendColor[2]);
