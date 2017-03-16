@@ -697,7 +697,9 @@ eventjs.add(window, "load", function(event) {
 					// updateMesh(mesh, pAngleOffset);
 				}
 
-				camera.position.z = data.now + 200;
+				camera.position.z = data.now;
+				camera.lookAt(140,100,data.now;);
+
 				var note = data.note - 21;
 				var d = colorElements[note];
 				var colorset;
