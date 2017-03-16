@@ -373,9 +373,9 @@ function init() {
 function animate() {
 	requestAnimationFrame(animate);
 	var d = new Date();
-	if (animating) {
-		camera.position.z += animationInterval;
-	}
+	// if (animating) {
+	// 	camera.position.z += animationInterval;
+	// }
  	
   // Render the scene.
   renderer.render(scene, camera);
@@ -1078,9 +1078,10 @@ function createGeometry(noteArray, startTime, totalTime) {
 	var result = {};
  	// for (var eventTime in noteArray) {
  	for (var t = startTime; t < totalTime; t++) {
+ 		camera.position.z++;
  		if (noteArray[t]) {
  			notes = noteArray[t];
- 			var singleTon = buildTemplateTonnetzGeometry(t);
+ 			var singleTon = buildTemplateTonnetzGeometry(t - startTime);
  			tonnetzGeo.push(singleTon);
  		}
  		if (!notes) continue;
