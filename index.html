@@ -1017,9 +1017,9 @@ function buildTemplateTonnetzGeometry(time, notes) {
    	vertexKey = [];
 
    	var activeColors = [];
-   	activeColors.push(primaryColors(notes[0]));
+   	activeColors.push(primaryColors[notes[0]]);
    	for (var i = 1; i < notes.length; i++) {
-   		activeColors.push(secondaryColors(notes[i]));
+   		activeColors.push(secondaryColors[notes[i]]);
    	}
    	var blendColor = blendColors(activeColors);
 
