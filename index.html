@@ -952,6 +952,7 @@ var openFile = function(event) {
   var reader = new FileReader();
   reader.onload = function(){
     var dataURL = reader.result;
+    uploadedMidiFile = reader.result;
     var output = document.getElementById('output');
     output.src = dataURL;
     song = [];
@@ -960,8 +961,10 @@ var openFile = function(event) {
     numSongs++;
 
   };
-  reader.readAsDataURL(input.files[0]);
-  uploadedMidiFile = MidiFile(input.files[0]);
+  // reader.readAsDataURL(input.files[0]);
+  reader.readAsText(input.files[0]);
+
+  // uploadedMidiFile = MidiFile(input.files[0]);
   constructVisualization(visScale);
 
  //  loadRemote(input.files[0], function(data) {
