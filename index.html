@@ -329,6 +329,11 @@ function init() {
         vertexColors: THREE.FaceColors
     });
 
+	var planeGeometry = new THREE.PlaneGeometry( 1000, 1000);
+	var planeMaterial = new THREE.MeshBasicMaterial( {color: 0xffffff, transparent: true, side: THREE.DoubleSide} );
+	planeMaterial.opacity = 0.5;
+	var plane = new THREE.Mesh( planeGeometry, planeMaterial );
+	scene.add( plane );
 
 	var srcmidifile = 'music/triads.mid';
 
