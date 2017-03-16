@@ -330,16 +330,16 @@ function init() {
     });
 
 
-	var srcmidifile = 'music/fur_elise.mid';
+	// var srcmidifile = 'music/fur_elise.mid';
 
-	loadRemote(srcmidifile, function(data) {
-			uploadedMidiFile = MidiFile(data);
-			constructVisualization(visScale);
+	// loadRemote(srcmidifile, function(data) {
+	// 		uploadedMidiFile = MidiFile(data);
+	// 		constructVisualization(visScale);
 			
-			// scene.add(cube);
-			// mesh.name = "tonnetz";
-			// scene.add(mesh);
-			animate();
+	// 		// scene.add(cube);
+	// 		// mesh.name = "tonnetz";
+	// 		// scene.add(mesh);
+	// 		animate();
 
 
 	});
@@ -957,8 +957,17 @@ var openFile = function(event) {
     song.push(dataURL);
     console.log(song);
     numSongs++;
+
   };
-  reader.readAsDataURL(input.files[0]);
+  reader.readAsDataURL();
+  loadRemote(input.files[0], function(data) {
+			uploadedMidiFile = MidiFile(data);
+			constructVisualization(visScale);
+			
+			// scene.add(cube);
+			// mesh.name = "tonnetz";
+			// scene.add(mesh);
+			animate();
 };
 
 function MIDIPlayerPercentage(player) {
@@ -1134,8 +1143,8 @@ function createGeometry(noteArray, startTime, totalTime, scale) {
  			for (var x = 0; x < 7; x++) {
 				for (var y = 0; y < 6; y++) {
 					if (noteVertices[x][y] == (note % 12)) {
-						// octaveShift = (Math.floor(note / 12) * 280) - (280*3.5);
-						octaveShift = 0;
+						octaveShift = (Math.floor(note / 12) * 280) - (280*3.5);
+						// octaveShift = 0;
 						var vertex = new THREE.Vector3(40*x + 20*y + octaveShift, 200 - (40*y), zPos);
 						// var vertex = new THREE.Vector3(x, y, 0);
 						geometry.vertices.push(vertex);
