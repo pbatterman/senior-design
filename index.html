@@ -281,7 +281,7 @@ function init() {
 	camera.up = new THREE.Vector3(0,0,1);
   var dir = new THREE.Vector3(0.86789925799970922, 0.8399987615915472, -0.5383231084649841);
   var pos = new THREE.Vector3(532, -505, 413);
-	camera.lookAt(0,0,0);
+	camera.lookAt(140,100,0);
 
   scene.add(camera);
   
@@ -368,10 +368,10 @@ function init() {
 
 function animate() {
 	requestAnimationFrame(animate);
- 
-    // Render the scene.
-    renderer.render(scene, camera);
-    controls.update();
+ 	camera.position.z += 0.5;
+  // Render the scene.
+  renderer.render(scene, camera);
+  controls.update();
 
 }
 
@@ -1069,14 +1069,14 @@ function buildTemplateTonnetzGeometry(time) {
 
 
 // convert array to threejs vertices for point cloud rendering
-function createGeometry(noteArray, totalTime) {
+function createGeometry(noteArray, startTime, totalTime) {
 	var geometry = new THREE.Geometry();
 	var tonnetzGeo = [];
 	var zidx = 0;
 	var notes;
 	var result = {};
  	// for (var eventTime in noteArray) {
- 	for (var t = 0; t < totalTime; t++) {
+ 	for (var t = startTime; t < totalTime; t++) {
  		if (noteArray[t]) {
  			notes = noteArray[t];
  			var singleTon = buildTemplateTonnetzGeometry(t);
@@ -1091,7 +1091,7 @@ function createGeometry(noteArray, totalTime) {
 					if (noteVertices[x][y] == (note % 12)) {
 						octaveShift = (Math.floor(note / 12) * 280) - (280*3.5);
 						octaveShift = 0;
-						var vertex = new THREE.Vector3(40*x + 20*y + octaveShift, 200 - (40*y), t);
+						var vertex = new THREE.Vector3(40*x + 20*y + octaveShift, 200 - (40*y), t - startTime);
 						// var vertex = new THREE.Vector3(x, y, 0);
 						geometry.vertices.push(vertex);
 						var col = HSLArrayToString(primaryColors[note % 12]);
@@ -1119,6 +1119,7 @@ function buildSongStructure(midifile) {
 	var totalTime = 0;
 	var notesForStruct = {};
 	var currentNotes = [];
+	var startTime = -1;
 
 	// if event contains 'noteOn' or 'noteOff' subtypes, add note to an object for each time that an event occurs
 	for (var e = 0; e < events.length; e++) {
@@ -1128,6 +1129,7 @@ function buildSongStructure(midifile) {
 		var note = (noteEvent.noteNumber + 9);
 		if (noteEvent.subtype == "noteOn") {
 			currentNotes.push(note);
+			if (startTime == -1) startTime = totalTime;
 		}
 		else if(noteEvent.subtype == "noteOff") {
 			var idx = currentNotes.indexOf(note);
@@ -1136,7 +1138,7 @@ function buildSongStructure(midifile) {
 		notesForStruct[totalTime] = currentNotes.slice();
 
 	}
-	var geometry = createGeometry(notesForStruct, totalTime);
+	var geometry = createGeometry(notesForStruct, startTime, totalTime);
 	return geometry;
 }
 
