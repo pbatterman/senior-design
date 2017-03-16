@@ -372,6 +372,8 @@ function init() {
 
 function animate() {
 	requestAnimationFrame(animate);
+	var d = new Date();
+	console.log(d.getTime());
 	if (animating) {
 		camera.position.z += ticksPerBeat;
 	}
