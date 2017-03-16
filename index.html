@@ -328,7 +328,7 @@ function init() {
 			mfile = MidiFile(data);
 			var parent = new THREE.Object3D();
 			parent.name = "musicStructure"
-			var midiGeometry = buildSongStructure(mfile);
+			var midiGeometry = buildSongStructure(mfile, 0.2);
 			var pointMaterial = new THREE.PointsMaterial( { 
 				vertexColors: THREE.VertexColors,
 				visible: true, 
@@ -1093,17 +1093,18 @@ function buildTemplateTonnetzGeometry(time, notes) {
 
 
 // convert array to threejs vertices for point cloud rendering
-function createGeometry(noteArray, startTime, totalTime) {
+function createGeometry(noteArray, startTime, totalTime, scale) {
 	var geometry = new THREE.Geometry();
 	var tonnetzGeo = [];
 	var zidx = 0;
 	var notes;
 	var result = {};
+	var zPos = (t - startTime) * scale;
  	// for (var eventTime in noteArray) {
  	for (var t = startTime; t < totalTime; t++) {
  		if (noteArray[t]) {
  			notes = noteArray[t];
- 			var singleTon = buildTemplateTonnetzGeometry(t - startTime, notes);
+ 			var singleTon = buildTemplateTonnetzGeometry(zPos, notes);
  			tonnetzGeo.push(singleTon);
  		}
  		if (!notes) continue;
@@ -1115,7 +1116,7 @@ function createGeometry(noteArray, startTime, totalTime) {
 					if (noteVertices[x][y] == (note % 12)) {
 						// octaveShift = (Math.floor(note / 12) * 280) - (280*3.5);
 						octaveShift = 0;
-						var vertex = new THREE.Vector3(40*x + 20*y + octaveShift, 200 - (40*y), t - startTime);
+						var vertex = new THREE.Vector3(40*x + 20*y + octaveShift, 200 - (40*y), zPos);
 						// var vertex = new THREE.Vector3(x, y, 0);
 						geometry.vertices.push(vertex);
 						var col = HSLArrayToString(primaryColors[note % 12]);
@@ -1134,25 +1135,25 @@ function createGeometry(noteArray, startTime, totalTime) {
 }
 
 // construct main structure of song
-function buildSongStructure(midifile) {
+function buildSongStructure(midifile, scale) {
 	var header = midifile.header;
 	var tracks = midifile.tracks;
 
-	var ticksPerBeat = header.ticksPerBeat;
-	var microsecondsPerTick = 0;
-	var metadata = tracks[0];
-	var bpm = 120;
+	// var ticksPerBeat = header.ticksPerBeat;
+	// var microsecondsPerTick = 0;
+	// var metadata = tracks[0];
+	// var bpm = 120;
 
-	for (var i = 0; i < metadata.length; i++) {
-		if (metadata[i].subtype == "setTempo") {
-			var microsecondsPerBeat = metadata[i].microsecondsPerBeat;
-			var msPerBeat = microsecondsPerBeat / 1000;
-			var ticksPerMs = Math.floor(16 * 2 * ticksPerBeat / msPerBeat);
-			animationInterval = ticksPerMs;
-			console.log("interval " + animationInterval);
-			break;
-		}
-	}
+	// for (var i = 0; i < metadata.length; i++) {
+	// 	if (metadata[i].subtype == "setTempo") {
+	// 		var microsecondsPerBeat = metadata[i].microsecondsPerBeat;
+	// 		var msPerBeat = microsecondsPerBeat / 1000;
+	// 		var ticksPerMs = Math.floor(16 * 2 * ticksPerBeat / msPerBeat);
+	// 		animationInterval = ticksPerMs;
+	// 		console.log("interval " + animationInterval);
+	// 		break;
+	// 	}
+	// }
 	var events = tracks[1];
 
 	var totalTime = 0;
@@ -1177,8 +1178,8 @@ function buildSongStructure(midifile) {
 		notesForStruct[totalTime] = currentNotes.slice();
 
 	}
-	songTicks = totalTime;
-	var geometry = createGeometry(notesForStruct, startTime, totalTime);
+	songTicks = totalTime * scale;
+	var geometry = createGeometry(notesForStruct, startTime, totalTime, scale);
 	return geometry;
 }
 
