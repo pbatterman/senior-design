@@ -949,9 +949,9 @@ var numSongs = 0;
 var openFile = function(event) {
   var input = event.target;
 
-  var reader = new FileReader();
-  reader.onload = function(){
-    var dataURL = reader.result;
+  var urlReader = new FileReader();
+  urlReader.onload = function(){
+    var dataURL = urlReader.result;
     var output = document.getElementById('output');
     output.src = dataURL;
     song = [];
@@ -959,14 +959,22 @@ var openFile = function(event) {
     console.log(song);
     numSongs++;
     
-    uploadedMidiFile = MidiFile(reader.result);
-
-
+    // uploadedMidiFile = MidiFile(reader.result);
   };
-  // reader.readAsDataURL(input.files[0]);
-  reader.readAsText(input.files[0]);
 
-  // uploadedMidiFile = MidiFile(input.files[0]);
+  // var textReader = new FileReader();
+  // textReader.onload = function(){
+  //   var dataURL = textReader.result;
+  //   var output = document.getElementById('output');
+  //   output.src = dataURL;
+    
+  //   uploadedMidiFile = MidiFile(reader.result);
+  // };
+
+  urlReader.readAsDataURL(input.files[0]);
+  // textReader.readAsText(input.files[0]);
+
+  uploadedMidiFile = MidiFile(input.files[0]);
   constructVisualization(visScale);
 
  //  loadRemote(input.files[0], function(data) {
