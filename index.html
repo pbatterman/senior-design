@@ -967,38 +967,11 @@ var openFile = function(event) {
 			uploadedMidiFile = MidiFile(data);
 			constructVisualization(visScale);
 				
-				// scene.add(cube);
-				// mesh.name = "tonnetz";
-				// scene.add(mesh);
 			animate();
 		});
-    
-    // uploadedMidiFile = MidiFile(reader.result);
   };
 
-  // var textReader = new FileReader();
-  // textReader.onload = function(){
-  //   var data = textReader.result;
-  //   var output = document.getElementById('output');
-  //   output.src = data;
-    
-  //   console.log("textreader");
-		// console.log(data);
-  //   uploadedMidiFile = MidiFile(data);
-  //   constructVisualization(visScale);
-  // };
-
   urlReader.readAsDataURL(input.files[0]);
-
- //  loadRemote(input.files[0], function(data) {
-	// 		uploadedMidiFile = MidiFile(data);
-	// 		constructVisualization(visScale);
-			
-	// 		// scene.add(cube);
-	// 		// mesh.name = "tonnetz";
-	// 		// scene.add(mesh);
-	// 		animate();
-	// });
 }
 
 function MIDIPlayerPercentage(player) {
@@ -1045,17 +1018,6 @@ function MIDIPlayerPercentage(player) {
 	});
 };
 
-// function animatePlayer(id) {
-// 	document.getElementById(id).animate([
-// 	  // keyframes
-// 	  { transform: 'translateX(0px)' }, 
-// 	  { transform: 'translateX(1000px)' }
-// 	  ], { 
-// 	  // timing options
-// 	  duration: 1000,
-// 	  iterations: 1
-// 	});
-// };
 		// Begin loading indication.
 		var player;
 		// MIDI files from Disklavier World
@@ -1072,7 +1034,7 @@ function MIDIPlayerPercentage(player) {
 	];
 
 // construct template tonnetz geometry
-function buildTemplateTonnetzGeometry(time, notes) {
+function buildTemplateTonnetzGeometry(time, notes, octave) {
 	var geometry = new THREE.Geometry();
    	vertexColors = [];
    	vertexKey = [];
@@ -1091,9 +1053,11 @@ function buildTemplateTonnetzGeometry(time, notes) {
 		blendColor[2] = parseInt(blendColor[2]);
 
    	var mag = 40;
+   	var octaveShift = (Math.floor(octave * 7 * mag) - (7 * mag * 3.5);
+
    	for (var y = 0; y < 6; y++) {
    		for (var x = 0; x < 7; x++) {
-   			var vertex = new THREE.Vector3(mag*x + mag*0.5*y, mag*5 - (mag*y), time);
+   			var vertex = new THREE.Vector3(mag*x + mag*0.5*y + octaveShift, mag*5 - (mag*y), time);
    			geometry.vertices.push(vertex);
    			vertexKey.push(noteVertices[x][y]);
    			// var col = HSLArrayToString(gColorMap[x][y]);
@@ -1164,7 +1128,7 @@ function createGeometry(noteArray, startTime, totalTime, scale) {
  		var zPos = (t - startTime) * scale;
  		if (noteArray[t]) {
  			notes = noteArray[t];
- 			var singleTon = buildTemplateTonnetzGeometry(zPos, notes);
+ 			var singleTon = buildTemplateTonnetzGeometry(zPos, notes, Math.floor(note/12));
  			tonnetzGeo.push(singleTon);
  		}
  		if (!notes) continue;
