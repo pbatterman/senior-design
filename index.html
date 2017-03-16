@@ -1124,7 +1124,7 @@ function buildSongStructure(midifile) {
 		if (metadata[i].subtype == "setTempo") {
 			var microsecondsPerBeat = metadata[i].microsecondsPerBeat;
 			var msPerBeat = microsecondsPerBeat / 1000;
-			var ticksPerMs = Math.floor(16 * ticksPerBeat / msPerBeat);
+			var ticksPerMs = Math.floor(16 * 2 * ticksPerBeat / msPerBeat);
 			animationInterval = ticksPerMs;
 			console.log("interval " + animationInterval);
 			break;
