@@ -330,7 +330,7 @@ function init() {
     });
 
 
-	var srcmidifile = 'music/fur_elise.mid';
+	var srcmidifile = 'music/triads.mid';
 
 	loadRemote(srcmidifile, function(data) {
 		console.log("loadremote");
@@ -968,7 +968,7 @@ var openFile = function(event) {
   textReader.onload = function(){
     var data = textReader.result;
     var output = document.getElementById('output');
-    output.src = dataURL;
+    output.src = data;
     
     console.log("textreader");
 		console.log(data);
