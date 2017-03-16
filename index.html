@@ -762,18 +762,6 @@ function colorSolidMesh(blendColor) {
 	mesh.geometry.colorsNeedUpdate = true;
 }
 
-function colorMesh(mesh, blendColor) {
-	if (!blendColor) {
-		blendColor = [0, 0, 30];
-	}
-	var h = blendColor[0] / 360.0;
-	var s = blendColor[1] / 100.0;
-	var l = blendColor[2] / 100.0;
-	for (var f = 0; f < mesh.geometry.faces.length; f++) {
-		mesh.geometry.faces[ f ].color.setHSL(h, s, l);
-	}
-	mesh.geometry.colorsNeedUpdate = true;
-}
 
 // highlight active notes
 function highlightVertices(activeColors, blendColor, colorset) {
@@ -1035,9 +1023,9 @@ function buildTemplateTonnetzGeometry(time, notes) {
    		activeColors[notes[i]] = (primaryColors[notes[i] % 12]);
    	}
    	var blendColor = blendColors(activeColors);
-   	blendColor[0] /= 360.0;
-		blendColor[1] /= 100.0;
-		blendColor[2] /= 100.0;
+   	blendColor[0] = parseInt(blendColor[0]);
+		blendColor[1] = parseInt(blendColor[1]);
+		blendColor[2] = parseInt(blendColor[2]);
 
    	var mag = 40;
    	for (var y = 0; y < 6; y++) {
