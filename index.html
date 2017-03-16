@@ -332,26 +332,8 @@ function init() {
 			uploadedMidiFile = mfile;
 			var parent = new THREE.Object3D();
 			parent.name = "musicStructure"
-			var midiGeometry = buildSongStructure(mfile, 0.5);
-			var pointMaterial = new THREE.PointsMaterial( { 
-				vertexColors: THREE.VertexColors,
-				visible: true, 
-				size: 10 } )
-			var dot = new THREE.Points( midiGeometry.notes, pointMaterial );
-			dot.name = "notes"
-			parent.add( dot );
-
-			var meshMaterial = new THREE.MeshBasicMaterial( { 
-				    shading: THREE.FlatShading,
-				    vertexColors: THREE.VertexColors,
-				    wireframe: true
-				});
-			for (var i = 0; i < midiGeometry.tonnetz.length; i++) {
-				var tonnetzMesh = new THREE.Mesh(midiGeometry.tonnetz[i], meshMaterial);
-				parent.add(tonnetzMesh);
-			}
+			constructVisualization(0.5);
 			
-			scene.add(parent);
 			// scene.add(cube);
 			// mesh.name = "tonnetz";
 			// scene.add(mesh);
@@ -377,6 +359,29 @@ function init() {
 */
 
  	controls = new THREE.OrbitControls(camera, renderer.domElement);
+}
+
+function constructVisualization(scale) {
+	var midiGeometry = buildSongStructure(uploadedMidiFile, scale);
+	var pointMaterial = new THREE.PointsMaterial( { 
+		vertexColors: THREE.VertexColors,
+		visible: true, 
+		size: 10 } )
+	var dot = new THREE.Points( midiGeometry.notes, pointMaterial );
+	dot.name = "notes"
+	parent.add( dot );
+
+	var meshMaterial = new THREE.MeshBasicMaterial( { 
+		    shading: THREE.FlatShading,
+		    vertexColors: THREE.VertexColors,
+		    wireframe: true
+		});
+	for (var i = 0; i < midiGeometry.tonnetz.length; i++) {
+		var tonnetzMesh = new THREE.Mesh(midiGeometry.tonnetz[i], meshMaterial);
+		parent.add(tonnetzMesh);
+	}
+	
+	scene.add(parent);
 }
 
 function animate() {
@@ -1191,7 +1196,7 @@ function buildSongStructure(midifile, scale) {
 function reColorGeometry() {
 	var parent =  scene.getObjectByName("musicStructure");
 	scene.remove(parent);
-	buildSongStructure(uploadedMidiFile, 0.5);
+	constructVisualization(0.5);
 }
 
 function startAnimation() {
