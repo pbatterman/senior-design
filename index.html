@@ -697,6 +697,7 @@ eventjs.add(window, "load", function(event) {
 					// updateMesh(mesh, pAngleOffset);
 				}
 
+				camera.position.z = data.now;
 				var note = data.note - 21;
 				var d = colorElements[note];
 				var colorset;
@@ -1078,7 +1079,6 @@ function createGeometry(noteArray, startTime, totalTime) {
 	var result = {};
  	// for (var eventTime in noteArray) {
  	for (var t = startTime; t < totalTime; t++) {
- 		camera.position.z++;
  		if (noteArray[t]) {
  			notes = noteArray[t];
  			var singleTon = buildTemplateTonnetzGeometry(t - startTime);
