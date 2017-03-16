@@ -952,13 +952,15 @@ var openFile = function(event) {
   var reader = new FileReader();
   reader.onload = function(){
     var dataURL = reader.result;
-    uploadedMidiFile = reader.result;
     var output = document.getElementById('output');
     output.src = dataURL;
     song = [];
     song.push(dataURL);
     console.log(song);
     numSongs++;
+    
+    uploadedMidiFile = MidiFile(reader.result);
+
 
   };
   // reader.readAsDataURL(input.files[0]);
