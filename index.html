@@ -333,8 +333,6 @@ function init() {
 	var srcmidifile = 'music/triads.mid';
 
 	loadRemote(srcmidifile, function(data) {
-		console.log("loadremote");
-		console.log(data);
 			uploadedMidiFile = MidiFile(data);
 			// constructVisualization(visScale);
 			
@@ -965,7 +963,7 @@ var openFile = function(event) {
 			console.log("loadremote dataURL");
 			console.log(data);
 			uploadedMidiFile = MidiFile(data);
-			constructVisualization(visScale);
+			reColorGeometry();
 				
 			animate();
 		});
