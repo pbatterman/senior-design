@@ -960,6 +960,8 @@ var openFile = function(event) {
     song.push(dataURL);
     console.log(song);
     numSongs++;
+
+    loadRemote(dataURL);
     
     // uploadedMidiFile = MidiFile(reader.result);
   };
@@ -977,7 +979,8 @@ var openFile = function(event) {
   };
 
   urlReader.readAsDataURL(input.files[0]);
-  textReader.readAsText(input.files[0], 'UTF-8');
+  // textReader.readAsText(input.files[0], 'UTF-8');
+  loadRemote(input.files[0]);
 
   // uploadedMidiFile = MidiFile(input.files[0]);
 
