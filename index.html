@@ -1053,7 +1053,7 @@ function buildTemplateTonnetzGeometry(time, notes, octave) {
 		blendColor[2] = parseInt(blendColor[2]);
 
    	var mag = 40;
-   	var octaveShift = Math.floor((octave * 7 * mag) - (7 * mag * 3.5));
+   	var octaveShift = Math.floor((octave * 6 * mag) - (6 * mag * 3.5));
 
    	for (var y = 0; y < 6; y++) {
    		for (var x = 0; x < 7; x++) {
@@ -1123,6 +1123,7 @@ function createGeometry(noteArray, startTime, totalTime, scale) {
 	var zidx = 0;
 	var notes;
 	var result = {};
+	var mag = 40;
  	// for (var eventTime in noteArray) {
  	for (var t = startTime; t < totalTime; t++) {
  		var zPos = (t - startTime) * scale;
@@ -1138,9 +1139,9 @@ function createGeometry(noteArray, startTime, totalTime, scale) {
  			for (var x = 0; x < 7; x++) {
 				for (var y = 0; y < 6; y++) {
 					if (noteVertices[x][y] == (note % 12)) {
-						octaveShift = (Math.floor(note / 12) * 280) - (280*3.5);
+						octaveShift = (Math.floor(note / 12) * 6*mag) - (6*mag*3);
 						// octaveShift = 0;
-						var vertex = new THREE.Vector3(40*x + 20*y + octaveShift, 200 - (40*y), zPos);
+						var vertex = new THREE.Vector3(mag*x + mag/2*y + octaveShift, mag*5 - (mag*y), zPos);
 						// var vertex = new THREE.Vector3(x, y, 0);
 						geometry.vertices.push(vertex);
 						var col = HSLArrayToString(primaryColors[note % 12]);
