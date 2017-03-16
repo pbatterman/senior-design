@@ -701,7 +701,7 @@ eventjs.add(window, "load", function(event) {
 				}
 
 				var parent =  scene.getObjectByName("musicStructure");
-				parent.translate(0, 0, -data.now);
+				parent.translateOnAxis( new THREE.Vector3(0,0,1), -data.now );
 
 				var note = data.note - 21;
 				var d = colorElements[note];
