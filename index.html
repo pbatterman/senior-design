@@ -333,6 +333,8 @@ function init() {
 	var srcmidifile = 'music/fur_elise.mid';
 
 	loadRemote(srcmidifile, function(data) {
+		console.log("loadremote");
+		console.log(data);
 			uploadedMidiFile = MidiFile(data);
 			// constructVisualization(visScale);
 			
@@ -964,11 +966,13 @@ var openFile = function(event) {
 
   var textReader = new FileReader();
   textReader.onload = function(){
-    var dataURL = textReader.result;
+    var data = textReader.result;
     var output = document.getElementById('output');
     output.src = dataURL;
     
-    uploadedMidiFile = MidiFile(textReader.result);
+    console.log("textreader");
+		console.log(data);
+    uploadedMidiFile = MidiFile(data);
     constructVisualization(visScale);
   };
 
