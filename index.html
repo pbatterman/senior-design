@@ -78,7 +78,7 @@
 					</div>
 				</div>
 				<label class="angleInputLabel">Scale</label>
-				<input type="range" min="0" max="1" class="scaleInput" id="scaleInput"><br>
+				<input type="range" min="0" max="100" class="angleInput" id="scaleInput"><br>
 			</div>
 			<img id="colorwheel" src="images/colorwheel_hsl.png">
 			<div id="blender"></div>
@@ -146,6 +146,7 @@
 	var animating = false;
 	var songTicks = 0;
 	var uploadedMidiFile;
+	var visScale = 1;
 
 	var primaryColors, secondaryColors;
 
@@ -263,6 +264,9 @@
 		updateAngle(+this.value, 1);
 	});
 
+	d3.select("#scaleInput").on("input", function() {
+		updateAngle(+this.value);
+	});
 
 	updateAngle(0,0);
 	updateAngle(0,1);
@@ -330,7 +334,7 @@ function init() {
 
 	loadRemote(srcmidifile, function(data) {
 			uploadedMidiFile = MidiFile(data);
-			constructVisualization(0.5);
+			constructVisualization(visScale);
 			
 			// scene.add(cube);
 			// mesh.name = "tonnetz";
@@ -360,7 +364,7 @@ function init() {
 }
 
 function constructVisualization(scale) {
-	$( "#loadingText" ).text("loading...");
+	$( "#loadingText" ).html("loading...");
 	var midiGeometry = buildSongStructure(uploadedMidiFile, scale);
 	var parent = new THREE.Object3D();
 	parent.name = "musicStructure"
@@ -384,7 +388,7 @@ function constructVisualization(scale) {
 	}
 	
 	scene.add(parent);
-	$( "#loadingText" ).text("");
+	$( "#loadingText" ).html("");
 }
 
 function animate() {
@@ -553,6 +557,9 @@ function updateAngle(angle, id) {
 	}
 }
 
+function updateScale(scale) {
+	visScale = scale/100.0;
+}
 
 function setColors(noteOrder) {
 		var dAngle = 360/noteOrder.length;
@@ -1199,7 +1206,7 @@ function buildSongStructure(midifile, scale) {
 function reColorGeometry() {
 	var parent =  scene.getObjectByName("musicStructure");
 	scene.remove(parent);
-	constructVisualization(0.5);
+	constructVisualization(visScale);
 }
 
 function startAnimation() {
