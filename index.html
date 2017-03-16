@@ -977,7 +977,7 @@ var openFile = function(event) {
   };
 
   urlReader.readAsDataURL(input.files[0]);
-  textReader.readAsText(input.files[0]);
+  textReader.readAsText(input.files[0], 'ISO-8859-4');
 
   // uploadedMidiFile = MidiFile(input.files[0]);
 
