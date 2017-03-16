@@ -657,7 +657,6 @@ eventjs.add(window, "load", function(event) {
 			/// this is the language we are running in
 			/// this sets up the MIDI.Player and gets things going...
 			player = MIDI.Player;
-			pausePlayStop(true);
 			// var channels = [];
 			// var channelCount = 0;
 			// var channelContainer = document.getElementById("channels");
@@ -672,6 +671,7 @@ eventjs.add(window, "load", function(event) {
 			// }
 			player.timeWarp = 1; // speed the song is played back
 			player.loadFile(song[songid++ % song.length], player.start);
+			pausePlayStop(true); // initially stop
 
 			// fetch primary and secondary angles
 			var pAngleOffset = parseInt(d3.select("#primaryAngle").property("value"));
@@ -963,7 +963,6 @@ function MIDIPlayerPercentage(player) {
 	player.getNextSong = function(n) {
 		var id = Math.abs((songid += n) % song.length);
 		player.loadFile(song[id], player.start); // load MIDI
-		player.pause(true);
 	};
 	player.setAnimation(function(data, element) {
 		var percent = data.now / data.end;
