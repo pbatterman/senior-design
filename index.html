@@ -671,7 +671,7 @@ eventjs.add(window, "load", function(event) {
 			// }
 			player.timeWarp = 1; // speed the song is played back
 			player.loadFile(song[songid++ % song.length], player.start);
-
+			player.stop();
 			// fetch primary and secondary angles
 			var pAngleOffset = parseInt(d3.select("#primaryAngle").property("value"));
 			var sAngleOffset = parseInt(d3.select("#secondaryAngle").property("value"));
@@ -733,7 +733,6 @@ eventjs.add(window, "load", function(event) {
 				}
 
 			});
-			player.pause();
 			///
 			MIDIPlayerPercentage(player);
 		}
