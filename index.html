@@ -70,12 +70,14 @@
 					<div class="btn-group btn-group-xs" role="group" aria-label="...">
 						<button type="button" class="btn btn-default" onclick="resetColorWheel(fifthsOrder)">Circle of Thirds</button>
 						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#customOuterRingModal" onclick="pausePlayStop()">Custom</button>
-						<button type="button" class="btn btn-success" onclick="toggleAnimation()">GO</button>
+						<button type="button" class="btn btn-success" onclick="reColorGeometry(0.5)">GO</button>
 
 						<input type='file' accept='audio/midi' onchange='openFile(event)'><br>
 						<img id='output'>
 					</div>
 				</div>
+				<label class="angleInputLabel">Scale</label>
+				<input type="range" min="0" max="1" class="scaleInput" id="scaleInput"><br>
 			</div>
 			<img id="colorwheel" src="images/colorwheel_hsl.png">
 			<div id="blender"></div>
@@ -142,6 +144,7 @@
 	var animationInterval = 0;
 	var animating = false;
 	var songTicks = 0;
+	var uploadedMidiFile;
 
 	var primaryColors, secondaryColors;
 
@@ -326,6 +329,7 @@ function init() {
 
 	loadRemote(srcmidifile, function(data) {
 			mfile = MidiFile(data);
+			uploadedMidiFile = mfile;
 			var parent = new THREE.Object3D();
 			parent.name = "musicStructure"
 			var midiGeometry = buildSongStructure(mfile, 0.5);
@@ -334,6 +338,7 @@ function init() {
 				visible: true, 
 				size: 10 } )
 			var dot = new THREE.Points( midiGeometry.notes, pointMaterial );
+			dot.name = "notes"
 			parent.add( dot );
 
 			var meshMaterial = new THREE.MeshBasicMaterial( { 
@@ -1181,6 +1186,12 @@ function buildSongStructure(midifile, scale) {
 	songTicks = totalTime * scale;
 	var geometry = createGeometry(notesForStruct, startTime, totalTime, scale);
 	return geometry;
+}
+
+function reColorGeometry() {
+	var parent =  scene.getObjectByName("musicStructure");
+	scene.remove(parent);
+	buildSongStructure(uploadedMidiFile, 0.5);
 }
 
 function startAnimation() {
