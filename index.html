@@ -1186,7 +1186,7 @@ function buildSongStructure(midifile, scale) {
 		var noteEvent = events[e];
 		if (noteEvent.type != "channel" || (noteEvent.subtype != "noteOn" && noteEvent.subtype != "noteOff")) continue;
 		totalTime += noteEvent.deltaTime;
-		var note = (noteEvent.noteNumber + 9);
+		var note = noteEvent.noteNumber;
 		if (noteEvent.subtype == "noteOn") {
 			currentNotes.push(note);
 			if (startTime == -1) startTime = totalTime;
