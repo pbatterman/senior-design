@@ -330,17 +330,17 @@ function init() {
     });
 
 
-	// var srcmidifile = 'music/fur_elise.mid';
+	var srcmidifile = 'music/fur_elise.mid';
 
-	// loadRemote(srcmidifile, function(data) {
-	// 		uploadedMidiFile = MidiFile(data);
-	// 		constructVisualization(visScale);
+	loadRemote(srcmidifile, function(data) {
+			uploadedMidiFile = MidiFile(data);
+			// constructVisualization(visScale);
 			
-	// 		// scene.add(cube);
-	// 		// mesh.name = "tonnetz";
-	// 		// scene.add(mesh);
-	// 		animate();
-	// });
+			// scene.add(cube);
+			// mesh.name = "tonnetz";
+			// scene.add(mesh);
+			// animate();
+	});
 
 /*
  	var geometry = buildTonnetzGeometry(colorMap, true);
