@@ -373,9 +373,9 @@ function init() {
 function animate() {
 	requestAnimationFrame(animate);
 	var d = new Date();
-	// if (animating) {
-	// 	camera.position.z += animationInterval;
-	// }
+	if (animating) {
+		camera.position.z += animationInterval;
+	}
  	
   // Render the scene.
   renderer.render(scene, camera);
@@ -696,9 +696,6 @@ eventjs.add(window, "load", function(event) {
 					allColors = getColorMap();
 					// updateMesh(mesh, pAngleOffset);
 				}
-
-				camera.position.z = data.now;
-				camera.lookAt(140,100,data.now);
 
 				var note = data.note - 21;
 				var d = colorElements[note];
