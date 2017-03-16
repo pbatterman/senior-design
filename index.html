@@ -960,7 +960,7 @@ var openFile = function(event) {
     numSongs++;
 
   };
-  reader.readAsDataURL();
+  reader.readAsDataURL(input.files[0]);
   loadRemote(input.files[0], function(data) {
 			uploadedMidiFile = MidiFile(data);
 			constructVisualization(visScale);
