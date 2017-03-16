@@ -962,20 +962,20 @@ var openFile = function(event) {
     // uploadedMidiFile = MidiFile(reader.result);
   };
 
-  // var textReader = new FileReader();
-  // textReader.onload = function(){
-  //   var dataURL = textReader.result;
-  //   var output = document.getElementById('output');
-  //   output.src = dataURL;
+  var textReader = new FileReader();
+  textReader.onload = function(){
+    var dataURL = textReader.result;
+    var output = document.getElementById('output');
+    output.src = dataURL;
     
-  //   uploadedMidiFile = MidiFile(reader.result);
-  // };
+    uploadedMidiFile = MidiFile(textReader.result);
+    constructVisualization(visScale);
+  };
 
   urlReader.readAsDataURL(input.files[0]);
-  // textReader.readAsText(input.files[0]);
+  textReader.readAsText(input.files[0]);
 
-  uploadedMidiFile = MidiFile(input.files[0]);
-  constructVisualization(visScale);
+  // uploadedMidiFile = MidiFile(input.files[0]);
 
  //  loadRemote(input.files[0], function(data) {
 	// 		uploadedMidiFile = MidiFile(data);
