@@ -141,6 +141,7 @@
 	// camera movement
 	var animationInterval = 0;
 	var animating = false;
+	var songTicks = 0;
 
 	var primaryColors, secondaryColors;
 
@@ -701,7 +702,8 @@ eventjs.add(window, "load", function(event) {
 				}
 
 				var parent =  scene.getObjectByName("musicStructure");
-				parent.position.set( 0, 0, -data.now);
+				var dz = data.now * (songTicks / data.end);
+				parent.position.set( 0, 0, -dz);
 				// parent.translateOnAxis( new THREE.Vector3(0,0,1), -data.now );
 
 				var note = data.note - 21;
@@ -1161,6 +1163,7 @@ function buildSongStructure(midifile) {
 		notesForStruct[totalTime] = currentNotes.slice();
 
 	}
+	songTicks = totalTime;
 	var geometry = createGeometry(notesForStruct, startTime, totalTime);
 	return geometry;
 }
