@@ -138,7 +138,7 @@
 	var scene, camera, renderer, noteVertices, vertexColors, vertexKey, vertexColorCache, gColorMap;
 
 	// camera movement
-	var ticksPerBeat = 0;
+	var animationInterval = 0;
 	var animating = false;
 
 	var primaryColors, secondaryColors;
@@ -373,9 +373,8 @@ function init() {
 function animate() {
 	requestAnimationFrame(animate);
 	var d = new Date();
-	console.log(d.getTime());
 	if (animating) {
-		camera.position.z += ticksPerBeat;
+		camera.position.z += animationInterval;
 	}
  	
   // Render the scene.
@@ -1116,8 +1115,20 @@ function buildSongStructure(midifile) {
 	var header = midifile.header;
 	var tracks = midifile.tracks;
 
-	ticksPerBeat = header.ticksPerBeat;
+	var ticksPerBeat = header.ticksPerBeat;
+	var microsecondsPerTick = 0;
+	var metadata = tracks[0];
+	var bpm = 120;
 
+	for (var i = 0; i < metadata.length; i++) {
+		if (metadata[i].subtype == "setTempo") {
+			var microsecondsPerBeat = metadata[i].microsecondsPerBeat;
+			microsecondsPerTick = Math.floor(microsecondsPerBeat/ticksPerBeat);
+			animationInterval = microsecondsPerTick / 16;
+			console.log("interval " + animationInterval);
+			break;
+		}
+	}
 	var events = tracks[1];
 
 	var totalTime = 0;
