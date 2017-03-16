@@ -964,8 +964,8 @@ var openFile = function(event) {
    	loadRemote(dataURL, function(data) {
 			console.log("loadremote dataURL");
 			console.log(data);
-				uploadedMidiFile = MidiFile(data);
-				// constructVisualization(visScale);
+			uploadedMidiFile = MidiFile(data);
+			constructVisualization(visScale);
 				
 				// scene.add(cube);
 				// mesh.name = "tonnetz";
@@ -976,32 +976,19 @@ var openFile = function(event) {
     // uploadedMidiFile = MidiFile(reader.result);
   };
 
-  var textReader = new FileReader();
-  textReader.onload = function(){
-    var data = textReader.result;
-    var output = document.getElementById('output');
-    output.src = data;
+  // var textReader = new FileReader();
+  // textReader.onload = function(){
+  //   var data = textReader.result;
+  //   var output = document.getElementById('output');
+  //   output.src = data;
     
-    console.log("textreader");
-		console.log(data);
-    uploadedMidiFile = MidiFile(data);
-    constructVisualization(visScale);
-  };
+  //   console.log("textreader");
+		// console.log(data);
+  //   uploadedMidiFile = MidiFile(data);
+  //   constructVisualization(visScale);
+  // };
 
   urlReader.readAsDataURL(input.files[0]);
-  // textReader.readAsText(input.files[0], 'UTF-8');
-  loadRemote(input.files[0], function(data) {
-			console.log("loadremote input");
-			console.log(data);
-				uploadedMidiFile = MidiFile(data);
-				// constructVisualization(visScale);
-				
-				// scene.add(cube);
-				// mesh.name = "tonnetz";
-				// scene.add(mesh);
-				// animate();
-		});
-  // uploadedMidiFile = MidiFile(input.files[0]);
 
  //  loadRemote(input.files[0], function(data) {
 	// 		uploadedMidiFile = MidiFile(data);
