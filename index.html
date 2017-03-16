@@ -71,6 +71,7 @@
 						<button type="button" class="btn btn-default" onclick="resetColorWheel(fifthsOrder)">Circle of Thirds</button>
 						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#customOuterRingModal" onclick="pausePlayStop()">Custom</button>
 						<button type="button" class="btn btn-success" onclick="reColorGeometry(0.5)">GO</button>
+						<h3 id="loadingText"></h3>
 
 						<input type='file' accept='audio/midi' onchange='openFile(event)'><br>
 						<img id='output'>
@@ -359,6 +360,7 @@ function init() {
 }
 
 function constructVisualization(scale) {
+	$( "#loadingText" ).text("loading...");
 	var midiGeometry = buildSongStructure(uploadedMidiFile, scale);
 	var parent = new THREE.Object3D();
 	parent.name = "musicStructure"
@@ -382,6 +384,7 @@ function constructVisualization(scale) {
 	}
 	
 	scene.add(parent);
+	$( "#loadingText" ).text("");
 }
 
 function animate() {
@@ -1194,9 +1197,19 @@ function buildSongStructure(midifile, scale) {
 }
 
 function reColorGeometry() {
-	var parent =  scene.getObjectByName("musicStructure");
-	scene.remove(parent);
-	constructVisualization(0.5);
+	var currPOffset = parseInt(d3.select("#primaryAngle").property("value"));
+	var currSOffset = parseInt(d3.select("#secondaryAngle").property("value"));
+
+	// if user changes color shift
+	if (currPOffset != pAngleOffset || currSOffset != sAngleOffset) {
+		pAngleOffset = currPOffset;
+		sAngleOffset = currSOffset;
+		getOffsetColors(pAngleOffset, sAngleOffset);
+
+		var parent =  scene.getObjectByName("musicStructure");
+		scene.remove(parent);
+		constructVisualization(0.5);
+	}
 }
 
 function startAnimation() {
