@@ -360,6 +360,7 @@ function switchVisualization() {
 		constructSingleTonnetz(colorMap);
 	}
 	else {
+		song = [];
 		var parent =  scene.getObjectByName("singleTonnetzStructure");
 		if (parent) scene.remove(parent);
 		reColorGeometry();
