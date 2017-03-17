@@ -329,6 +329,8 @@ function init() {
 			uploadedMidiFile = MidiFile(data);
 	});
 
+	controls = new THREE.OrbitControls(camera, renderer.domElement);
+
 	if (singleTonnetz) {
 		constructSingleTonnetz(colorMap);
 	}
@@ -349,7 +351,6 @@ function init() {
 	cacheVertexColors(mesh);
 */
 
- 	controls = new THREE.OrbitControls(camera, renderer.domElement);
 }
 
 function switchVisualization() {
