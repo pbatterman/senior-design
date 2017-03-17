@@ -360,6 +360,8 @@ function switchVisualization() {
 		constructSingleTonnetz(colorMap);
 	}
 	else {
+		var parent =  scene.getObjectByName("singleTonnetzStructure");
+		if (parent) scene.remove(parent);
 		reColorGeometry();
 	}
 }
@@ -389,12 +391,17 @@ function constructSingleTonnetz(colorMap) {
 
 	var mesh = new THREE.Mesh( geometry, material );
 
+	var parent = new THREE.Object3D();
+	parent.name = "singleTonnetzStructure"
+
 	mesh.name = "tonnetz";
-	scene.add(mesh);
+	parent.add(mesh);
 
 	var solidMesh = new THREE.Mesh( solidGeometry, solidMaterial );
 	solidMesh.name = "solidMesh";
-	scene.add(solidMesh);
+	parent.add(solidMesh);
+
+	scene.add(parent);
 
 	cacheVertexColors(mesh);
 	animate();
