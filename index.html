@@ -1149,7 +1149,7 @@ function createGeometry(noteArray, startTime, totalTime, scale) {
 						octaveShift = (Math.floor(note / 12) * 6*mag) - (6*mag*3);
 						// console.log("octave 1: " + Math.floor(note/12) + " shift " + octaveShift);
 						// octaveShift = 0;
-						var vertex = new THREE.Vector3(mag*x + mag/2*y + octaveShift, mag*5 - (mag*y), zPos);
+						var vertex = new THREE.Vector3(mag*x + mag*0.5*y + octaveShift, mag*5 - (mag*y), zPos);
 						// var vertex = new THREE.Vector3(x, y, 0);
 						geometry.vertices.push(vertex);
 						var col = HSLArrayToString(primaryColors[note % 12]);
