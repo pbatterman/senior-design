@@ -70,12 +70,12 @@
 					<div class="btn-group btn-group-xs" role="group" aria-label="...">
 						<button type="button" class="btn btn-default" onclick="resetColorWheel(fifthsOrder)">Circle of Thirds</button>
 						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#customOuterRingModal" onclick="pausePlayStop()">Custom</button>
-						<button type="button" class="btn btn-success" onclick="reColorGeometry(0.5)">GO</button>
 						<h3 id="loadingText"></h3>
 
 						<input type='file' accept='audio/midi' onchange='openFile(event)'><br>
 						<img id='output'>
 					</div>
+					<button type="button" class="btn btn-success" onclick="reColorGeometry(0.5)">UPDATE</button>
 				</div>
 				<label class="angleInputLabel">Scale</label>
 				<input type="range" min="0" max="100" class="angleInput" id="scaleInput"><br>
