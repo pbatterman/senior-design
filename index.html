@@ -330,7 +330,7 @@ function init() {
 	});
 
 	if (singleTonnetz) {
-		constructSingleTonnetz();
+		constructSingleTonnetz(colorMap);
 	}
 /*
  	var geometry = buildTonnetzGeometry(colorMap, true);
@@ -355,14 +355,15 @@ function init() {
 function switchVisualization() {
 	singleTonnetz = !singleTonnetz;
 	if (singleTonnetz) {
-		constructSingleTonnetz();
+		var colorMap = mapColorsToVertices();
+		constructSingleTonnetz(colorMap);
 	}
 	else {
 		reColorGeometry();
 	}
 }
 
-function constructSingleTonnetz() {
+function constructSingleTonnetz(colorMap) {
 	var parent =  scene.getObjectByName("musicStructure");
 	if (parent) scene.remove(parent);
 	singleTonnetz = true;
@@ -408,7 +409,7 @@ function constructVisualization(scale) {
 		visible: true, 
 		size: 10 } )
 	var dot = new THREE.Points( midiGeometry.notes, pointMaterial );
-	dot.name = "notes"
+	dot.name = "notes";
 	parent.add( dot );
 
 	var meshMaterial = new THREE.MeshBasicMaterial( { 
