@@ -66,19 +66,19 @@
 				<input type="range" min="0" max="360" class="angleInput" id="primaryAngle"><br>
 				<label class="angleInputLabel">Inner</label>
 				<input type="range" min="0" max="360" class="angleInput" id="secondaryAngle">
+				<label class="angleInputLabel">Scale</label>
+				<input type="range" min="0" max="100" class="angleInput" id="scaleInput"><br>
 				<div id="ringButtons">
 					<div class="btn-group btn-group-xs" role="group" aria-label="...">
 						<button type="button" class="btn btn-default" onclick="resetColorWheel(fifthsOrder)">Circle of Thirds</button>
 						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#customOuterRingModal" onclick="pausePlayStop()">Custom</button>
 						<h3 id="loadingText"></h3>
 
-						<input type='file' accept='audio/midi' onchange='openFile(event)'><br>
+						<input type='file' accept='audio/midi' onchange='openFile(event)'>
 						<img id='output'>
+						<button type="button" class="btn btn-success btn-sm" onclick="reColorGeometry(0.5)">UPDATE</button>
 					</div>
 				</div>
-				<label class="angleInputLabel">Scale</label>
-				<input type="range" min="0" max="100" class="angleInput" id="scaleInput"><br>
-				<button type="button" class="btn btn-success btn-sm" onclick="reColorGeometry(0.5)">UPDATE</button>
 			</div>
 			<img id="colorwheel" src="images/colorwheel_hsl.png">
 			<div id="blender"></div>
