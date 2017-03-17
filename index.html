@@ -323,11 +323,11 @@ function init() {
 	var plane = new THREE.Mesh( planeGeometry, planeMaterial );
 	scene.add( plane );
 
-	var srcmidifile = 'music/triads.mid';
+	// var srcmidifile = 'music/triads.mid';
 
-	loadRemote(srcmidifile, function(data) {
-			uploadedMidiFile = MidiFile(data);
-	});
+	// loadRemote(srcmidifile, function(data) {
+	// 		uploadedMidiFile = MidiFile(data);
+	// });
 
 	controls = new THREE.OrbitControls(camera, renderer.domElement);
 
