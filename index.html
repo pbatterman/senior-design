@@ -329,6 +329,9 @@ function init() {
 			uploadedMidiFile = MidiFile(data);
 	});
 
+	if (singleTonnetz) {
+		constructSingleTonnetz();
+	}
 /*
  	var geometry = buildTonnetzGeometry(colorMap, true);
 
@@ -389,7 +392,7 @@ function constructSingleTonnetz() {
 
 	var solidMesh = new THREE.Mesh( solidGeometry, solidMaterial );
 	solidMesh.name = "solidMesh";
-	scene.add(solidMesh)
+	scene.add(solidMesh);
 
 	cacheVertexColors(mesh);
 }
