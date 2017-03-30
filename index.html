@@ -412,7 +412,7 @@ function constructVisualization(scale) {
 	$( "#loadingText" ).html("loading...");
 	var midiGeometry = buildSongStructure(uploadedMidiFile, scale);
 	var parent = new THREE.Object3D();
-	parent.name = "musicStructure"
+	parent.name = "musicStructure";
 
 	var pointMaterial = new THREE.PointsMaterial( { 
 		vertexColors: THREE.VertexColors,
@@ -429,6 +429,7 @@ function constructVisualization(scale) {
 		});
 	for (var i = 0; i < midiGeometry.tonnetz.length; i++) {
 		var tonnetzMesh = new THREE.Mesh(midiGeometry.tonnetz[i], meshMaterial);
+		tonnetzMesh.name = "tonnetzMesh"+i;
 		parent.add(tonnetzMesh);
 	}
 	
@@ -1242,6 +1243,7 @@ function reColorGeometry() {
 	if (!singleTonnetz) {
 		var parent =  scene.getObjectByName("musicStructure");
 		scene.remove(parent);
+		
 		constructVisualization(visScale);
 	}
 }
