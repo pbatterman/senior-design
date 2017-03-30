@@ -1242,8 +1242,8 @@ function buildSongStructure(midifile, scale) {
 function reColorGeometry() {
 	if (!singleTonnetz) {
 		var parent =  scene.getObjectByName("musicStructure");
-		scene.remove(parent);
 		console.log(parent);
+		scene.remove(parent);
 		constructVisualization(visScale);
 	}
 }
