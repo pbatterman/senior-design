@@ -71,7 +71,7 @@
 				<div id="ringButtons">
 					<div class="btn-group btn-group-xs" role="group" aria-label="...">
 						<button type="button" class="btn btn-default" onclick="resetColorWheel(fifthsOrder)">Circle of Thirds</button>
-						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#customOuterRingModal" onclick="pausePlayStop()">Custom</button>
+						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#customOuterRingModal" onclick="pausePlayStop(true)">Custom</button>
 						<h3 id="loadingText"></h3>
 
 						<input type='file' accept='audio/midi' onchange='openFile(event)'>
@@ -649,6 +649,7 @@ function setColorRing(noteOrder, ring) {
 		secondaryColors = setColors(noteOrder);
 		updateAngle(0, 1);
 	}
+
 }
 
 function customRing() {
@@ -684,8 +685,7 @@ function customRing() {
 		  setColorRing(customNoteOrder, 1);
 	}
 	else {
-		alert('No ring specified! Reverting to default.');
-		resetColorWheel(fifthsOrder);
+		alert('No ring specified! Aborted.');
 	}
 }
 
