@@ -341,10 +341,8 @@ function init() {
 	controls = new THREE.OrbitControls(camera, renderer.domElement);
 
 	if (singleTonnetz) {
-		// constructSingleTonnetz(colorMap);
-		// plane.traverse( function ( object ) { object.visible = false; } );
-		
-		
+		constructSingleTonnetz(colorMap);
+		plane.traverse( function ( object ) { object.visible = false; } );
 	}
 /*
  	var geometry = buildTonnetzGeometry(colorMap, true);
@@ -378,7 +376,7 @@ function switchVisualization(id) {
 		singleTonnetz = false;
 		multiTonnetz = false;
 	}
-	
+
 	var meshPlane = scene.getObjectByName("plane");
 	
 	if (singleTonnetz) {
@@ -386,10 +384,17 @@ function switchVisualization(id) {
 		constructSingleTonnetz(colorMap);
 		meshPlane.traverse( function ( object ) { object.visible = false; } );
 	}
+	else if (multiTonnetz) {
+		var parent =  scene.getObjectByName("displacedTonnetzStructure");
+		scene.remove(parent);
+		meshPlane.traverse( function ( object ) { object.visible = false; } );
+	}
 	else {
 		song = [];
 		var parent =  scene.getObjectByName("singleTonnetzStructure");
 		if (parent) scene.remove(parent);
+		var displacedParent =  scene.getObjectByName("displacedTonnetzStructure");
+		if (displacedParent) scene.remove(displacedParent);
 		meshPlane.traverse( function ( object ) { object.visible = true; } );
 		reColorGeometry();
 	}
@@ -1444,6 +1449,8 @@ function reColorGeometry() {
 		constructVisualization(0, visScale);
 	}
 	else if (multiTonnetz) {
+		var parent =  scene.getObjectByName("displacedTonnetzStructure");
+		scene.remove(parent);
 		constructVisualization(1, visScale);
 	}
 }
