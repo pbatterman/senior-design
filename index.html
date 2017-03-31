@@ -338,6 +338,8 @@ function init() {
 
 	if (singleTonnetz) {
 		constructSingleTonnetz(colorMap);
+		plane.traverse( function ( object ) { object.visible = false; } );
+
 	}
 /*
  	var geometry = buildTonnetzGeometry(colorMap, true);
