@@ -471,6 +471,8 @@ function constructVisualization(type, scale) {
 			var tonnetzMesh = displacedTonnetzGeometry.tonnetzGeo[i];
 			var solidMesh = displacedTonnetzGeometry.solidGeo[i];
 			parent.add(tonnetzMesh);
+			parent.add(solidMesh);
+
 		}
 
 		scene.add(parent);
