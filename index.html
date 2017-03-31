@@ -339,7 +339,6 @@ function init() {
 	if (singleTonnetz) {
 		constructSingleTonnetz(colorMap);
 		plane.traverse( function ( object ) { object.visible = false; } );
-
 	}
 /*
  	var geometry = buildTonnetzGeometry(colorMap, true);
@@ -403,13 +402,15 @@ function constructSingleTonnetz(colorMap) {
 
 	var mesh = new THREE.Mesh( geometry, material );
 
+	var solidMesh = new THREE.Mesh( solidGeometry, solidMaterial );
+
+
 	var parent = new THREE.Object3D();
 	parent.name = "singleTonnetzStructure"
 
 	mesh.name = "tonnetz";
 	parent.add(mesh);
 
-	var solidMesh = new THREE.Mesh( solidGeometry, solidMaterial );
 	solidMesh.name = "solidMesh";
 	parent.add(solidMesh);
 
@@ -419,39 +420,49 @@ function constructSingleTonnetz(colorMap) {
 	animate();
 }
 
-function constructVisualization(scale) {
+function constructVisualization(type, scale) {
 	$( "#loadingText" ).html("loading...");
-	var midiGeometry = buildSongStructure(uploadedMidiFile, scale);
-	var parent = new THREE.Object3D();
-	parent.name = "musicStructure";
+	var songData = buildSongStructure(uploadedMidiFile, scale);
 
-	var tonnetzStructure = new THREE.Object3D();
-	tonnetzStructure.name = "tonnetzStructure"
+	if (type == 0) { // vertical midi notes
 
-	var pointMaterial = new THREE.PointsMaterial( { 
-		vertexColors: THREE.VertexColors,
-		visible: true, 
-		size: 10 } )
-	var dot = new THREE.Points( midiGeometry.notes, pointMaterial );
-	dot.name = "notes";
-	var dotStructure = new THREE.Object3D();
-	dotStructure.name = "dotStructure";
-	dotStructure.add(dot);
-	parent.add( dotStructure );
+		var midiGeometry = createGeometry(songData.noteArray, songData.startTime, songData.totalTime, scale);
+		var parent = new THREE.Object3D();
+		parent.name = "musicStructure";
 
-	var meshMaterial = new THREE.MeshBasicMaterial( { 
-		    shading: THREE.FlatShading,
-		    vertexColors: THREE.VertexColors,
-		    wireframe: true
-		});
-	for (var i = 0; i < midiGeometry.tonnetz.length; i++) {
-		var tonnetzMesh = new THREE.Mesh(midiGeometry.tonnetz[i], meshMaterial);
-		tonnetzMesh.name = "tonnetzMesh"+i;
-		tonnetzStructure.add(tonnetzMesh);
+		var tonnetzStructure = new THREE.Object3D();
+		tonnetzStructure.name = "tonnetzStructure"
+
+		var pointMaterial = new THREE.PointsMaterial( { 
+			vertexColors: THREE.VertexColors,
+			visible: true, 
+			size: 10 } )
+		var dot = new THREE.Points( midiGeometry.notes, pointMaterial );
+		dot.name = "notes";
+		var dotStructure = new THREE.Object3D();
+		dotStructure.name = "dotStructure";
+		dotStructure.add(dot);
+		parent.add( dotStructure );
+
+		var meshMaterial = new THREE.MeshBasicMaterial( { 
+			    shading: THREE.FlatShading,
+			    vertexColors: THREE.VertexColors,
+			    wireframe: true
+			});
+		for (var i = 0; i < midiGeometry.tonnetz.length; i++) {
+			var tonnetzMesh = new THREE.Mesh(midiGeometry.tonnetz[i], meshMaterial);
+			tonnetzMesh.name = "tonnetzMesh"+i;
+			tonnetzStructure.add(tonnetzMesh);
+		}
+		parent.add(tonnetzStructure);
+		scene.add(parent);
+		$( "#loadingText" ).html("");
 	}
-	parent.add(tonnetzStructure);
-	scene.add(parent);
-	$( "#loadingText" ).html("");
+	else if (type == 1) { // displaced tonnetz mesh
+
+
+	}
+
 }
 
 function animate() {
@@ -785,7 +796,9 @@ eventjs.add(window, "load", function(event) {
 					var dz = data.now * (songTicks / data.end);
 					parent.position.set( 0, 0, -dz);
 				}
-				
+				var mesh = scene.getObjectByName( "tonnetz" );
+				var solidMesh = scene.getObjectByName("solidMesh");
+
 				var note = data.note - 21;
 				var d = colorElements[note];
 				var colorset;
@@ -800,7 +813,7 @@ eventjs.add(window, "load", function(event) {
 						}
 						d.style.background = HSLArrayToString(colorset[note]);
 						activeNotes[note] = colorset[note];
-						if (singleTonnetz) displaceVertex(note, data.velocity);
+						if (singleTonnetz) displaceVertex(mesh, solidMesh, note, data.velocity);
 					} else {
 						numNotes--;
 						numNotes = Math.max(numNotes, 0);
@@ -812,7 +825,7 @@ eventjs.add(window, "load", function(event) {
 						}
 						d.style.background = "";
 						activeNotes[note] = 0;
-						if (singleTonnetz)  displaceVertex(note, data.velocity);
+						if (singleTonnetz)  displaceVertex(mesh, solidMesh, note, data.velocity);
 					}
 
 					var blendColor = blendColors(activeNotes);
@@ -863,11 +876,8 @@ function highlightVertices(activeColors, blendColor, colorset) {
 	return cs;
 }
 
-function displaceVertex(note, dz) {
+function displaceVertex(mesh, solidMesh, note, dz) {
 	var n = ((note + 9) % 12);
-
-	var mesh = scene.getObjectByName( "tonnetz" );
-	var solidMesh = scene.getObjectByName("solidMesh");
 
 	for (var v = 0; v < vertexKey.length; v++) {
 		if (vertexKey[v] == n) {
@@ -1222,6 +1232,149 @@ function createGeometry(noteArray, startTime, totalTime, scale) {
  	return result;
 }
 
+function buildDisplacedTonnetz(notes) {
+	var geometry = new THREE.Geometry();
+   	vertexColors = [];
+   	vertexKey = [];
+
+   	var activeColors = [];
+   	for (var i = 0; i < notes.length; i++) {
+   		activeColors[notes[i]] = (primaryColors[notes[i] % 12]);
+   	}
+   	var blendColor = blendColors(activeColors);
+   	if (blendColor[0] < 0) {
+			blendColor[0] = (360 + blendColor[0]);
+		}
+   	blendColor[0] = parseInt(blendColor[0]);
+		blendColor[1] = parseInt(blendColor[1]);
+		blendColor[2] = parseInt(blendColor[2]);
+
+   	var mag = 40;
+   	var octaveShift = Math.floor(octave) * 6 * mag - (6 * mag * 3);
+   	// console.log("octave 2: " + Math.floor(octave) + " shift " + octaveShift);
+
+   	for (var y = 0; y < 6; y++) {
+   		for (var x = 0; x < 7; x++) {
+   			var vertex = new THREE.Vector3(mag*x + mag*0.5*y + octaveShift, mag*5 - (mag*y), time);
+   			geometry.vertices.push(vertex);
+   			vertexKey.push(noteVertices[x][y]);
+   			// var col = HSLArrayToString(gColorMap[x][y]);
+   			var col = HSLArrayToString(blendColor);
+   			var vertColor = new THREE.Color( col );
+   			vertexColors.push(vertColor);
+   		}
+   	}
+
+   	for (var v = 0; v < geometry.vertices.length - 1; v++) {
+   		// first row
+   		if ( v < 6 ) {
+   			var face1 = new THREE.Face3( v, v+1, v+7 );
+   			face1.normal.set(0,0,1);
+ 				face1.vertexColors[0] = vertexColors[v];
+				face1.vertexColors[1] = vertexColors[v+1];
+				face1.vertexColors[2] = vertexColors[v+7];
+   			
+
+				geometry.faces.push( face1 );
+   		}
+   		// middle rows
+   		else if (( v > 6 && v < 13 ) || (v > 13 && v < 20) || (v > 20 && v < 27) || (v > 27 && v < 34)) {
+   			var face0 = new THREE.Face3( v-6, v+1, v);
+   			face0.normal.set(0,0,1);
+   			face0.vertexColors[0] = vertexColors[v-6];
+				face0.vertexColors[1] = vertexColors[v+1];
+				face0.vertexColors[2] = vertexColors[v];
+
+   			geometry.faces.push( face0 );
+   			
+   			var face1 = new THREE.Face3( v, v+1, v+7 );
+   			face1.normal.set(0,0,1);
+   			face1.vertexColors[0] = vertexColors[v];
+				face1.vertexColors[1] = vertexColors[v+1];
+				face1.vertexColors[2] = vertexColors[v+7];
+
+
+				geometry.faces.push( face1 );
+		}
+   		else if (v > 34 && v < 41) {
+   			var face0 = new THREE.Face3( v-6, v+1, v);
+   			face0.normal.set(0,0,1);
+   			face0.vertexColors[0] = vertexColors[v-6];
+				face0.vertexColors[1] = vertexColors[v+1];
+				face0.vertexColors[2] = vertexColors[v];
+
+
+   			geometry.faces.push( face0 );
+   		}
+   		else {
+   			continue;
+   		}
+   	}
+  return geometry;
+}
+
+// convert array to threejs vertices for point cloud rendering
+function createDisplacedTonnetzGeometry(colorMap, noteArray, startTime, totalTime) {
+	var geometry = new THREE.Geometry();
+	var tonnetzGeo = [];
+	var zidx = 0;
+	var notes;
+	var result = {};
+	var mag = 40;
+
+	var material = new THREE.MeshBasicMaterial( { 
+    shading: THREE.FlatShading,
+    vertexColors: THREE.VertexColors,
+    wireframe: true
+		});
+
+	var solidMaterial = new THREE.MeshBasicMaterial({
+    polygonOffset: true,  
+    polygonOffsetUnits: 1,
+    polygonOffsetFactor: 1,
+    shading: THREE.FlatShading,
+    vertexColors: THREE.FaceColors
+  });
+
+ 	// for (var eventTime in noteArray) {
+ 	for (var t = startTime; t < totalTime; t++) {
+ 		var zPos = 0;
+ 		if (noteArray[t]) {
+ 			notes = noteArray[t];
+ 			for (var o = 0; o < 9; o++) {
+ 				var singleTon = buildTemplateTonnetzGeometry(notes, o);
+ 				tonnetzGeo.push(singleTon);
+ 			}
+ 			
+ 		}
+ 		if (!notes) continue;
+		// var notes = noteArray[eventTime];
+
+
+
+		var geometry = buildTonnetzGeometry(colorMap, true);
+	 	var solidGeometry = buildTonnetzGeometry(colorMap, false);
+
+		var mesh = new THREE.Mesh( geometry, material );
+		var solidMesh = new THREE.Mesh( solidGeometry, solidMaterial );
+
+		for (var n = 0; n < notes.length; n++) {
+			var note = notes[n];
+ 			for (var x = 0; x < 7; x++) {
+				for (var y = 0; y < 6; y++) {
+					if (noteVertices[x][y] == (note % 12)) {
+						displaceVertex(mesh, solidMesh, note, 128);
+					}
+				}
+			}
+ 		}
+ 	}
+ 	result.notes = geometry;
+ 	result.tonnetz = tonnetzGeo;
+
+ 	return result;
+}
+
 // construct main structure of song
 function buildSongStructure(midifile, scale) {
 	var header = midifile.header;
@@ -1252,15 +1405,18 @@ function buildSongStructure(midifile, scale) {
 
 	}
 	songTicks = totalTime * scale;
-	var geometry = createGeometry(notesForStruct, startTime, totalTime, scale);
-	return geometry;
+	var songData = {};
+	songData.noteArray = notesForStruct;
+	songData.startTime = startTime;
+	songData.totalTime = totalTime;
+	return songData;
 }
 
 function reColorGeometry() {
 	if (!singleTonnetz) {
 		var parent =  scene.getObjectByName("musicStructure");
 		scene.remove(parent);
-		constructVisualization(visScale);
+		constructVisualization(0, visScale);
 	}
 }
 
