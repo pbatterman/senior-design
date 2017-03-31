@@ -321,9 +321,9 @@ function init() {
 
  	var colorMap = mapColorsToVertices();
 
-	var planeGeometry = new THREE.PlaneGeometry( 4000, 400);
+	var planeGeometry = new THREE.PlaneGeometry( 4000, 300);
 	var planeMaterial = new THREE.MeshBasicMaterial( {color: 0xffffff, transparent: true, side: THREE.DoubleSide} );
-	planeMaterial.opacity = 0.5;
+	planeMaterial.opacity = 0.25;
 	var plane = new THREE.Mesh( planeGeometry, planeMaterial );
 	plane.name = "plane";
 	scene.add( plane );
