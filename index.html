@@ -341,8 +341,7 @@ function init() {
 		// constructSingleTonnetz(colorMap);
 		// plane.traverse( function ( object ) { object.visible = false; } );
 		
-		// try displaced:
-		constructVisualization(1, 0.5);
+		
 	}
 /*
  	var geometry = buildTonnetzGeometry(colorMap, true);
@@ -468,8 +467,9 @@ function constructVisualization(type, scale) {
 		var parent = new THREE.Object3D();
 		parent.name = "displacedTonnetzStructure";
 
-		for (var i = 0; i < displacedTonnetzGeometry.length; i++) {
-			var tonnetzMesh = displacedTonnetzGeometry[i];
+		for (var i = 0; i < displacedTonnetzGeometry.tonnetzGeo.length; i++) {
+			var tonnetzMesh = displacedTonnetzGeometry.tonnetzGeo[i];
+			var solidMesh = displacedTonnetzGeometry.solidGeo[i];
 			parent.add(tonnetzMesh);
 		}
 
