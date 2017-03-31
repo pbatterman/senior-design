@@ -152,7 +152,8 @@
 	var songTicks = 0;
 	var uploadedMidiFile;
 	var visScale = 1;
-	var singleTonnetz = true;
+	var singleTonnetz = false;
+	var multiTonnetz = true;
 
 	var primaryColors, secondaryColors;
 
@@ -1426,12 +1427,12 @@ function buildSongStructure(midifile, scale) {
 }
 
 function reColorGeometry() {
-	if (!singleTonnetz) {
+	if (!singleTonnetz && !multiTonnetz) {
 		var parent =  scene.getObjectByName("musicStructure");
 		scene.remove(parent);
 		constructVisualization(0, visScale);
 	}
-	else {
+	else if (multiTonnetz) {
 		constructVisualization(1, visScale);
 	}
 }
