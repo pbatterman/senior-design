@@ -417,6 +417,7 @@ function constructVisualization(scale) {
 	parent.name = "musicStructure";
 
 	var tonnetzStructure = new THREE.Object3D();
+	tonnetzStructure.name = "tonnetzStructure"
 
 	var pointMaterial = new THREE.PointsMaterial( { 
 		vertexColors: THREE.VertexColors,
@@ -425,6 +426,7 @@ function constructVisualization(scale) {
 	var dot = new THREE.Points( midiGeometry.notes, pointMaterial );
 	dot.name = "notes";
 	var dotStructure = new THREE.Object3D();
+	dotStructure.name = "dotStructure";
 	dotStructure.add(dot);
 	parent.add( dotStructure );
 
