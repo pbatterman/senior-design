@@ -129,7 +129,7 @@ div.channel {
 	width: 200px;
 	height: 200px;
 	z-index:1;
-	right:0;
+	right:left;
 	top:0;
 }
 
