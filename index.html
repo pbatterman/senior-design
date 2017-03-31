@@ -61,30 +61,32 @@
 		</div>
 		<!-- <div id="channels"></div> -->
 		<div id="colorController">
-			<div id="sliders">
+			<div class="col-xs-12" id="sliders">
+				<!-- <div id="sliders"> -->
 				<label class="angleInputLabel">Outer</label>
 				<input type="range" min="0" max="360" class="angleInput" id="primaryAngle"><br>
 				<label class="angleInputLabel">Inner</label>
 				<input type="range" min="0" max="360" class="angleInput" id="secondaryAngle"><br>
 				<label class="angleInputLabel">Scale</label>
 				<input type="range" min="0" max="100" class="angleInput" id="scaleInput"><br>
-				<div id="ringButtons">
+			</div>
+			<div class="col-xs-12">
 					<div class="btn-group btn-group-xs" role="group" aria-label="...">
 						<button type="button" class="btn btn-default" onclick="resetColorWheel(fifthsOrder)">Circle of Thirds</button>
 						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#customOuterRingModal" onclick="pausePlayStop(true)">Custom</button>
 						<h3 id="loadingText"></h3>
-
-						<input type='file' accept='audio/midi' onchange='openFile(event)'>
-						<img id='output'>
-						<button type="button" class="btn btn-success btn-sm" onclick="reColorGeometry(0.5)">UPDATE</button>
-						<button type="button" class="btn btn-default btn-sm" onclick="switchVisualization()">Switch</button>
-						<label><input type="checkbox" id="tonnetzCheckbox" value="tonnetz_checkbox" onclick="showHideStructure()" checked>Show Tonnetz</label><br>
-						<label><input type="checkbox" id="notesCheckbox" value="notes_checkbox" onclick="showHideStructure()" checked>Show Notes</label><br>
 					</div>
+					<input type='file' accept='audio/midi' onchange='openFile(event)'>
+					<img id='output'>
+					<button type="button" class="btn btn-success btn-sm" onclick="reColorGeometry(0.5)">UPDATE</button>
+					<button type="button" class="btn btn-default btn-sm" onclick="switchVisualization()">Switch</button>
+					<label><input type="checkbox" id="tonnetzCheckbox" value="tonnetz_checkbox" onclick="showHideStructure()" checked>Show Tonnetz</label><br>
+					<label><input type="checkbox" id="notesCheckbox" value="notes_checkbox" onclick="showHideStructure()" checked>Show Notes</label><br>
 				</div>
+				<!-- </div> -->
 			</div>
 			<img id="colorwheel" src="images/colorwheel_hsl.png">
-			<div id="blender"></div>
+			<!-- <div id="blender"></div> -->
 
 			<!-- <img id="fifthswheel" src="images/circle_fifths_wheel.png"> -->
 		</div>
@@ -753,7 +755,7 @@ eventjs.add(window, "load", function(event) {
 
 			var offsetColors = getOffsetColors(pAngleOffset, sAngleOffset);
 			var allColors = getColorMap(offsetColors);
-			var blendBox = document.getElementById("blender");
+			// var blendBox = document.getElementById("blender");
 			if (singleTonnetz) var mesh = scene.getObjectByName( "tonnetz" );
 
 			var numNotes = 0;
@@ -807,7 +809,7 @@ eventjs.add(window, "load", function(event) {
 					}
 
 					var blendColor = blendColors(activeNotes);
-					blendBox.style.background = HSLArrayToString(blendColor);
+					// blendBox.style.background = HSLArrayToString(blendColor);
 					if (singleTonnetz) colorSolidMesh(blendColor);
 					if (singleTonnetz) updateMesh(mesh, pAngleOffset);
 				}

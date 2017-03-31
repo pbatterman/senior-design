@@ -103,9 +103,6 @@ div.channel {
 
 #sliders {
 	margin-top: 220px;
-	position: absolute;
-	right: 0;
-	width: 180px;
 }
 
 .angleInputLabel {
@@ -134,10 +131,6 @@ div.channel {
 	z-index:1;
 	right:0;
 	top:0;
-}
-
-#ringButtons {
-	margin-top: 50px;
 }
 
 #blender {
