@@ -1351,7 +1351,7 @@ function createDisplacedTonnetzGeometry(noteArray, startTime, totalTime) {
     vertexColors: THREE.FaceColors
   });
 	var xPos = 0;
-	var dX = (6 * 40 - (6 * 40 * 3));
+	var dX = -600;
  	// for (var eventTime in noteArray) {
  	for (var t = startTime; t < totalTime; t++) {
  		if (noteArray[t]) {
@@ -1373,13 +1373,7 @@ function createDisplacedTonnetzGeometry(noteArray, startTime, totalTime) {
 
 		for (var n = 0; n < notes.length; n++) {
 			var note = notes[n];
- 			for (var x = 0; x < 7; x++) {
-				for (var y = 0; y < 6; y++) {
-					if (noteVertices[x][y] == (note % 12)) {
-						displaceVertex(mesh, solidMesh, note, 128);
-					}
-				}
-			}
+			displaceVertex(mesh, solidMesh, note, 128);
  		}
 
  		tonnetzGeo.push(mesh);
