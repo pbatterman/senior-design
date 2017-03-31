@@ -394,6 +394,8 @@ function switchVisualization(id) {
 		var parent =  scene.getObjectByName("displacedTonnetzStructure");
 		scene.remove(parent);
 		meshPlane.traverse( function ( object ) { object.visible = false; } );
+		reColorGeometry();
+
 	}
 	else {
 		song = [];
