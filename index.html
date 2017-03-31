@@ -380,11 +380,17 @@ function switchVisualization(id) {
 	var meshPlane = scene.getObjectByName("plane");
 	
 	if (singleTonnetz) {
+		var parent =  scene.getObjectByName("musicStructure");
+		if (parent) scene.remove(parent);
+		var displacedParent =  scene.getObjectByName("displacedTonnetzStructure");
+		if (displacedParent) scene.remove(displacedParent);
 		var colorMap = mapColorsToVertices();
 		constructSingleTonnetz(colorMap);
 		meshPlane.traverse( function ( object ) { object.visible = false; } );
 	}
 	else if (multiTonnetz) {
+		var parent =  scene.getObjectByName("musicStructure");
+		if (parent) scene.remove(parent);
 		var parent =  scene.getObjectByName("displacedTonnetzStructure");
 		scene.remove(parent);
 		meshPlane.traverse( function ( object ) { object.visible = false; } );
@@ -667,14 +673,14 @@ function updateScale(scale) {
 }
 
 function setColors(noteOrder) {
-		var dAngle = 360/noteOrder.length;
-		var colorMap = {};
-		for (var n = 0; n < noteOrder.length; n++) {
-			var hue = n*dAngle;
-			colorMap[noteOrder[n]] = [hue, 100, 50];
-		}
-		return colorMap;
+	var dAngle = 360/noteOrder.length;
+	var colorMap = {};
+	for (var n = 0; n < noteOrder.length; n++) {
+		var hue = n*dAngle;
+		colorMap[noteOrder[n]] = [hue, 100, 50];
 	}
+	return colorMap;
+}
 
 function resetColors(noteOrder) {
 	primaryColors = setColors(noteOrder);
