@@ -79,7 +79,10 @@
 					<input type='file' accept='audio/midi' onchange='openFile(event)'>
 					<img id='output'>
 					<button type="button" class="btn btn-success btn-sm" onclick="reColorGeometry(0.5)">UPDATE</button>
-					<button type="button" class="btn btn-default btn-sm" onclick="switchVisualization()">Switch</button>
+					<button type="button" class="btn btn-default btn-sm" onclick="switchVisualization(0)">Single</button>
+					<button type="button" class="btn btn-default btn-sm" onclick="switchVisualization(1)">Multi</button>
+					<button type="button" class="btn btn-default btn-sm" onclick="switchVisualization(2)">Stack</button>
+
 					<label class="inputLabel"><input type="checkbox" id="tonnetzCheckbox" value="tonnetz_checkbox" onclick="showHideStructure()" checked>Show Tonnetz</label><br>
 					<label class="inputLabel"><input type="checkbox" id="notesCheckbox" value="notes_checkbox" onclick="showHideStructure()" checked>Show Notes</label><br>
 				</div>
@@ -362,8 +365,20 @@ function init() {
 
 }
 
-function switchVisualization() {
-	singleTonnetz = !singleTonnetz;
+function switchVisualization(id) {
+	if (id == 0) {
+		singleTonnetz = true;
+		multiTonnetz = false;
+	}
+	else if (id == 1) {
+		singleTonnetz = false;
+		multiTonnetz = true;
+	}
+	else {
+		singleTonnetz = false;
+		multiTonnetz = false;
+	}
+	
 	var meshPlane = scene.getObjectByName("plane");
 	
 	if (singleTonnetz) {
@@ -845,8 +860,8 @@ eventjs.add(window, "load", function(event) {
 
 					var blendColor = blendColors(activeNotes);
 					// blendBox.style.background = HSLArrayToString(blendColor);
-					// if (singleTonnetz) colorSolidMesh(blendColor);
-					// if (singleTonnetz) updateMesh(mesh, pAngleOffset);
+					if (singleTonnetz) colorSolidMesh(blendColor);
+					if (singleTonnetz) updateMesh(mesh, pAngleOffset);
 				}
 
 			});
@@ -1352,7 +1367,7 @@ function createDisplacedTonnetzGeometry(noteArray, startTime, totalTime) {
   });
 	var xPos = 0;
 	var dX = -600;
- 	// for (var eventTime in noteArray) {
+
  	for (var t = startTime; t < totalTime; t++) {
  		if (noteArray[t]) {
  			notes = noteArray[t];
