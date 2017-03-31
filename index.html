@@ -1254,22 +1254,22 @@ function reColorGeometry() {
 }
 
 function showHideStructure() {
+	var tObject = scene.getObjectByName('tonnetzStructure', true);
+	var nObject = scene.getObjectByName('dotStructure', true);
+
+
 	if($("#tonnetzCheckbox").is(':checked')) {
-		var tObject = scene.getObjectByName('tonnetzStructure');
 		tObject.traverse( function ( object ) { object.visible = true; } );
 	}
 	else {
-		var tObject = scene.getObjectByName('tonnetzStructure');
 		tObject.traverse( function ( object ) { object.visible = false; } );
 	} 
 
 	if($("#notesCheckbox").is(':checked')) {
-		var tObject = scene.getObjectByName('dotStructure');
-		tObject.traverse( function ( object ) { object.visible = true; } );
+		nObject.traverse( function ( object ) { object.visible = true; } );
 	}
 	else {
-		var tObject = scene.getObjectByName('dotStructure');
-		tObject.traverse( function ( object ) { object.visible = false; } );
+		nObject.traverse( function ( object ) { object.visible = false; } );
 	} 
 
 }
