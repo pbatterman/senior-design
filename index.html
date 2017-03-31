@@ -337,8 +337,11 @@ function init() {
 	controls = new THREE.OrbitControls(camera, renderer.domElement);
 
 	if (singleTonnetz) {
-		constructSingleTonnetz(colorMap);
-		plane.traverse( function ( object ) { object.visible = false; } );
+		// constructSingleTonnetz(colorMap);
+		// plane.traverse( function ( object ) { object.visible = false; } );
+		
+		// try displaced:
+		constructVisualization(1, 0.5);
 	}
 /*
  	var geometry = buildTonnetzGeometry(colorMap, true);
@@ -459,8 +462,17 @@ function constructVisualization(type, scale) {
 		$( "#loadingText" ).html("");
 	}
 	else if (type == 1) { // displaced tonnetz mesh
+		var displacedTonnetzGeometry = createDisplacedTonnetzGeometry(songData.noteArray, songData.startTime,songData.totalTime);
 
+		var parent = new THREE.Object3D();
+		parent.name = "displacedTonnetzStructure";
 
+		for (var i = 0; i < displacedTonnetzGeometry.length; i++) {
+			var tonnetzMesh = displacedTonnetzGeometry[i];
+			parent.add(tonnetzMesh);
+		}
+
+		scene.add(parent);
 	}
 
 }
@@ -1274,7 +1286,6 @@ function buildDisplacedTonnetz(notes) {
 				face1.vertexColors[1] = vertexColors[v+1];
 				face1.vertexColors[2] = vertexColors[v+7];
    			
-
 				geometry.faces.push( face1 );
    		}
    		// middle rows
@@ -1314,13 +1325,14 @@ function buildDisplacedTonnetz(notes) {
 }
 
 // convert array to threejs vertices for point cloud rendering
-function createDisplacedTonnetzGeometry(colorMap, noteArray, startTime, totalTime) {
-	var geometry = new THREE.Geometry();
+function createDisplacedTonnetzGeometry(noteArray, startTime, totalTime) {
+	var colorMap = mapColorsToVertices();
+
+	var results = {};
 	var tonnetzGeo = [];
-	var zidx = 0;
+	var solidGeo = [];
 	var notes;
-	var result = {};
-	var mag = 40;
+
 
 	var material = new THREE.MeshBasicMaterial( { 
     shading: THREE.FlatShading,
@@ -1335,27 +1347,25 @@ function createDisplacedTonnetzGeometry(colorMap, noteArray, startTime, totalTim
     shading: THREE.FlatShading,
     vertexColors: THREE.FaceColors
   });
-
+	var xPos = 0;
+	var dX = (6 * 40 - (6 * 40 * 3));
  	// for (var eventTime in noteArray) {
  	for (var t = startTime; t < totalTime; t++) {
- 		var zPos = 0;
  		if (noteArray[t]) {
  			notes = noteArray[t];
- 			for (var o = 0; o < 9; o++) {
- 				var singleTon = buildTemplateTonnetzGeometry(notes, o);
- 				tonnetzGeo.push(singleTon);
- 			}
- 			
  		}
+
  		if (!notes) continue;
-		// var notes = noteArray[eventTime];
 
-
-
-		var geometry = buildTonnetzGeometry(colorMap, true);
+		var tGeometry = buildTonnetzGeometry(colorMap, true);
 	 	var solidGeometry = buildTonnetzGeometry(colorMap, false);
 
-		var mesh = new THREE.Mesh( geometry, material );
+	 	tGeometry.translate(xPos, 0, 0);
+	 	solidGeometry.translate(xPos, 0, 0);
+
+	 	xPos += dX;
+
+		var mesh = new THREE.Mesh( tGeometry, material );
 		var solidMesh = new THREE.Mesh( solidGeometry, solidMaterial );
 
 		for (var n = 0; n < notes.length; n++) {
@@ -1368,11 +1378,14 @@ function createDisplacedTonnetzGeometry(colorMap, noteArray, startTime, totalTim
 				}
 			}
  		}
- 	}
- 	result.notes = geometry;
- 	result.tonnetz = tonnetzGeo;
 
- 	return result;
+ 		tonnetzGeo.push(mesh);
+ 		solidGeo.push(solidMesh)
+
+ 	}
+ 	results.tonnetzGeo = tonnetzGeo;
+ 	results.solidGeo = solidGeo;
+ 	return results;
 }
 
 // construct main structure of song
