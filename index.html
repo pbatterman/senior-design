@@ -78,6 +78,8 @@
 						<img id='output'>
 						<button type="button" class="btn btn-success btn-sm" onclick="reColorGeometry(0.5)">UPDATE</button>
 						<button type="button" class="btn btn-default btn-sm" onclick="switchVisualization()">Switch</button>
+						<label><input type="checkbox" id="tonnetzCheckbox" value="tonnetz_checkbox" onclick="showHideStructure()" checked>Show Tonnetz</label><br>
+						<label><input type="checkbox" id="notesCheckbox" value="notes_checkbox" onclick="showHideStructure()" checked>Show Notes</label><br>
 					</div>
 				</div>
 			</div>
@@ -414,13 +416,17 @@ function constructVisualization(scale) {
 	var parent = new THREE.Object3D();
 	parent.name = "musicStructure";
 
+	var tonnetzStructure = new THREE.Object3D();
+
 	var pointMaterial = new THREE.PointsMaterial( { 
 		vertexColors: THREE.VertexColors,
 		visible: true, 
 		size: 10 } )
 	var dot = new THREE.Points( midiGeometry.notes, pointMaterial );
 	dot.name = "notes";
-	parent.add( dot );
+	var dotStructure = new THREE.Object3D();
+	dotStructure.add(dot);
+	parent.add( dotStructure );
 
 	var meshMaterial = new THREE.MeshBasicMaterial( { 
 		    shading: THREE.FlatShading,
@@ -430,9 +436,9 @@ function constructVisualization(scale) {
 	for (var i = 0; i < midiGeometry.tonnetz.length; i++) {
 		var tonnetzMesh = new THREE.Mesh(midiGeometry.tonnetz[i], meshMaterial);
 		tonnetzMesh.name = "tonnetzMesh"+i;
-		parent.add(tonnetzMesh);
+		tonnetzStructure.add(tonnetzMesh);
 	}
-	
+	parent.add(tonnetzStructure);
 	scene.add(parent);
 	$( "#loadingText" ).html("");
 }
@@ -1242,11 +1248,32 @@ function buildSongStructure(midifile, scale) {
 function reColorGeometry() {
 	if (!singleTonnetz) {
 		var parent =  scene.getObjectByName("musicStructure");
-		console.log(parent);
 		scene.remove(parent);
 		constructVisualization(visScale);
 	}
 }
+
+function showHideStructure() {
+	if($("#tonnetzCheckbox").is(':checked')) {
+		var tObject = scene.getObjectByName('tonnetzStructure');
+		tObject.traverse( function ( object ) { object.visible = true; } );
+	}
+	else {
+		var tObject = scene.getObjectByName('tonnetzStructure');
+		tObject.traverse( function ( object ) { object.visible = false; } );
+	} 
+
+	if($("#notesCheckbox").is(':checked')) {
+		var tObject = scene.getObjectByName('dotStructure');
+		tObject.traverse( function ( object ) { object.visible = true; } );
+	}
+	else {
+		var tObject = scene.getObjectByName('dotStructure');
+		tObject.traverse( function ( object ) { object.visible = false; } );
+	} 
+
+}
+
 
 function startAnimation() {
 	animating = true;
