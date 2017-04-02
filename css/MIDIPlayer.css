@@ -93,12 +93,13 @@ div.channel {
 
 #colorController {
 	height: 1000px;
-	background-color: #aaa;
+	background: transparent;
 	width: 200px;
 	position: fixed;
 	left: 0;
 	top: 0;
 	z-index: 1;
+	border: 2px solid #ddd;
 }
 
 #sliders {
