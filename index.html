@@ -873,8 +873,11 @@ eventjs.add(window, "load", function(event) {
 
 					var blendColor = blendColors(activeNotes);
 					// blendBox.style.background = HSLArrayToString(blendColor);
-					if (singleTonnetz) colorSolidMesh(blendColor);
-					if (singleTonnetz) updateMesh(mesh, pAngleOffset);
+					if (singleTonnetz) {
+						var solidMesh = scene.getObjectByName("solidMesh");
+						colorSolidMesh(mesh, blendColor);
+						updateMesh(mesh, pAngleOffset);
+					}
 				}
 
 			});
@@ -884,11 +887,10 @@ eventjs.add(window, "load", function(event) {
 	});
 });
 
-function colorSolidMesh(blendColor) {
+function colorSolidMesh(mesh, blendColor) {
 	if (!blendColor) {
 		blendColor = [0, 0, 30];
 	}
-	var mesh = scene.getObjectByName("solidMesh");
 	var h = blendColor[0] / 360.0;
 	var s = blendColor[1] / 100.0;
 	var l = blendColor[2] / 100.0;
@@ -1397,8 +1399,24 @@ function createDisplacedTonnetzGeometry(noteArray, startTime, totalTime) {
 
 	 	xPos += dX;
 
+
+	 	// color solid underlying mesh as the blended color
+	 	var activeColors = [];
+   	for (var i = 0; i < notes.length; i++) {
+   		activeColors[notes[i]] = (primaryColors[notes[i] % 12]);
+   	}
+   	var blendColor = blendColors(activeColors);
+   	if (blendColor[0] < 0) {
+			blendColor[0] = (360 + blendColor[0]);
+		}
+   	blendColor[0] = parseInt(blendColor[0]);
+		blendColor[1] = parseInt(blendColor[1]);
+		blendColor[2] = parseInt(blendColor[2]);
+
 		var mesh = new THREE.Mesh( tGeometry, material );
 		var solidMesh = new THREE.Mesh( solidGeometry, solidMaterial );
+
+		colorSolidMesh(solidMesh, blendColor);
 
 		for (var n = 0; n < notes.length; n++) {
 			var note = notes[n];
