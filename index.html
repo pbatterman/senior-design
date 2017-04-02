@@ -1382,12 +1382,12 @@ function createDisplacedTonnetzGeometry(noteArray, startTime, totalTime) {
 	var dX = -600;
 
  	for (var t = startTime; t < totalTime; t++) {
- 		var notes;
- 		if (noteArray[t]) {
+ 		if (noteArray[t] && notes != noteArray[t]) {
  			notes = noteArray[t];
  		}
-
- 		if (!notes) continue;
+ 		else {
+ 			continue;
+ 		}
 
 		var tGeometry = buildTonnetzGeometry(colorMap, true);
 	 	var solidGeometry = buildTonnetzGeometry(colorMap, false);
