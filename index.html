@@ -76,13 +76,14 @@
 						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#customOuterRingModal" onclick="pausePlayStop(true)">Custom</button>
 						<h3 id="loadingText"></h3>
 					</div>
+					<button type="button" class="btn btn-success btn-sm btn-block" onclick="reColorGeometry()">UPDATE</button>
 					<input type='file' accept='audio/midi' onchange='openFile(event)'>
 					<img id='output'>
-					<button type="button" class="btn btn-success btn-sm" onclick="reColorGeometry()">UPDATE</button>
-					<button type="button" class="btn btn-default btn-sm" onclick="switchVisualization(0)">Single</button>
-					<button type="button" class="btn btn-default btn-sm" onclick="switchVisualization(1)">Multi</button>
-					<button type="button" class="btn btn-default btn-sm" onclick="switchVisualization(2)">Stack</button>
-
+					<div class="btn-group btn-group-xs" role="group" aria-label="...">
+						<button type="button" class="btn btn-danger btn-sm" onclick="switchVisualization(0)">Single</button>
+						<button type="button" class="btn btn-warning btn-sm" onclick="switchVisualization(1)">Multi</button>
+						<button type="button" class="btn btn-info btn-sm" onclick="switchVisualization(2)">Stack</button>
+					</div>
 					<label class="inputLabel"><input type="checkbox" id="tonnetzCheckbox" value="tonnetz_checkbox" onclick="showHideStructure()" checked>Show Tonnetz</label><br>
 					<label class="inputLabel"><input type="checkbox" id="notesCheckbox" value="notes_checkbox" onclick="showHideStructure()" checked>Show Notes</label><br>
 				</div>
