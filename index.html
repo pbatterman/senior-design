@@ -42,12 +42,12 @@
 
 </head>
 <body>
-	<div class="modal" id="welcomeModal" tabindex="-1" role="dialog">
+	<div class="modal show" id="welcomeModal" tabindex="-1" role="dialog">
 		<div class="modal-dialog modal-sm" role="document">
 			<div class="modal-content">
-				<div class="col-xs-12">
+				<div class="col-xs-12" style="border-radius:10px; border: 1px solid #888; padding:10%">
 					<h2>Welcome!</h2>
-					<p>Upload a MIDI File to begin.</p>
+					<h3>Upload a MIDI File to begin.</h3>
 					<input type='file' accept='audio/midi' onchange='openFile(event)'>
 				</div>
 			</div>
