@@ -300,9 +300,7 @@
 
 function init() {
 
-	$(window).load(function(){
-    $('#welcomeModal').modal('show');
-  });
+	$('#welcomeModal').modal('show');
 
 	resetColorWheel(fifthsOrder);
 	scene = new THREE.Scene();
@@ -837,7 +835,7 @@ eventjs.add(window, "load", function(event) {
 		onprogress: function(state, progress) {
 			MIDI.loader.setValue(progress * 100);
 		},
-		onsuccess: function() {
+		onsuccess: function() { 
 			/// this is the language we are running in
 			/// this sets up the MIDI.Player and gets things going...
 			player = MIDI.Player;
