@@ -90,7 +90,7 @@
 			</div>
 			<div class="col-xs-12">
 					<button type="button" class="btn btn-success btn-sm btn-block" onclick="reColorGeometry()">UPDATE</button>
-					<input type='file' accept='audio/midi' onchange='openFile(event)'>
+					<label>Change song:</label><input type='file' accept='audio/midi' onchange='openFile(event)'>
 					<img id='output'>
 					<div class="btn-group btn-group" role="group" aria-label="...">
 						<button type="button" class="btn btn-danger btn-sm" onclick="switchVisualization(0)">Single</button>
@@ -1121,6 +1121,7 @@ function HSLArrayToString(col) {
 var numSongs = 0;
 
 var openFile = function(event) {
+	$('#welcomeModal').hide();
   var input = event.target;
 
   var urlReader = new FileReader();
