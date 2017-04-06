@@ -310,8 +310,6 @@
 
 function init() {
 
-	$('#welcomeModal').modal('show');
-
 	$('#singleOptions').hide();
 	$('#multiOptions').hide();
 	$('#stackOptions').show();
@@ -1121,7 +1119,7 @@ function HSLArrayToString(col) {
 var numSongs = 0;
 
 var openFile = function(event) {
-	$('#welcomeModal').hide();
+	$('#welcomeModal').modal('hide');
   var input = event.target;
 
   var urlReader = new FileReader();
