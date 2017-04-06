@@ -451,7 +451,10 @@ function constructSingleTonnetz(colorMap) {
 	parent.name = "singleTonnetzStructure"
 
 	var singleWireframe = new THREE.Object3D();
+	singleWireframe.name = "singleWireframe";
+
 	var singleSolid = new THREE.Object3D();
+	singleSolid.name = "singleSolid";
 
 	mesh.name = "tonnetz";
 	singleWireframe.add(mesh);
