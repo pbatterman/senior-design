@@ -72,6 +72,13 @@
 		</div>
 		<!-- <div id="channels"></div> -->
 		<div id="colorController">
+			<div class="col-xs-12">
+				<div class="btn-group btn-group-xs" role="group" aria-label="...">
+					<button type="button" class="btn btn-default" onclick="resetColorWheel(fifthsOrder)">Circle of Thirds</button>
+					<button type="button" class="btn btn-default" data-toggle="modal" data-target="#customOuterRingModal" onclick="pausePlayStop(true)">Custom</button>
+					<h3 id="loadingText"></h3>
+				</div>
+			</div>
 			<div class="col-xs-12" id="sliders">
 				<!-- <div id="sliders"> -->
 				<label class="inputLabel">Outer</label>
@@ -82,11 +89,6 @@
 				<input type="range" min="0" max="100" class="angleInput" id="scaleInput"><br>
 			</div>
 			<div class="col-xs-12">
-					<div class="btn-group btn-group-xs" role="group" aria-label="...">
-						<button type="button" class="btn btn-default" onclick="resetColorWheel(fifthsOrder)">Circle of Thirds</button>
-						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#customOuterRingModal" onclick="pausePlayStop(true)">Custom</button>
-						<h3 id="loadingText"></h3>
-					</div>
 					<button type="button" class="btn btn-success btn-sm btn-block" onclick="reColorGeometry()">UPDATE</button>
 					<input type='file' accept='audio/midi' onchange='openFile(event)'>
 					<img id='output'>
@@ -309,6 +311,10 @@
 function init() {
 
 	$('#welcomeModal').modal('show');
+
+	$('#singleOptions').hide();
+	$('#multiOptions').hide();
+	$('#stackOptions').show();
 
 	resetColorWheel(fifthsOrder);
 	scene = new THREE.Scene();
