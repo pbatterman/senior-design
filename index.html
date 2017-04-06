@@ -85,16 +85,16 @@
 						<button type="button" class="btn btn-info btn-sm" onclick="switchVisualization(2)">Stack</button>
 					</div>
 					<div class="col-xs-12" id="singleOptions">
-						<label class="inputLabel"><input type="checkbox" id="singleWireCheckbox" onclick="showHideStructure()" checked>Show Wifeframe</label><br>
-						<label class="inputLabel"><input type="checkbox" id="singleSolidCheckbox" onclick="showHideStructure()" checked>Show Solid Mesh</label><br>
+						<input type="checkbox" id="singleWireCheckbox" onclick="showHideStructure()" checked>Show Wifeframe<br>
+						<input type="checkbox" id="singleSolidCheckbox" onclick="showHideStructure()" checked>Show Solid Mesh<br>
 					</div>
 					<div class="col-xs-12" id="multiOptions">
 						<input type="checkbox" id="multiWireCheckbox" onclick="showHideStructure()" checked>Show Wireframe<br>
 						<input type="checkbox" id="multiSolidCheckbox" onclick="showHideStructure()" checked>Show Solid Mesh<br>
 					</div>
 					<div class="col-xs-12" id="stackOptions">
-						<label class="inputLabel"><input type="checkbox" id="stackTonnetzCheckbox" onclick="showHideStructure()" checked>Show Tonnetz</label><br>
-						<label class="inputLabel"><input type="checkbox" id="stackNotesCheckbox" onclick="showHideStructure()" checked>Show Notes</label><br>
+						<input type="checkbox" id="stackTonnetzCheckbox" onclick="showHideStructure()" checked>Show Tonnetz<br>
+						<input type="checkbox" id="stackNotesCheckbox" onclick="showHideStructure()" checked>Show Notes<br>
 					</div>
 				</div>
 				<!-- </div> -->
@@ -398,6 +398,10 @@ function switchVisualization(id) {
 		var colorMap = mapColorsToVertices();
 		constructSingleTonnetz(colorMap);
 		meshPlane.traverse( function ( object ) { object.visible = false; } );
+
+		$('#singleOptions').show();
+		$('#multiOptions').hide();
+		$('#stackOptions').hide();
 	}
 	else if (multiTonnetz) {
 		var parent =  scene.getObjectByName("musicStructure");
@@ -407,15 +411,21 @@ function switchVisualization(id) {
 		meshPlane.traverse( function ( object ) { object.visible = false; } );
 		reColorGeometry();
 
+		$('#singleOptions').hide();
+		$('#multiOptions').show();
+		$('#stackOptions').hide();
 	}
 	else {
-		song = [];
 		var parent =  scene.getObjectByName("singleTonnetzStructure");
 		if (parent) scene.remove(parent);
 		var displacedParent =  scene.getObjectByName("displacedTonnetzStructure");
 		if (displacedParent) scene.remove(displacedParent);
 		meshPlane.traverse( function ( object ) { object.visible = true; } );
 		reColorGeometry();
+
+		$('#singleOptions').hide();
+		$('#multiOptions').hide();
+		$('#stackOptions').show();
 	}
 }
 
