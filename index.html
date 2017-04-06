@@ -42,8 +42,8 @@
 
 </head>
 <body>
-	<div class="modal bs-example-modal-sm" id="welcome" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-			  <h2> Welcome!</h2>
+	<div class="modal bs-example-modal-sm" id="welcomeModal" tabindex="-1" role="dialog">
+		<h2>Welcome!</h2>
 	</div>
 	<div id="colors"></div>
 	<div>
@@ -299,6 +299,11 @@
 
 
 function init() {
+
+	$(window).load(function(){
+    $('#welcomeModal').modal('show');
+  });
+
 	resetColorWheel(fifthsOrder);
 	scene = new THREE.Scene();
 	var WIDTH = 0.8*window.innerWidth,
