@@ -42,7 +42,7 @@
 
 </head>
 <body>
-	<div class="modal bs-example-modal-sm" id="welcomeModal" tabindex="-1" role="dialog">
+	<div class="modal" id="welcomeModal" tabindex="-1" role="dialog">
 		<h2>Welcome!</h2>
 	</div>
 	<div id="colors"></div>
@@ -880,6 +880,7 @@ eventjs.add(window, "load", function(event) {
 					if (singleTonnetz) updateMesh(mesh, pAngleOffset);
 				}
 
+				if (!scene) return;
 				var parent = scene.getObjectByName("musicStructure");
 				if (parent) {
 					var dz = data.now * (songTicks / data.end);
