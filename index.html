@@ -42,7 +42,7 @@
 
 </head>
 <body>
-	<div class="modal show" id="welcomeModal" tabindex="-1" role="dialog">
+	<div class="modal" id="welcomeModal" tabindex="-1" role="dialog">
 		<div class="modal-dialog modal-sm" role="document">
 			<div class="modal-content">
 				<div class="col-xs-12" style="border-radius:10px; border: 1px solid #888; padding:10%">
@@ -309,6 +309,8 @@
 
 
 function init() {
+
+	$('#welcomeModal').modal('show');
 
 	$('#singleOptions').hide();
 	$('#multiOptions').hide();
