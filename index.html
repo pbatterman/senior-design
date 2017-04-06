@@ -84,8 +84,18 @@
 						<button type="button" class="btn btn-warning btn-sm" onclick="switchVisualization(1)">Multi</button>
 						<button type="button" class="btn btn-info btn-sm" onclick="switchVisualization(2)">Stack</button>
 					</div>
-					<label class="inputLabel"><input type="checkbox" id="tonnetzCheckbox" value="tonnetz_checkbox" onclick="showHideStructure()" checked>Show Tonnetz</label><br>
-					<label class="inputLabel"><input type="checkbox" id="notesCheckbox" value="notes_checkbox" onclick="showHideStructure()" checked>Show Notes</label><br>
+					<div class="col-xs-12" id="singleOptions">
+						<label class="inputLabel"><input type="checkbox" id="singleWireCheckbox" onclick="showHideStructure()" checked>Show Wifeframe</label><br>
+						<label class="inputLabel"><input type="checkbox" id="singleSolidCheckbox" onclick="showHideStructure()" checked>Show Solid Mesh</label><br>
+					</div>
+					<div class="col-xs-12" id="multiOptions">
+						<input type="checkbox" id="multiWireCheckbox" onclick="showHideStructure()" checked>Show Wireframe<br>
+						<input type="checkbox" id="multiSolidCheckbox" onclick="showHideStructure()" checked>Show Solid Mesh<br>
+					</div>
+					<div class="col-xs-12" id="stackOptions">
+						<label class="inputLabel"><input type="checkbox" id="stackTonnetzCheckbox" onclick="showHideStructure()" checked>Show Tonnetz</label><br>
+						<label class="inputLabel"><input type="checkbox" id="stackNotesCheckbox" onclick="showHideStructure()" checked>Show Notes</label><br>
+					</div>
 				</div>
 				<!-- </div> -->
 			</div>
@@ -440,11 +450,17 @@ function constructSingleTonnetz(colorMap) {
 	var parent = new THREE.Object3D();
 	parent.name = "singleTonnetzStructure"
 
+	var singleWireframe = new THREE.Object3D();
+	var singleSolid = new THREE.Object3D();
+
 	mesh.name = "tonnetz";
-	parent.add(mesh);
+	singleWireframe.add(mesh);
 
 	solidMesh.name = "solidMesh";
-	parent.add(solidMesh);
+	singleSolid.add(solidMesh);
+
+	parent.add(singleWireframe);
+	parent.add(singleSolid);
 
 	scene.add(parent);
 
@@ -496,14 +512,22 @@ function constructVisualization(type, scale) {
 		var parent = new THREE.Object3D();
 		parent.name = "displacedTonnetzStructure";
 
+		var wireObject = new THREE.Object3D();
+		wireObject.name = "multiWireframe"
+
+		var solidObject = new THREE.Object3D();
+		solidObject.name = "multiSolid"
+
+
 		for (var i = 0; i < displacedTonnetzGeometry.tonnetzGeo.length; i++) {
 			var tonnetzMesh = displacedTonnetzGeometry.tonnetzGeo[i];
 			var solidMesh = displacedTonnetzGeometry.solidGeo[i];
-			parent.add(tonnetzMesh);
-			parent.add(solidMesh);
+			wireObject.add(tonnetzMesh);
+			solidObject.add(solidMesh);
 
 		}
-
+		parent.add(wireObject);
+		parent.add(solidObject);
 		scene.add(parent);
 	}
 
@@ -1484,23 +1508,69 @@ function reColorGeometry() {
 }
 
 function showHideStructure() {
-	var tObject = scene.getObjectByName('tonnetzStructure', true);
-	var nObject = scene.getObjectByName('dotStructure', true);
+	if (singleTonnetz) {
+
+		var wObject = scene.getObjectByName('singleWireframe', true);
+		var sObject = scene.getObjectByName('singleSolid', true);
+
+		if($("#singleWireCheckbox").is(':checked')) {
+			wObject.traverse( function ( object ) { object.visible = true; } );
+		}
+		else {
+			wObject.traverse( function ( object ) { object.visible = false; } );
+		} 
+
+		if($("#singleSolidCheckbox").is(':checked')) {
+			sObject.traverse( function ( object ) { object.visible = true; } );
+		}
+		else {
+			sObject.traverse( function ( object ) { object.visible = false; } );
+		} 
 
 
-	if($("#tonnetzCheckbox").is(':checked')) {
-		tObject.traverse( function ( object ) { object.visible = true; } );
+	}
+	else if (multiTonnetz) {
+
+		var wObject = scene.getObjectByName('multiWireframe', true);
+		var sObject = scene.getObjectByName('multiSolid', true);
+
+		if($("#multiWireCheckbox").is(':checked')) {
+			wObject.traverse( function ( object ) { object.visible = true; } );
+		}
+		else {
+			wObject.traverse( function ( object ) { object.visible = false; } );
+		} 
+
+		if($("#multiSolidCheckbox").is(':checked')) {
+			sObject.traverse( function ( object ) { object.visible = true; } );
+		}
+		else {
+			sObject.traverse( function ( object ) { object.visible = false; } );
+		} 
+
 	}
 	else {
-		tObject.traverse( function ( object ) { object.visible = false; } );
-	} 
+		var tObject = scene.getObjectByName('tonnetzStructure', true);
+		var nObject = scene.getObjectByName('dotStructure', true);
 
-	if($("#notesCheckbox").is(':checked')) {
-		nObject.traverse( function ( object ) { object.visible = true; } );
+		if($("#stackTonnetzCheckbox").is(':checked')) {
+			tObject.traverse( function ( object ) { object.visible = true; } );
+		}
+		else {
+			tObject.traverse( function ( object ) { object.visible = false; } );
+		} 
+
+		if($("#stackNotesCheckbox").is(':checked')) {
+			nObject.traverse( function ( object ) { object.visible = true; } );
+		}
+		else {
+			nObject.traverse( function ( object ) { object.visible = false; } );
+		} 
 	}
-	else {
-		nObject.traverse( function ( object ) { object.visible = false; } );
-	} 
+	
+
+
+	
 
 }
 
