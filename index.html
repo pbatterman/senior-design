@@ -1126,12 +1126,11 @@ var openFile = function(event) {
     var dataURL = urlReader.result;
     var output = document.getElementById('output');
     output.src = dataURL;
-    pausePlayStop(stop);
     song = [];
     song.push(dataURL);
-    console.log(song);
-    console.log(dataURL);
+    player.getNextSong(+1);
     numSongs++;
+
 
    	loadRemote(dataURL, function(data) {
 			uploadedMidiFile = MidiFile(data);
