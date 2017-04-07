@@ -359,8 +359,9 @@ function init() {
 
 	var planeGeometry = new THREE.PlaneGeometry( 4000, 20);
 	var planeMaterial = new THREE.MeshBasicMaterial( {color: 0xffffff, transparent: true, side: THREE.DoubleSide} );
-	// planeMaterial.opacity = 0.25;
+	planeMaterial.opacity = 0.5;
 	var plane = new THREE.Mesh( planeGeometry, planeMaterial );
+	plane.transform()
 	plane.name = "plane";
 	scene.add( plane );
 
