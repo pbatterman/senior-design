@@ -49,6 +49,7 @@
 					<h2>Welcome!</h2>
 					<h3>Upload a MIDI File to begin.</h3>
 					<input type='file' accept='audio/midi' onchange='openFile(event)'>
+					<p id="loadingMessage" style="color: #00FFFF;"></p>
 				</div>
 			</div>
 		</div>
@@ -1119,9 +1120,11 @@ function HSLArrayToString(col) {
 var numSongs = 0;
 
 var openFile = function(event) {
-  var input = event.target;
+	$('#loadingMessage').innerHTML = "loading...";
 
+  var input = event.target;
   var urlReader = new FileReader();
+
   urlReader.onload = function(){
     var dataURL = urlReader.result;
     var output = document.getElementById('output');
@@ -1136,6 +1139,7 @@ var openFile = function(event) {
 			uploadedMidiFile = MidiFile(data);
 			reColorGeometry();
 			$('#welcomeModal').modal('hide');
+			$('#loadingMessage').innerHTML = "";
 			animate();
 		});
   };
