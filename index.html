@@ -77,7 +77,6 @@
 				<div class="btn-group btn-group-xs" role="group" aria-label="...">
 					<button type="button" class="btn btn-default" onclick="resetColorWheel(fifthsOrder)">Circle of Thirds</button>
 					<button type="button" class="btn btn-default" data-toggle="modal" data-target="#customOuterRingModal" onclick="pausePlayStop(true)">Custom</button>
-					<h3 id="loadingText"></h3>
 				</div>
 				<!-- <div id="sliders"> -->
 				<label class="inputLabel">Outer</label>
@@ -503,7 +502,6 @@ function constructSingleTonnetz(colorMap) {
 }
 
 function constructVisualization(type, scale) {
-	$( "#loadingText" ).html("loading...");
 	var songData = buildSongStructure(uploadedMidiFile, scale);
 
 	if (type == 0) { // vertical midi notes
@@ -538,7 +536,6 @@ function constructVisualization(type, scale) {
 		}
 		parent.add(tonnetzStructure);
 		scene.add(parent);
-		$( "#loadingText" ).html("");
 	}
 	else if (type == 1) { // displaced tonnetz mesh
 		var displacedTonnetzGeometry = createDisplacedTonnetzGeometry(songData.noteArray, songData.startTime,songData.totalTime);
@@ -1133,7 +1130,9 @@ var openFile = function(event) {
     var dataURL = urlReader.result;
     var output = document.getElementById('output');
     output.src = dataURL;
+    song = [];
     song.push(dataURL);
+    player.getNextSong(+1);
     numSongs++;
 
 
@@ -1148,8 +1147,6 @@ var openFile = function(event) {
   };
 
   urlReader.readAsDataURL(input.files[0]);
-  player.getNextSong(+1);
-
 }
 
 function MIDIPlayerPercentage(player) {
