@@ -1134,7 +1134,6 @@ var openFile = function(event) {
     var output = document.getElementById('output');
     output.src = dataURL;
     song.push(dataURL);
-    player.getNextSong(+1);
     numSongs++;
 
 
@@ -1149,6 +1148,8 @@ var openFile = function(event) {
   };
 
   urlReader.readAsDataURL(input.files[0]);
+  player.getNextSong(+1);
+
 }
 
 function MIDIPlayerPercentage(player) {
