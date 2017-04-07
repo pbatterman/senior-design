@@ -89,7 +89,7 @@
 			</div>
 			<div class="col-xs-12">
 					<button type="button" class="btn btn-success btn-sm btn-block" onclick="reColorGeometry()">UPDATE</button>
-					<label>Change song:</label><p id="loadingMessage"></p><input type='file' accept='audio/midi' onchange='openFile(event)'>
+					<label>Change song:</label><p id="loadingMessage2"></p><input type='file' accept='audio/midi' onchange='openFile(event)'>
 					<img id='output'>
 					<div class="btn-group btn-group" role="group" aria-label="...">
 						<button type="button" class="btn btn-danger btn-sm" onclick="switchVisualization(0)">Single</button>
@@ -1121,6 +1121,8 @@ var numSongs = 0;
 
 var openFile = function(event) {
 	$('#loadingMessage').text("loading...");
+	$('#loadingMessage2').text("loading...");
+
 
   var input = event.target;
   var urlReader = new FileReader();
@@ -1132,7 +1134,6 @@ var openFile = function(event) {
     song = [];
     song.push(dataURL);
     player.getNextSong(+1);
-    pausePlayStop(true);
     numSongs++;
 
 
@@ -1141,6 +1142,7 @@ var openFile = function(event) {
 			reColorGeometry();
 			$('#welcomeModal').modal('hide');
 			$('#loadingMessage').innerHTML = "";
+			pausePlayStop(true);
 			animate();
 		});
   };
