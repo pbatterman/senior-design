@@ -1134,7 +1134,6 @@ var openFile = function(event) {
     var dataURL = urlReader.result;
     var output = document.getElementById('output');
     output.src = dataURL;
-    song = [];
     song.push(dataURL);
     player.getNextSong(+1);
     numSongs++;
