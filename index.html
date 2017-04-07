@@ -1118,7 +1118,6 @@ function HSLArrayToString(col) {
 var numSongs = 0;
 
 var openFile = function(event) {
-	$('#welcomeModal').modal('hide');
   var input = event.target;
 
   var urlReader = new FileReader();
@@ -1137,7 +1136,7 @@ var openFile = function(event) {
 			console.log(data);
 			uploadedMidiFile = MidiFile(data);
 			reColorGeometry();
-				
+			$('#welcomeModal').modal('hide');
 			animate();
 		});
   };
