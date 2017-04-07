@@ -1126,6 +1126,7 @@ var openFile = function(event) {
     var dataURL = urlReader.result;
     var output = document.getElementById('output');
     output.src = dataURL;
+    pausePlayStop(stop);
     song = [];
     song.push(dataURL);
     console.log(song);
@@ -1133,8 +1134,6 @@ var openFile = function(event) {
     numSongs++;
 
    	loadRemote(dataURL, function(data) {
-			console.log("loadremote dataURL");
-			console.log(data);
 			uploadedMidiFile = MidiFile(data);
 			reColorGeometry();
 			$('#welcomeModal').modal('hide');
