@@ -1120,7 +1120,7 @@ function HSLArrayToString(col) {
 var numSongs = 0;
 
 var openFile = function(event) {
-	$('#loadingMessage').innerHTML = "loading...";
+	$('#loadingMessage').text("loading...");
 
   var input = event.target;
   var urlReader = new FileReader();
