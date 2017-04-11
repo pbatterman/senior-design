@@ -91,15 +91,15 @@
 				<input type="range" min="0" max="100" class="angleInput" id="scaleInput"><br>
 			</div>
 			<div class="col-xs-12">
-					<button type="button" class="btn btn-success btn-sm btn-block" onclick="reColorGeometry()">UPDATE</button>
+					<button type="button" class="btn btn-success btn-block" onclick="reColorGeometry()">UPDATE</button>
 					<label>Change song:</label>
 					<p id="loadingMessage2" style="color: #FFFFFF;"></p>
 					<input type='file' accept='audio/midi' onchange='openFile(event)'>
 					<img id='output'>
 					<div class="btn-group btn-group" role="group" aria-label="...">
-						<button type="button" class="btn btn-danger btn-sm" onclick="switchVisualization(0)">Single</button>
-						<button type="button" class="btn btn-warning btn-sm" onclick="switchVisualization(1)">Multi</button>
-						<button type="button" class="btn btn-info btn-sm" onclick="switchVisualization(2)">Stack</button>
+						<button type="button" class="btn btn-danger" onclick="switchVisualization(0)">Single</button>
+						<button type="button" class="btn btn-warning" onclick="switchVisualization(1)">Multi</button>
+						<button type="button" class="btn btn-info" onclick="switchVisualization(2)">Stack</button>
 					</div>
 					<div class="col-xs-12" id="singleOptions">
 						<input type="checkbox" id="singleWireCheckbox" onclick="showHideStructure()" checked>Show Wifeframe<br>
@@ -1315,7 +1315,7 @@ function createGeometry(noteArray, startTime, totalTime, scale) {
 					activeOctaves.push(noteOct);
 				}
 			}
-			for (var o = 0; o < activeOctaves.size; o++) {
+			for (var o = 0; o < activeOctaves.length; o++) {
  					var singleTon = buildTemplateTonnetzGeometry(zPos, notes, activeOctaves[o]);
  					tonnetzGeo.push(singleTon);
  			}
