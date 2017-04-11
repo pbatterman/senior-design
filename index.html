@@ -1307,13 +1307,15 @@ function createGeometry(noteArray, startTime, totalTime, scale) {
  		var zPos = (t - startTime) * scale;
  		if (noteArray[t]) {
  			notes = noteArray[t];
- 			var activeOctaves = new Set();
+ 			var activeOctaves = [];
  			for (var n = 0; n < notes.length; n++) {
 				var noteOct = Math.floor(notes[n] / 9);
-				activeOctaves.add(noteOct);
+				if (activeOctaves.indexOf(noteOct) < 0) {
+					activeOctaves.add(noteOct);
+				}
 			}
-			for (var o in activeOctaves) {
- 					var singleTon = buildTemplateTonnetzGeometry(zPos, notes, o);
+			for (var o = 0; o < activeOctaves.size; o++) {
+ 					var singleTon = buildTemplateTonnetzGeometry(zPos, notes, activeOctaves[o]);
  					tonnetzGeo.push(singleTon);
  			}
  			
