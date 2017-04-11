@@ -1211,7 +1211,7 @@ function MIDIPlayerPercentage(player) {
 	//'data:audio/mid;base64,TVRoZAAAAAYAAQACAeBNVHJrAAAAnwD/Awh1bnRpdGxlZAD/AihDb3B5cmlnaHQgKGMpIDIwMTIgUHJvc29uaWMgU3R1ZGlvcywgTExDAP9YBAwDDAgA/1kCAAAA/1EDCSfAAP8GBUkgMm5khVD/BgQtVklJkHD/BgZ2aSAxc3SFUP8GBC1WSUmQcP8GBUkgMm5khVD/BgQtVklJkHD/BgZ2aSAxc3SFUP8GBVYgMXN0AP8vAE1UcmsAAADNAP8DLFRyaWFkc15NYWpvcl4xMi04XkkgLVZJSSB2aSAtVklJIEkgLVZJSSB2aSBWAZBAeQBEeQI7eoVCOwAARAAAQAAHRWsEPm4BQm6QZEIAAD4AAEUAB0l0AUB2AUR2hUdEAABAAABJAAdFawRCbgM+cJBiPgAAQgAARQAKO3cBQHgDRHqFQkQAAEAAADsABUJpAUVqAT5rkGk+AABFAABCAAZJdABEdAhAeoVCQAAARAAASQAIP2sCR20BQm6QZUIAAEcAAD8AAP8vAA==',
 	];
 
-// construct template tonnetz geometry
+// construct template tonnetz geometry for stack
 function buildTemplateTonnetzGeometry(time, notes, octave) {
 	var geometry = new THREE.Geometry();
    	vertexColors = [];
@@ -1308,8 +1308,18 @@ function createGeometry(noteArray, startTime, totalTime, scale) {
  		if (noteArray[t]) {
  			notes = noteArray[t];
  			for (var o = 0; o < 9; o++) {
- 				var singleTon = buildTemplateTonnetzGeometry(zPos, notes, o);
- 				tonnetzGeo.push(singleTon);
+ 				var hasOctave = false; // only construct templates where notes occur
+ 				for (var n = 0; n < notes.length; n++) {
+ 					var noteOct = notes[n] / o;
+ 					if (noteOct > 0 && noteOct <= 1) {
+ 						hasOctave = true;
+ 						break;
+ 					}
+ 				}
+ 				if (hasOctave) {
+ 					var singleTon = buildTemplateTonnetzGeometry(zPos, notes, o);
+ 					tonnetzGeo.push(singleTon);
+ 				}
  			}
  			
  		}
