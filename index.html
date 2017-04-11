@@ -510,7 +510,7 @@ function constructVisualization(type, scale) {
 
 	if (type == 0) { // vertical midi notes
 
-		var midiGeometry = createGeometry(songData.noteArray, songData.startTime, songData.totalTime, scale);
+		var midiGeometry = createGeometry(songData, scale);
 		var parent = new THREE.Object3D();
 		parent.name = "musicStructure";
 
@@ -1298,17 +1298,29 @@ function buildTemplateTonnetzGeometry(time, notes, octave) {
 
 
 // convert array to threejs vertices for point cloud rendering
-function createGeometry(noteArray, startTime, totalTime, scale) {
+function createGeometry(songData, scale) {
+
+	var noteArray = songData.noteArray;
+	var deltas = songData.deltas;
+	var startTime = songData.startTime;
+	var totalTime = songData.totalTime;
+
 	var geometry = new THREE.Geometry();
 	var tonnetzGeo = [];
 	var zidx = 0;
 	var notes;
 	var result = {};
 	var mag = 40;
- 	// for (var eventTime in noteArray) {
+	var deltaIdx = 0;
+	var delta;
+	var localZPos;
+
  	for (var t = startTime; t < totalTime; t++) {
  		var zPos = (t - startTime) * scale;
  		if (noteArray[t]) {
+ 			delta = deltas[deltaIdx];
+ 			deltaIdx++;
+ 			localZPos = 0;
  			notes = noteArray[t];
  			var activeOctaves = [];
  			for (var n = 0; n < notes.length; n++) {
@@ -1336,7 +1348,11 @@ function createGeometry(noteArray, startTime, totalTime, scale) {
 						var vertex = new THREE.Vector3(mag*x + mag*0.5*y + octaveShift, mag*5 - (mag*y), zPos);
 						// var vertex = new THREE.Vector3(x, y, 0);
 						geometry.vertices.push(vertex);
-						var col = HSLArrayToString(primaryColors[note % 12]);
+
+						// fade colors by length of note strike
+						var colArray = primaryColors[note % 12];
+						colArray[2] = ((delta - localZPos) / delta) * 50;
+						var col = HSLArrayToString(colArray);
    					var vertColor = new THREE.Color( col );
    					geometry.colors.push(vertColor);
 					}
@@ -1517,11 +1533,12 @@ function buildSongStructure(midifile, scale) {
 	var notesForStruct = {};
 	var currentNotes = [];
 	var startTime = -1;
-
+	var deltas = [];
 	// if event contains 'noteOn' or 'noteOff' subtypes, add note to an object for each time that an event occurs
 	for (var e = 0; e < events.length; e++) {
 		var noteEvent = events[e];
 		if (noteEvent.type != "channel" || (noteEvent.subtype != "noteOn" && noteEvent.subtype != "noteOff")) continue;
+		deltas.push[noteEvent.deltaTime];
 		totalTime += noteEvent.deltaTime;
 		var note = noteEvent.noteNumber;
 		if (noteEvent.subtype == "noteOn") {
@@ -1538,6 +1555,7 @@ function buildSongStructure(midifile, scale) {
 	songTicks = totalTime * scale;
 	var songData = {};
 	songData.noteArray = notesForStruct;
+	songData.deltas = deltas;
 	songData.startTime = startTime;
 	songData.totalTime = totalTime;
 	return songData;
