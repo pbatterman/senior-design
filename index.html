@@ -1312,7 +1312,7 @@ function createGeometry(noteArray, startTime, totalTime, scale) {
  			for (var n = 0; n < notes.length; n++) {
 				var noteOct = Math.floor(notes[n] / 9);
 				if (activeOctaves.indexOf(noteOct) < 0) {
-					activeOctaves.add(noteOct);
+					activeOctaves.push(noteOct);
 				}
 			}
 			for (var o = 0; o < activeOctaves.size; o++) {
