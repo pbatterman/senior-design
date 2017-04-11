@@ -1307,19 +1307,14 @@ function createGeometry(noteArray, startTime, totalTime, scale) {
  		var zPos = (t - startTime) * scale;
  		if (noteArray[t]) {
  			notes = noteArray[t];
- 			for (var o = 0; o < 9; o++) {
- 				var hasOctave = false; // only construct templates where notes occur
- 				for (var n = 0; n < notes.length; n++) {
- 					var noteOct = notes[n] / o;
- 					if (noteOct > 0 && noteOct <= 1) {
- 						hasOctave = true;
- 						break;
- 					}
- 				}
- 				if (hasOctave) {
+ 			var activeOctaves = new Set();
+ 			for (var n = 0; n < notes.length; n++) {
+				var noteOct = floor(notes[n] / 9);
+				activeOctaves.add(noteOct);
+			}
+			for (var o in activeOctaves) {
  					var singleTon = buildTemplateTonnetzGeometry(zPos, notes, o);
  					tonnetzGeo.push(singleTon);
- 				}
  			}
  			
  		}
