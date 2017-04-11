@@ -921,12 +921,13 @@ eventjs.add(window, "load", function(event) {
 					} else {
 						numNotes--;
 						numNotes = Math.max(numNotes, 0);
-						if (numNotes > 0) {
-							colorset = allColors.secondary;
-						}
-						else {
-							colorset = allColors.primary;
-						}
+						// if (numNotes > 0) {
+						// 	colorset = allColors.secondary;
+						// }
+						// else {
+						// 	colorset = allColors.primary;
+						// }
+						colorset = allColors.primary;
 						d.style.background = "";
 						activeNotes[note] = 0;
 						if (singleTonnetz)  displaceVertex(mesh, solidMesh, note, data.velocity);
