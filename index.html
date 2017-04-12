@@ -1235,6 +1235,10 @@ function buildTemplateTonnetzGeometry(time, notes, octave) {
    	var mag = 40;
    	var octaveShift = Math.floor(octave) * 6 * mag - (6 * mag * 3);
    	// console.log("octave 2: " + Math.floor(octave) + " shift " + octaveShift);
+   	var col = HSLArrayToString(blendColor);
+   	var vertColor = new THREE.Color( col );
+		console.log("string col: " + col);
+   	console.log(vertColor);
 
    	for (var y = 0; y < 6; y++) {
    		for (var x = 0; x < 7; x++) {
@@ -1242,10 +1246,7 @@ function buildTemplateTonnetzGeometry(time, notes, octave) {
    			geometry.vertices.push(vertex);
    			vertexKey.push(noteVertices[x][y]);
    			// var col = HSLArrayToString(gColorMap[x][y]);
-   			var col = HSLArrayToString(blendColor);
-   			console.log("string col: " + col);
-   			var vertColor = new THREE.Color( col );
-   			console.log(vertColor);
+
    			vertexColors.push(vertColor);
    		}
    	}
