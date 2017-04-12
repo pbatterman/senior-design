@@ -183,7 +183,7 @@
 	var songTicks = 0;
 	var uploadedMidiFile;
 	var visScale = 1;
-	var singleTonnetz = false;
+	var singleTonnetz = true;
 	var multiTonnetz = false;
 
 	var primaryColors, secondaryColors;
@@ -915,7 +915,9 @@ eventjs.add(window, "load", function(event) {
 						else {
 							colorset = allColors.primary;
 						}
-						// colorset = allColors.primary;
+						if (!singleTonnetz && !multiTonnetz) {
+							colorset = allColors.primary;
+						}
 						d.style.background = HSLArrayToString(colorset[note]);
 						activeNotes[note] = colorset[note];
 						if (singleTonnetz) displaceVertex(mesh, solidMesh, note, data.velocity);
@@ -928,7 +930,9 @@ eventjs.add(window, "load", function(event) {
 						else {
 							colorset = allColors.primary;
 						}
-						// colorset = allColors.primary;
+						if (!singleTonnetz && !multiTonnetz) {
+							colorset = allColors.primary;
+						}
 						d.style.background = "";
 						activeNotes[note] = 0;
 						if (singleTonnetz)  displaceVertex(mesh, solidMesh, note, data.velocity);
