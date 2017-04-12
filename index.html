@@ -1347,7 +1347,7 @@ function createGeometry(songData, scale) {
 						geometry.vertices.push(vertex);
 
 						// fade colors by length of note strike
-						var colArray = primaryColors[note % 12];
+						var colArray = primaryColors[note % 12].slice();
 						colArray[2] = parseInt(Math.max((2000 - localZPos)/2000, 0)*50);
 						var col = HSLArrayToString(colArray);
    					var vertColor = new THREE.Color( col );
