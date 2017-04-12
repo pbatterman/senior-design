@@ -1538,7 +1538,6 @@ function buildSongStructure(midifile, scale) {
 	for (var e = 0; e < events.length; e++) {
 		var noteEvent = events[e];
 		if (noteEvent.type != "channel" || (noteEvent.subtype != "noteOn" && noteEvent.subtype != "noteOff")) continue;
-		deltas.push(noteEvent.deltaTime);
 		totalTime += noteEvent.deltaTime;
 		var note = noteEvent.noteNumber;
 		if (noteEvent.subtype == "noteOn") {
@@ -1548,6 +1547,7 @@ function buildSongStructure(midifile, scale) {
 		else if(noteEvent.subtype == "noteOff") {
 			var idx = currentNotes.indexOf(note);
 			currentNotes.splice(idx, 1);
+			deltas.push(noteEvent.deltaTime);
 		}
 		notesForStruct[totalTime] = currentNotes.slice();
 
