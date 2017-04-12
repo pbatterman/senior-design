@@ -882,7 +882,7 @@ eventjs.add(window, "load", function(event) {
 			// fetch primary and secondary angles
 			var pAngleOffset = parseInt(d3.select("#primaryAngle").property("value"));
 			// var sAngleOffset = parseInt(d3.select("#secondaryAngle").property("value"));
-
+			var sAngleOffset = 0;
 			var offsetColors = getOffsetColors(pAngleOffset, sAngleOffset);
 			var allColors = getColorMap(offsetColors);
 			// var blendBox = document.getElementById("blender");
@@ -893,7 +893,8 @@ eventjs.add(window, "load", function(event) {
 
 				var currPOffset = parseInt(d3.select("#primaryAngle").property("value"));
 				// var currSOffset = parseInt(d3.select("#secondaryAngle").property("value"));
-
+				var currSOffset = 0;
+				
 				// if user changes color shift
 				if (currPOffset != pAngleOffset || currSOffset != sAngleOffset) {
 					pAngleOffset = currPOffset;
