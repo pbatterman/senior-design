@@ -186,6 +186,10 @@
 	var singleTonnetz = true;
 	var multiTonnetz = false;
 
+	var singleMesh;
+	var singleSolidMesh;
+	var verticesToMove = [];
+
 	var primaryColors, secondaryColors;
 
 	var primaryHolder, secondaryHolder;
@@ -476,9 +480,9 @@ function constructSingleTonnetz(colorMap) {
 
  	var solidGeometry = buildTonnetzGeometry(colorMap, false);
 
-	var mesh = new THREE.Mesh( geometry, material );
+	singleMesh = new THREE.Mesh( geometry, material );
 
-	var solidMesh = new THREE.Mesh( solidGeometry, solidMaterial );
+	singleSolidMesh = new THREE.Mesh( solidGeometry, solidMaterial );
 
 
 	var parent = new THREE.Object3D();
@@ -491,10 +495,10 @@ function constructSingleTonnetz(colorMap) {
 	singleSolid.name = "singleSolid";
 
 	mesh.name = "tonnetz";
-	singleWireframe.add(mesh);
+	singleWireframe.add(singleMesh);
 
 	solidMesh.name = "solidMesh";
-	singleSolid.add(solidMesh);
+	singleSolid.add(singleSolidMesh);
 
 	parent.add(singleWireframe);
 	parent.add(singleSolid);
@@ -574,6 +578,20 @@ function animate() {
   // Render the scene.
   renderer.render(scene, camera);
   controls.update();
+
+  if (singleTonnetz) {
+	  for (var v = 0; v < verticesToMove.length; v++) {
+	  	var oldVert = singleMesh.geometry.vertices[v];
+	  	if (oldVert.z <= 0) continue;
+	  	singleMesh.geometry.vertices[v].set(oldVert.x, oldVert.y, --oldVert.z);
+			singleMesh.geometry.dynamic = true;
+			singleMesh.geometry.verticesNeedUpdate = true;
+
+			singleSolidMesh.geometry.vertices[v].set(oldVert.x, oldVert.y, --oldVert.z);
+			singleSolidMesh.geometry.dynamic = true;
+			singleSolidMesh.geometry.verticesNeedUpdate = true;
+	  }
+	}
 
 }
 
@@ -996,27 +1014,22 @@ function displaceVertex(mesh, solidMesh, note, dz) {
 			var oldVert = mesh.geometry.vertices[v];
 
 			if (dz == 0) {
-				var z = oldVert.z;
-				var iz = dz;
-				while (iz > 0) {
-					iz--;
-					mesh.geometry.vertices[v].set(oldVert.x, oldVert.y, iz);
-					mesh.geometry.dynamic = true;
-					mesh.geometry.verticesNeedUpdate = true;
-
-					solidMesh.geometry.vertices[v].set(oldVert.x, oldVert.y, iz);
-					solidMesh.geometry.dynamic = true;
-					solidMesh.geometry.verticesNeedUpdate = true;
-				}
+				verticesToMove.push(v);
+				animate();
 			}
+			else {
+				var idx = verticesToMove.indexOf(v)
+				if (idx >= 0) {
+					verticesToMove.splice( idx, 1 );
+				}
+				mesh.geometry.vertices[v].set(oldVert.x, oldVert.y, dz);
+				mesh.geometry.dynamic = true;
+				mesh.geometry.verticesNeedUpdate = true;
 
-			mesh.geometry.vertices[v].set(oldVert.x, oldVert.y, dz);
-			mesh.geometry.dynamic = true;
-			mesh.geometry.verticesNeedUpdate = true;
-
-			solidMesh.geometry.vertices[v].set(oldVert.x, oldVert.y, dz);
-			solidMesh.geometry.dynamic = true;
-			solidMesh.geometry.verticesNeedUpdate = true;
+				solidMesh.geometry.vertices[v].set(oldVert.x, oldVert.y, dz);
+				solidMesh.geometry.dynamic = true;
+				solidMesh.geometry.verticesNeedUpdate = true;
+			}
 		}
 	}
 
