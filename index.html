@@ -1243,7 +1243,9 @@ function buildTemplateTonnetzGeometry(time, notes, octave) {
    			vertexKey.push(noteVertices[x][y]);
    			// var col = HSLArrayToString(gColorMap[x][y]);
    			var col = HSLArrayToString(blendColor);
+   			console.log("string col: " + col);
    			var vertColor = new THREE.Color( col );
+   			console.log(vertColor);
    			vertexColors.push(vertColor);
    		}
    	}
