@@ -85,8 +85,9 @@
 				<!-- <div id="sliders"> -->
 				<label class="inputLabel">Outer</label>
 				<input type="range" min="0" max="360" class="angleInput" id="primaryAngle"><br>
-				<label class="inputLabel">Inner</label>
+				<!-- <label class="inputLabel">Inner</label>
 				<input type="range" min="0" max="360" class="angleInput" id="secondaryAngle"><br>
+			-->
 				<label class="inputLabel">Scale</label>
 				<input type="range" min="0" max="100" class="angleInput" id="scaleInput"><br>
 			</div>
@@ -133,7 +134,7 @@
 			      	<div class="col-xs-5" id="sortableTip">
 			      		<p>Drag notes to re-order</p><br>
 			      		<label><input type="checkbox" id="outerCheckbox" value="outer_checkbox" checked> Outer Ring</label><br>
-			      		<label><input type="checkbox" id="innerCheckbox" value="inner_checkbox" checked> Inner Ring</label><br>
+			      		<!-- <label><input type="checkbox" id="innerCheckbox" value="inner_checkbox" checked> Inner Ring</label><br> -->
 			      	</div>
 			      	<div class="col-xs-5">
 				      	<ul id="sortable">
@@ -279,6 +280,7 @@
 	.attr("x", wheelX)
 	.attr("y", wheelY);
 
+/*
 	secondaryHolder = d3.select("body")
 	.append("svg")
 	.attr("width", wheelWidth)    
@@ -291,23 +293,25 @@
 	.attr("height", wheelHeight)
 	.attr("x", wheelX)
 	.attr("y", wheelY);
-
+*/
 
 	// when the input range changes update the angle 
 	d3.select("#primaryAngle").on("input", function() {
 		updateAngle(+this.value, 0);
 	});
 
+/*
 	d3.select("#secondaryAngle").on("input", function() {
 		updateAngle(+this.value, 1);
 	});
+*/
 
 	d3.select("#scaleInput").on("input", function() {
 		updateScale(+this.value);
 	});
 
 	updateAngle(0,0);
-	updateAngle(0,1);
+	// updateAngle(0,1);
 	// set default colors
 	resetColorWheel(fifthsOrder);
 
@@ -756,10 +760,12 @@ function resetColorWheel(noteOrder) {
 	resetColors(noteOrder);
 	primaryHolder.select("image")
 	.attr("xlink:href", "images/circle_fifths_wheel.png")
-	secondaryHolder.select("image")
-	.attr("xlink:href", "images/circle_fifths_wheel_minor.png")
+
 	updateAngle(0, 0);
+	/* secondaryHolder.select("image")
+	.attr("xlink:href", "images/circle_fifths_wheel_minor.png")
 	updateAngle(15, 1);
+	*/
 }
 
 // set individual ring and return to 0 rotation
@@ -770,7 +776,7 @@ function setColorRing(noteOrder, ring) {
 	}
 	else { // secondary
 		secondaryColors = setColors(noteOrder);
-		updateAngle(0, 1);
+		// updateAngle(0, 1);
 	}
 
 }
@@ -792,7 +798,7 @@ function customRing() {
 		.attr("xlink:href", "images/custom_wheel/co"+ cRotate +".png")
 
 		setColorRing(customNoteOrder, 0);
-
+/*
 		if ($("#innerCheckbox").is(':checked')) {
 
 			secondaryHolder.select("image")
@@ -800,13 +806,15 @@ function customRing() {
 
 		  setColorRing(customNoteOrder, 1);
 		}
+		*/
 	}    
+	/*
 	else if ($("#innerCheckbox").is(':checked')) {
 
 	  secondaryHolder.select("image")
 			.attr("xlink:href", "images/custom_wheel/ci"+ cRotate +".png")
 		  setColorRing(customNoteOrder, 1);
-	}
+	} */
 	else {
 		alert('No ring specified! Aborted.');
 	}
@@ -873,7 +881,7 @@ eventjs.add(window, "load", function(event) {
 			player.stop();
 			// fetch primary and secondary angles
 			var pAngleOffset = parseInt(d3.select("#primaryAngle").property("value"));
-			var sAngleOffset = parseInt(d3.select("#secondaryAngle").property("value"));
+			// var sAngleOffset = parseInt(d3.select("#secondaryAngle").property("value"));
 
 			var offsetColors = getOffsetColors(pAngleOffset, sAngleOffset);
 			var allColors = getColorMap(offsetColors);
@@ -884,7 +892,7 @@ eventjs.add(window, "load", function(event) {
 			player.addListener(function(data) {
 
 				var currPOffset = parseInt(d3.select("#primaryAngle").property("value"));
-				var currSOffset = parseInt(d3.select("#secondaryAngle").property("value"));
+				// var currSOffset = parseInt(d3.select("#secondaryAngle").property("value"));
 
 				// if user changes color shift
 				if (currPOffset != pAngleOffset || currSOffset != sAngleOffset) {
