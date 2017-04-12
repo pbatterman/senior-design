@@ -995,6 +995,21 @@ function displaceVertex(mesh, solidMesh, note, dz) {
 		if (vertexKey[v] == n) {
 			var oldVert = mesh.geometry.vertices[v];
 
+			if (dz == 0) {
+				var z = oldVert.z;
+				var iz = dz;
+				while (iz > 0) {
+					iz--;
+					mesh.geometry.vertices[v].set(oldVert.x, oldVert.y, iz);
+					mesh.geometry.dynamic = true;
+					mesh.geometry.verticesNeedUpdate = true;
+
+					solidMesh.geometry.vertices[v].set(oldVert.x, oldVert.y, iz);
+					solidMesh.geometry.dynamic = true;
+					solidMesh.geometry.verticesNeedUpdate = true;
+				}
+			}
+
 			mesh.geometry.vertices[v].set(oldVert.x, oldVert.y, dz);
 			mesh.geometry.dynamic = true;
 			mesh.geometry.verticesNeedUpdate = true;
