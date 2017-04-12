@@ -1301,7 +1301,6 @@ function buildTemplateTonnetzGeometry(time, notes, octave) {
 function createGeometry(songData, scale) {
 
 	var noteArray = songData.noteArray;
-	var deltas = songData.deltas;
 	var startTime = songData.startTime;
 	var totalTime = songData.totalTime;
 
@@ -1311,15 +1310,11 @@ function createGeometry(songData, scale) {
 	var notes;
 	var result = {};
 	var mag = 40;
-	var deltaIdx = 0;
-	var delta;
 	var localZPos;
 
  	for (var t = startTime; t < totalTime; t++) {
  		var zPos = (t - startTime) * scale;
  		if (noteArray[t]) {
- 			delta = deltas[deltaIdx];
- 			deltaIdx++;
  			localZPos = 0;
  			notes = noteArray[t];
  			var activeOctaves = [];
@@ -1351,7 +1346,7 @@ function createGeometry(songData, scale) {
 
 						// fade colors by length of note strike
 						var colArray = primaryColors[note % 12];
-						colArray[2] = ((delta - localZPos) / delta) * 50;
+						colArray[2] = Math.max(50 - localZPos, 0);
 						var col = HSLArrayToString(colArray);
    					var vertColor = new THREE.Color( col );
    					geometry.colors.push(vertColor);
@@ -1533,7 +1528,7 @@ function buildSongStructure(midifile, scale) {
 	var notesForStruct = {};
 	var currentNotes = [];
 	var startTime = -1;
-	var deltas = [];
+
 	// if event contains 'noteOn' or 'noteOff' subtypes, add note to an object for each time that an event occurs
 	for (var e = 0; e < events.length; e++) {
 		var noteEvent = events[e];
@@ -1547,7 +1542,6 @@ function buildSongStructure(midifile, scale) {
 		else if(noteEvent.subtype == "noteOff") {
 			var idx = currentNotes.indexOf(note);
 			currentNotes.splice(idx, 1);
-			deltas.push(noteEvent.deltaTime);
 		}
 		notesForStruct[totalTime] = currentNotes.slice();
 
@@ -1555,7 +1549,6 @@ function buildSongStructure(midifile, scale) {
 	songTicks = totalTime * scale;
 	var songData = {};
 	songData.noteArray = notesForStruct;
-	songData.deltas = deltas;
 	songData.startTime = startTime;
 	songData.totalTime = totalTime;
 	return songData;
