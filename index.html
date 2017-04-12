@@ -1306,7 +1306,6 @@ function createGeometry(songData, scale) {
 
 	var geometry = new THREE.Geometry();
 	var tonnetzGeo = [];
-	var zidx = 0;
 	var notes;
 	var result = {};
 	var mag = 40;
@@ -1354,7 +1353,7 @@ function createGeometry(songData, scale) {
 				}
 			}
  		}
- 		zidx += 50;
+ 		localZPos++;
  	}
  	result.notes = geometry;
  	result.tonnetz = tonnetzGeo;
