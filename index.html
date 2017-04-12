@@ -1234,11 +1234,8 @@ function buildTemplateTonnetzGeometry(time, notes, octave) {
 
    	var mag = 40;
    	var octaveShift = Math.floor(octave) * 6 * mag - (6 * mag * 3);
-   	// console.log("octave 2: " + Math.floor(octave) + " shift " + octaveShift);
    	var col = HSLArrayToString(blendColor);
    	var vertColor = new THREE.Color( col );
-		// console.log("string col: " + col);
-   	// console.log(vertColor);
 
    	for (var y = 0; y < 6; y++) {
    		for (var x = 0; x < 7; x++) {
@@ -1313,6 +1310,7 @@ function createGeometry(songData, scale) {
 	var result = {};
 	var mag = 40;
 	var localZPos;
+	var prevNotes = [];
 
  	for (var t = startTime; t < totalTime; t++) {
  		var zPos = (t - startTime) * scale;
@@ -1321,11 +1319,13 @@ function createGeometry(songData, scale) {
  			notes = noteArray[t];
  			var activeOctaves = [];
  			for (var n = 0; n < notes.length; n++) {
+ 				if (prevNotes.indexOf(notes[n]) >= 0) continue; // only build tonnetz for new notes 
 				var noteOct = Math.floor(notes[n] / 12);
 				if (activeOctaves.indexOf(noteOct) < 0) {
 					activeOctaves.push(noteOct);
 				}
 			}
+			prevNotes = notes;
 			for (var o = 0; o < activeOctaves.length; o++) {
  					var singleTon = buildTemplateTonnetzGeometry(zPos, notes, activeOctaves[o]);
  					tonnetzGeo.push(singleTon);
