@@ -909,26 +909,26 @@ eventjs.add(window, "load", function(event) {
 				if (d) {
 					if (data.message === 144) {
 						numNotes++;
-						// if (numNotes > 1) {
-						// 	colorset = allColors.secondary;
-						// }
-						// else {
-						// 	colorset = allColors.primary;
-						// }
-						colorset = allColors.primary;
+						if (numNotes > 1) {
+							colorset = allColors.secondary;
+						}
+						else {
+							colorset = allColors.primary;
+						}
+						// colorset = allColors.primary;
 						d.style.background = HSLArrayToString(colorset[note]);
 						activeNotes[note] = colorset[note];
 						if (singleTonnetz) displaceVertex(mesh, solidMesh, note, data.velocity);
 					} else {
 						numNotes--;
 						numNotes = Math.max(numNotes, 0);
-						// if (numNotes > 0) {
-						// 	colorset = allColors.secondary;
-						// }
-						// else {
-						// 	colorset = allColors.primary;
-						// }
-						colorset = allColors.primary;
+						if (numNotes > 0) {
+							colorset = allColors.secondary;
+						}
+						else {
+							colorset = allColors.primary;
+						}
+						// colorset = allColors.primary;
 						d.style.background = "";
 						activeNotes[note] = 0;
 						if (singleTonnetz)  displaceVertex(mesh, solidMesh, note, data.velocity);
