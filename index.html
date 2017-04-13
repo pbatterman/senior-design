@@ -579,19 +579,21 @@ function animate() {
   renderer.render(scene, camera);
   controls.update();
 
-  if (singleTonnetz) {
-	  for (var v = 0; v < verticesToMove.length; v++) {
-	  	var oldVert = singleMesh.geometry.vertices[v];
-	  	if (oldVert.z <= 0) continue;
-	  	singleMesh.geometry.vertices[v].set(oldVert.x, oldVert.y, --oldVert.z);
-			singleMesh.geometry.dynamic = true;
-			singleMesh.geometry.verticesNeedUpdate = true;
+	TWEEN.update();
+}
 
-			singleSolidMesh.geometry.vertices[v].set(oldVert.x, oldVert.y, --oldVert.z);
-			singleSolidMesh.geometry.dynamic = true;
-			singleSolidMesh.geometry.verticesNeedUpdate = true;
-	  }
-	}
+function tweenVertex(v) {
+
+	var vertex = singleMesh.geometry.vertices[v];
+	var z = vertex.z;
+	var tween = new TWEEN.Tween(z).to(0, 2000);
+
+	tween.onUpdate(function() {
+		var vertex = singleMesh.geometry.vertices[v];
+		singleMesh.geometry.vertices[v].set(vertex.x, vertex.y, z);
+		singleMesh.geometry.dynamic = true;
+		singleMesh.geometry.verticesNeedUpdate = true;
+	})
 
 }
 
@@ -938,7 +940,7 @@ eventjs.add(window, "load", function(event) {
 						}
 						d.style.background = HSLArrayToString(colorset[note]);
 						activeNotes[note] = colorset[note];
-						if (singleTonnetz) displaceVertex(mesh, solidMesh, note, data.velocity);
+						if (singleTonnetz) displaceVertex(singleMesh, singleSolidMesh, note, data.velocity);
 					} else {
 						numNotes--;
 						numNotes = Math.max(numNotes, 0);
@@ -953,14 +955,14 @@ eventjs.add(window, "load", function(event) {
 						}
 						d.style.background = "";
 						activeNotes[note] = 0;
-						if (singleTonnetz)  displaceVertex(mesh, solidMesh, note, data.velocity);
+						if (singleTonnetz)  displaceVertex(singleMesh, singleSolidMesh, note, data.velocity);
 					}
 
 					var blendColor = blendColors(activeNotes);
 					// blendBox.style.background = HSLArrayToString(blendColor);
 					if (singleTonnetz) {
 						var solidMesh = scene.getObjectByName("solidMesh");
-						colorSolidMesh(solidMesh, blendColor);
+						colorSolidMesh(singleSolidMesh, blendColor);
 						updateMesh(mesh, pAngleOffset);
 					}
 				}
@@ -1014,15 +1016,11 @@ function displaceVertex(mesh, solidMesh, note, dz) {
 			var oldVert = mesh.geometry.vertices[v];
 
 			if (dz == 0) {
-				verticesToMove.push(v);
-				animate();
+				tweenVertex(v);
 			}
 			else {
-				var idx = verticesToMove.indexOf(v)
-				if (idx >= 0) {
-					verticesToMove.splice( idx, 1 );
-				}
-				mesh.geometry.vertices[v].set(oldVert.x, oldVert.y, dz);
+				
+				singlemesh.geometry.vertices[v].set(oldVert.x, oldVert.y, dz);
 				mesh.geometry.dynamic = true;
 				mesh.geometry.verticesNeedUpdate = true;
 
