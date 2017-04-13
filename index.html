@@ -1442,8 +1442,6 @@ function getProfileArray(songData) {
 	var blendColor;
 	var profile = [];
 	var prevNotes = [];
-	var noteColors = [];
-	var noteStrings = [];
 
  	for (var t = startTime; t < totalTime; t++) {
  		var position = (t - startTime);
@@ -1459,6 +1457,8 @@ function getProfileArray(songData) {
 			prevNotes = notes;
 			if (changed) {
 				var activeColors = [];
+				var noteColors = [];
+				var noteStrings = [];
 		   	for (var i = 0; i < notes.length; i++) {
 		   		activeColors[notes[i]] = (primaryColors[notes[i] % 12]);
 		   		noteColors.push(HSLArrayToString(primaryColors[notes[i] % 12]));
