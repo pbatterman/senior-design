@@ -590,13 +590,17 @@ function tweenVertex(v) {
 	var position = {z: vertex.z};
 	var zeroPos = {z : 0};
 	var z = vertex.z;
-	var tween = new TWEEN.Tween(position).to(zeroPos, 1000);
+	var tween = new TWEEN.Tween(position).to(zeroPos, 500);
 
 	tween.onUpdate(function() {
 		var vertex = singleMesh.geometry.vertices[v];
 		singleMesh.geometry.vertices[v].set(vertex.x, vertex.y, position.z);
 		singleMesh.geometry.dynamic = true;
 		singleMesh.geometry.verticesNeedUpdate = true;
+
+		singleSolidMesh.geometry.vertices[v].set(vertex.x, vertex.y, position.z);
+		singleSolidMesh.geometry.dynamic = true;
+		singleSolidMesh.geometry.verticesNeedUpdate = true;
 	});
 
 	tween.start();
