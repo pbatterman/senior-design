@@ -436,6 +436,9 @@ function switchVisualization(id) {
 	else if (multiTonnetz) {
 		var parent =  scene.getObjectByName("musicStructure");
 		if (parent) scene.remove(parent);
+		parent.geometry.dispose();
+		parent.material.dispose();
+
 		var parent =  scene.getObjectByName("displacedTonnetzStructure");
 		scene.remove(parent);
 		meshPlane.traverse( function ( object ) { object.visible = false; } );
@@ -448,6 +451,9 @@ function switchVisualization(id) {
 	else {
 		var parent =  scene.getObjectByName("singleTonnetzStructure");
 		if (parent) scene.remove(parent);
+		parent.geometry.dispose();
+		parent.material.dispose();
+		
 		var displacedParent =  scene.getObjectByName("displacedTonnetzStructure");
 		if (displacedParent) scene.remove(displacedParent);
 		meshPlane.traverse( function ( object ) { object.visible = true; } );
@@ -1485,6 +1491,8 @@ function buildDisplacedTonnetz(notes) {
 }
 
 // convert array to threejs vertices for point cloud rendering
+
+// multi visualization
 function createDisplacedTonnetzGeometry(noteArray, startTime, totalTime) {
 	var colorMap = mapColorsToVertices();
 
