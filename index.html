@@ -1367,7 +1367,14 @@ function createSongProfile() {
 	// draw rectangles
 	for (var i = 0; i < profileArray.length; i++) {
 		var colObj = profileArray[i];
-		var width = (colObj.time) * dx;
+		var nextTime;
+		if (i < profileArray.length - 1) {
+			nextTime = profileArray[i].time;
+		}
+		else {
+			nextTime = songData.totalTime;
+		}
+		var width = (nextTime - colObj.time) * dx;
 		context.rect(x, y, width, height);
 		x += width;
 		context.fillStyle = colObj.color;
