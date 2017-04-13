@@ -203,7 +203,7 @@
 	var primaryColors, secondaryColors;
 
 	var primaryHolder, secondaryHolder;
-
+	var noteToString = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
 	var fifthsOrder = [0, 7, 2, 9, 4, 11, 6, 1, 8, 3, 10, 5];
 	var currentNoteOrder = fifthsOrder;
 
@@ -1404,14 +1404,17 @@ function createSongProfile() {
 		var popup = document.createElement("div");
 		popup.id="bar"+i+"popup";
 		popup.style.width = "100px";
-		popup.style.height = "100px";
+		popup.style.height = "50px";
 		popup.style.background = 'black';
-		popup.innerHTML= "popup " + i;
 		popup.style.color = 'white';
 		popup.style.position="absolute";
 		popup.style.margin = "30% 0px 0px " + x + "px";
 		popup.style.display = 'none';
 		popup.style.zIndex = 5;
+
+		for (var n = 0; n < colObj.noteStrings.length; n++) {
+			popup.innerHTML += colObj.noteStrings[n] + " ";
+		}
 
 		document.getElementById("profileCanvas").appendChild(div);
 		document.getElementById("profileCanvas").appendChild(popup);
@@ -1439,6 +1442,8 @@ function getProfileArray(songData) {
 	var blendColor;
 	var profile = [];
 	var prevNotes = [];
+	var noteColors = [];
+	var noteStrings = [];
 
  	for (var t = startTime; t < totalTime; t++) {
  		var position = (t - startTime);
@@ -1456,7 +1461,10 @@ function getProfileArray(songData) {
 				var activeColors = [];
 		   	for (var i = 0; i < notes.length; i++) {
 		   		activeColors[notes[i]] = (primaryColors[notes[i] % 12]);
+		   		noteColors.push(HSLArrayToString(primaryColors[notes[i] % 12]));
+		   		noteStrings.push(noteToString[notes[i] % 12]);
 		   	}
+
 		   	blendColor = blendColors(activeColors);
 		   	if (blendColor[0] < 0) {
 					blendColor[0] = (360 + blendColor[0]);
@@ -1467,6 +1475,8 @@ function getProfileArray(songData) {
 
 		   	var col = HSLArrayToString(blendColor);
 		   	var colObj = {color: col, time : t};
+		   	colObj.noteColors = noteColors;
+		   	colObj.noteStrings = noteStrings;
 		   	profile.push(colObj);
 
 			}
