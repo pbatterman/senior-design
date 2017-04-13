@@ -94,7 +94,7 @@
 			</div>
 			<div class="col-xs-12">
 					<button type="button" class="btn btn-success btn-block" onclick="reColorGeometry()">UPDATE</button>
-					<div class="btn-group btn-group" style="width:100%;" role="group" aria-label="...">
+					<div class="btn-group btn-group-sm" style="width:100%;" role="group" aria-label="...">
 						<button type="button" class="btn btn-success btn-info" onclick="createSongProfile()">Song Color Profile</button>
 						<button type="button" class="btn btn-success btn-warning" onclick="removeProfile()">Clear Profile</button>
 					</div><br>
@@ -1373,7 +1373,7 @@ function createSongProfile() {
 	document.body.appendChild(canvas);
 	// var context = canvas.getContext('2d');
 
-	var dx = window.innerWidth/songData.totalTime;
+	var dx = (window.innerWidth - 200)/songData.totalTime;
 	// draw rectangles
 	for (var i = 0; i < profileArray.length; i++) {
 		var colObj = profileArray[i];
