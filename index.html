@@ -1404,7 +1404,7 @@ function createSongProfile() {
 		var popup = document.createElement("div");
 		popup.id="bar"+i+"popup";
 		popup.style.width = "100px";
-		popup.style.height = "50px";
+		// popup.style.height = "50px";
 		popup.style.background = 'black';
 		popup.style.color = 'white';
 		popup.style.position="absolute";
@@ -1412,8 +1412,26 @@ function createSongProfile() {
 		popup.style.display = 'none';
 		popup.style.zIndex = 5;
 
+
+		var colorSize = 25;
 		for (var n = 0; n < colObj.noteStrings.length; n++) {
-			popup.innerHTML += colObj.noteStrings[n] + " ";
+			var colorDiv = document.createElement("div");
+			colorDiv.className="col-xs-12";
+			var color = document.createElement("div");
+			// color.style.width = colorSize + "px";
+			// color.style.height = colorSize + "px";
+			color.className = "col-xs-6";
+			color.style.background = colObj.noteColors[n];
+
+			var noteDiv = document.createElement("div");
+			noteDiv.className = "col-xs-6"
+			noteDiv.innerHTML = colObj.noteStrings[n];
+
+			colorDiv.appendChild(color);
+			colorDiv.appendChild(noteDiv);
+
+
+			popup.appendChild(colorDiv);
 		}
 
 		document.getElementById("profileCanvas").appendChild(div);
