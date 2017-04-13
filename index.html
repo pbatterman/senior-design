@@ -436,8 +436,8 @@ function switchVisualization(id) {
 	else if (multiTonnetz) {
 		var parent =  scene.getObjectByName("musicStructure");
 		if (parent) scene.remove(parent);
-		parent.geometry.dispose();
-		parent.material.dispose();
+		singleMesh = undefined;
+		singleSolidMesh = undefined;
 
 		var parent =  scene.getObjectByName("displacedTonnetzStructure");
 		scene.remove(parent);
