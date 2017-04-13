@@ -451,9 +451,9 @@ function switchVisualization(id) {
 	else {
 		var parent =  scene.getObjectByName("singleTonnetzStructure");
 		if (parent) scene.remove(parent);
-		parent.geometry.dispose();
-		parent.material.dispose();
-		
+		singleMesh = undefined;
+		singleSolidMesh = undefined;
+
 		var displacedParent =  scene.getObjectByName("displacedTonnetzStructure");
 		if (displacedParent) scene.remove(displacedParent);
 		meshPlane.traverse( function ( object ) { object.visible = true; } );
