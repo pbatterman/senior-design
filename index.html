@@ -1370,7 +1370,7 @@ function createSongProfile() {
 	canvas.style.position='absolute';
 	canvas.style.left=0;
 	canvas.style.top=0;
-	canvas.style.zIndex=0;
+	canvas.style.zIndex=4;
 	canvas.style.margin="0px 0px 0px 200px";
 	// canvas.style.pointerEvents='none';
 	document.body.appendChild(canvas);
@@ -1410,7 +1410,6 @@ function createSongProfile() {
 		popup.style.color = 'white';
 		popup.style.position="absolute";
 		popup.style.margin = "0px 0px 0px " + x + "px";
-		popup.style.zIndex = 1;
 		popup.style.visibility = 'hidden';
 
 		document.getElementById("profileCanvas").appendChild(div);
