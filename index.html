@@ -419,6 +419,15 @@ function switchVisualization(id) {
 		multiTonnetz = false;
 	}
 
+	var sceneIdx = 0;
+	while(scene.children.length > 1){ 
+	    if (scene.children[sceneIdx].name == "camera") {
+	    	sceneIdx++;
+	    }
+	    else {
+	    	scene.remove(scene.children[sceneIdx])
+	    }; 
+	}
 	var meshPlane = scene.getObjectByName("plane");
 	
 	if (singleTonnetz) {
