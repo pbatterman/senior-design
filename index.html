@@ -190,7 +190,7 @@
 
 	var singleMesh;
 	var singleSolidMesh;
-	var tweens = [];
+	var verticesToMove = [];
 
 	var primaryColors, secondaryColors;
 
@@ -581,16 +581,14 @@ function animate() {
   renderer.render(scene, camera);
   controls.update();
 
-  for (var t = 0; t < tweens.length; t++) {
-  	tweens[t].update();
-  }
+	TWEEN.update();
 }
 
 function tweenVertex(v) {
 
 	var vertex = singleMesh.geometry.vertices[v];
 	var z = vertex.z;
-	var tween = new TWEEN.Tween(z).to(0, 1000);
+	var tween = new TWEEN.Tween(z).to(0, 2000);
 
 	tween.onUpdate(function() {
 		var vertex = singleMesh.geometry.vertices[v];
@@ -598,7 +596,8 @@ function tweenVertex(v) {
 		singleMesh.geometry.dynamic = true;
 		singleMesh.geometry.verticesNeedUpdate = true;
 	});
-	tweens.push(tween);
+
+	tween.start();
 
 }
 
