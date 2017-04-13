@@ -95,6 +95,8 @@
 			<div class="col-xs-12">
 					<button type="button" class="btn btn-success btn-block" onclick="reColorGeometry()">UPDATE</button>
 					<button type="button" class="btn btn-success btn-info" onclick="createSongProfile()">Song Color Profile</button>
+					<button type="button" class="btn btn-success btn-warning" onclick="removeProfile()">Clear Profile</button>
+
 					<label>Change song:</label>
 					<p id="loadingMessage2" style="color: #FFFFFF;"></p>
 					<input type='file' accept='audio/midi' onchange='openFile(event)'>
@@ -1333,6 +1335,10 @@ function buildTemplateTonnetzGeometry(time, notes, octave) {
    		}
    	}
   return geometry;
+}
+
+function removeProfile() {
+	$( "#profileCanvas" ).remove();
 }
 
 function createSongProfile() {
