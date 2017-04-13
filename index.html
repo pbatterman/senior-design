@@ -1410,7 +1410,7 @@ function createSongProfile() {
 		popup.style.color = 'white';
 		popup.style.position="absolute";
 		popup.style.margin = "0px 0px 0px " + x + "px";
-		popup.style.visibility = 'hidden';
+		popup.style.display = 'none';
 
 		document.getElementById("profileCanvas").appendChild(div);
 		document.getElementById("profileCanvas").appendChild(popup);
@@ -1419,21 +1419,15 @@ function createSongProfile() {
 	
 }
 
-$( ".profileBar" )
-  .mouseenter(function() {
-    var barId = $(this).attr('id');
-    var popup = '#' + barId + 'popup';
-    console.log(popup);
+$(function () {
+    $(".profileBar").hover(function () {
+      var barId = $(this).attr('id');
+	    var popup = '#' + barId + 'popup';
+	    console.log(popup);
 
-    $(popup).show();
-  })
-  .mouseleave(function() {
-    var barId = $(this).attr('id');
-    var popup = '#' + barId + 'popup';
-    console.log(popup + " leave");
-
-    $(popup).hide();
-  });
+	    $(popup).toggle();
+    });
+});
 
 
 // color profile of song
