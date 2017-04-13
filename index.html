@@ -1015,20 +1015,20 @@ function displaceVertex(mesh, solidMesh, note, dz) {
 
 	for (var v = 0; v < vertexKey.length; v++) {
 		if (vertexKey[v] == n) {
-			var oldVert = mesh.geometry.vertices[v];
+			var oldVert = singleMesh.geometry.vertices[v];
 
 			if (dz == 0) {
 				tweenVertex(v);
 			}
 			else {
 				
-				singlemesh.geometry.vertices[v].set(oldVert.x, oldVert.y, dz);
-				mesh.geometry.dynamic = true;
-				mesh.geometry.verticesNeedUpdate = true;
+				singleMesh.geometry.vertices[v].set(oldVert.x, oldVert.y, dz);
+				singleMesh.geometry.dynamic = true;
+				singleMesh.geometry.verticesNeedUpdate = true;
 
-				solidMesh.geometry.vertices[v].set(oldVert.x, oldVert.y, dz);
-				solidMesh.geometry.dynamic = true;
-				solidMesh.geometry.verticesNeedUpdate = true;
+				singleSolidMesh.geometry.vertices[v].set(oldVert.x, oldVert.y, dz);
+				singleSolidMesh.geometry.dynamic = true;
+				singleSolidMesh.geometry.verticesNeedUpdate = true;
 			}
 		}
 	}
