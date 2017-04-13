@@ -94,6 +94,7 @@
 			</div>
 			<div class="col-xs-12">
 					<button type="button" class="btn btn-success btn-block" onclick="reColorGeometry()">UPDATE</button>
+					<button type="button" class="btn btn-success btn-info" onclick="createSongProfile()">Song Color Profile</button>
 					<label>Change song:</label>
 					<p id="loadingMessage2" style="color: #FFFFFF;"></p>
 					<input type='file' accept='audio/midi' onchange='openFile(event)'>
@@ -1334,8 +1335,83 @@ function buildTemplateTonnetzGeometry(time, notes, octave) {
   return geometry;
 }
 
+function createSongProfile() {
+	var songData = buildSongStructure(uploadedMidiFile, 1);
+	var profileArray = getProfileArray(songData);
+
+	var numBars = profileArray.length;
+
+	var x = 0;
+	var y = 0;
+	var width = window.innerWidth/numBars;
+	var height = window.innerHeight;
+
+	// create canvas
+	var canvas = document.createElement('canvas');
+	//Set canvas width/height
+	canvas.style.width='100%';
+	canvas.style.height='100%';
+	//Set canvas drawing area width/height
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
+	//Position canvas
+	canvas.style.position='absolute';
+	canvas.style.left=0;
+	canvas.style.top=0;
+	canvas.style.zIndex=-1;
+	canvas.style.pointerEvents='none';
+	document.body.appendChild(canvas);
+	var context = canvas.getContext('2d');
+
+
+	// draw rectangles
+	for (int i = 0; i < profileArray.length; i++) {
+		context.rect(x, y, width, height);
+		x += width;
+		context.fillStyle = profileArray[i];
+		context.fill();
+	}
+	
+
+}
+
+// color profile of song
+function getProfileArray(songData) {
+	var noteArray = songData.noteArray;
+	var startTime = songData.startTime;
+	var totalTime = songData.totalTime;
+	var notes;
+	var blendColor;
+	var profile = [];
+
+ 	for (var t = startTime; t < totalTime; t++) {
+ 		var position = (t - startTime);
+ 		if (noteArray[t]) {
+ 			notes = noteArray[t];
+			var activeColors = [];
+	   	for (var i = 0; i < notes.length; i++) {
+	   		activeColors[notes[i]] = (primaryColors[notes[i] % 12]);
+	   	}
+	   	blendColor = blendColors(activeColors);
+	   	if (blendColor[0] < 0) {
+				blendColor[0] = (360 + blendColor[0]);
+			}
+	   	blendColor[0] = parseInt(blendColor[0]);
+			blendColor[1] = parseInt(blendColor[1]);
+			blendColor[2] = parseInt(blendColor[2]);
+
+	   	var col = HSLArrayToString(blendColor);
+	   	var vertColor = new THREE.Color( col );
+	 		}
+ 		if (!notes) continue;
+ 		profile.push(col);
+ 	}
+ 	return profile;
+
+}
 
 // convert array to threejs vertices for point cloud rendering
+// stack visualization
 function createGeometry(songData, scale) {
 
 	var noteArray = songData.noteArray;
