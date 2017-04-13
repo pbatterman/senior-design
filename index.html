@@ -1023,7 +1023,7 @@ function displaceVertex(mesh, solidMesh, note, dz) {
 
 	for (var v = 0; v < vertexKey.length; v++) {
 		if (vertexKey[v] == n) {
-			var oldVert = singleMesh.geometry.vertices[v];
+			var oldVert = mesh.geometry.vertices[v];
 
 			if (singleTonnetz) {
 				tweenVertex(v, dz);
