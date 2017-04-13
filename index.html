@@ -1402,7 +1402,6 @@ function createSongProfile() {
 		div.style.margin = "0px 0px 0px " + x + "px";
 
 		var popup = document.createElement("div");
-		popup.class="profileBar";
 		popup.id="bar"+i+"popup";
 		popup.style.width = "200px";
 		popup.style.height = "100px";
@@ -1424,9 +1423,9 @@ function createSongProfile() {
 $('profileBar').hover(function (e) {    
     var barId = $(this).attr('id');
     var popup = '#' + barId + 'popup';
+    console.log(popup);
+
     $(popup).show();
-    moveLeft = $(this).outerWidth();
-    moveDown = ($(target).outerHeight() / 2);
 });
 
 
