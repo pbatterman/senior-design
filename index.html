@@ -1347,21 +1347,22 @@ function createSongProfile() {
 	var height = window.innerHeight;
 
 	// create canvas
-	var canvas = document.createElement('canvas');
+	var canvas = document.createElement('div');
+	canvas.id = "profileCanvas";
 	//Set canvas width/height
 	canvas.style.width='100%';
 	canvas.style.height='100%';
 	//Set canvas drawing area width/height
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
+	// canvas.width = window.innerWidth;
+	// canvas.height = window.innerHeight;
 	//Position canvas
 	canvas.style.position='absolute';
 	canvas.style.left=0;
 	canvas.style.top=0;
 	canvas.style.zIndex=0;
-	canvas.style.pointerEvents='none';
+	// canvas.style.pointerEvents='none';
 	document.body.appendChild(canvas);
-	var context = canvas.getContext('2d');
+	// var context = canvas.getContext('2d');
 
 	var dx = window.innerWidth/songData.totalTime;
 	// draw rectangles
@@ -1375,10 +1376,19 @@ function createSongProfile() {
 			nextTime = songData.totalTime;
 		}
 		width = (nextTime - colObj.time) * dx;
-		context.rect(x, y, width, height);
+		// context.rect(x, y, width, height);
+		// context.fillStyle = colObj.color;
+		// context.fill();
+
+		var div = document.createElement("div");
+		div.style.width = width + "px";
+		div.style.height = height + "px";
+		div.style.background = colObj.color;
+		div.style.position="absolute";
+		div.style.style.margin = "0px 0px 0px " + x + "px";
+
+		document.getElementById("profileCanvas").appendChild(div);
 		x += width;
-		context.fillStyle = colObj.color;
-		context.fill();
 	}
 	
 
