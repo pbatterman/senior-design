@@ -1343,7 +1343,7 @@ function createSongProfile() {
 
 	var x = 0;
 	var y = 0;
-	var width = window.innerWidth/numBars;
+	var width = 1;
 	var height = window.innerHeight;
 
 	// create canvas
@@ -1363,12 +1363,14 @@ function createSongProfile() {
 	document.body.appendChild(canvas);
 	var context = canvas.getContext('2d');
 
-
+	var dx = window.innerWidth/songData.totalTime;
 	// draw rectangles
 	for (var i = 0; i < profileArray.length; i++) {
+		var colObj = profileArray[i];
+		var width = (colObj.time) * dx;
 		context.rect(x, y, width, height);
 		x += width;
-		context.fillStyle = profileArray[i];
+		context.fillStyle = colObj.color;
 		context.fill();
 	}
 	
@@ -1383,28 +1385,40 @@ function getProfileArray(songData) {
 	var notes;
 	var blendColor;
 	var profile = [];
+	var prevNotes = [];
 
  	for (var t = startTime; t < totalTime; t++) {
  		var position = (t - startTime);
  		if (noteArray[t]) {
  			notes = noteArray[t];
-			var activeColors = [];
-	   	for (var i = 0; i < notes.length; i++) {
-	   		activeColors[notes[i]] = (primaryColors[notes[i] % 12]);
-	   	}
-	   	blendColor = blendColors(activeColors);
-	   	if (blendColor[0] < 0) {
-				blendColor[0] = (360 + blendColor[0]);
+ 			var changed = false;
+ 			for (var n = 0; n < notes.length; n++) {
+ 				if (prevNotes.indexOf(notes[n]) < 0) {
+ 					changed = true;
+ 					break;
+ 				}
 			}
-	   	blendColor[0] = parseInt(blendColor[0]);
-			blendColor[1] = parseInt(blendColor[1]);
-			blendColor[2] = parseInt(blendColor[2]);
+			prevNotes = notes;
+			if (changed) {
+				var activeColors = [];
+		   	for (var i = 0; i < notes.length; i++) {
+		   		activeColors[notes[i]] = (primaryColors[notes[i] % 12]);
+		   	}
+		   	blendColor = blendColors(activeColors);
+		   	if (blendColor[0] < 0) {
+					blendColor[0] = (360 + blendColor[0]);
+				}
+		   	blendColor[0] = parseInt(blendColor[0]);
+				blendColor[1] = parseInt(blendColor[1]);
+				blendColor[2] = parseInt(blendColor[2]);
 
-	   	var col = HSLArrayToString(blendColor);
-	   	var vertColor = new THREE.Color( col );
-	 		}
+		   	var col = HSLArrayToString(blendColor);
+		   	var colObj = {color: col, time : t};
+		   	profile.push(colObj);
+
+			}
+	 	}
  		if (!notes) continue;
- 		profile.push(col);
  	}
  	return profile;
 
