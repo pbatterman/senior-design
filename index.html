@@ -1402,16 +1402,16 @@ function createSongProfile() {
 		div.style.margin = "0px 0px 0px " + x + "px";
 
 		var popup = document.createElement("div");
-		div.class="profileBar";
-		div.id="bar"+i+"popup";
-		div.style.width = "200px";
-		div.style.height = "100px";
-		div.style.background = 'black';
-		div.innerHTML= "popup " + i;
-		div.style.color = 'white';
-		div.style.position="absolute";
-		div.style.margin = "0px 0px 0px " + x + "px";
-		div.style.zIndex = 1;
+		popup.class="profileBar";
+		popup.id="bar"+i+"popup";
+		popup.style.width = "200px";
+		popup.style.height = "100px";
+		popup.style.background = 'black';
+		popup.innerHTML= "popup " + i;
+		popup.style.color = 'white';
+		popup.style.position="absolute";
+		popup.style.margin = "0px 0px 0px " + x + "px";
+		popup.style.zIndex = 1;
 
 		document.getElementById("profileCanvas").appendChild(div);
 		document.getElementById("profileCanvas").appendChild(popup);
