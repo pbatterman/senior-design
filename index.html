@@ -1393,18 +1393,41 @@ function createSongProfile() {
 		// context.fill();
 
 		var div = document.createElement("div");
+		div.class="profileBar";
+		div.id="bar"+i;
 		div.style.width = width + "px";
 		div.style.height = height + "px";
 		div.style.background = colObj.color;
 		div.style.position="absolute";
 		div.style.margin = "0px 0px 0px " + x + "px";
 
+		var popup = document.createElement("div");
+		div.class="profileBar";
+		div.id="bar"+i+"popup";
+		div.style.width = "200px";
+		div.style.height = "100px";
+		div.style.background = 'black';
+		div.innerHTML= "popup " + i;
+		div.style.color = 'white';
+		div.style.position="absolute";
+		div.style.margin = "0px 0px 0px " + x + "px";
+		div.style.zIndex = 1;
+
 		document.getElementById("profileCanvas").appendChild(div);
+		document.getElementById("profileCanvas").appendChild(popup);
 		x += width;
 	}
 	
-
 }
+
+$('profileBar').hover(function (e) {    
+    var barId = $(this).attr('id');
+    var popup = '#' + barId + 'popup';
+    $(popup).show();
+    moveLeft = $(this).outerWidth();
+    moveDown = ($(target).outerHeight() / 2);
+});
+
 
 // color profile of song
 function getProfileArray(songData) {
