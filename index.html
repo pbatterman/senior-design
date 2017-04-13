@@ -1417,9 +1417,7 @@ function createSongProfile() {
 		x += width;
 	}
 	
-}
-
-$(function () {
+	$(function () {
     $(".profileBar").hover(function () {
       var barId = $(this).attr('id');
 	    var popup = '#' + barId + 'popup';
@@ -1427,7 +1425,10 @@ $(function () {
 
 	    $(popup).toggle();
     });
-});
+	});
+}
+
+
 
 
 // color profile of song
