@@ -1403,13 +1403,13 @@ function createSongProfile() {
 
 		var popup = document.createElement("div");
 		popup.id="bar"+i+"popup";
-		popup.style.width = "200px";
+		popup.style.width = "100px";
 		popup.style.height = "100px";
 		popup.style.background = 'black';
 		popup.innerHTML= "popup " + i;
 		popup.style.color = 'white';
 		popup.style.position="absolute";
-		popup.style.margin = "0px 0px 0px " + x + "px";
+		popup.style.margin = "30% 0px 0px " + x + "px";
 		popup.style.display = 'none';
 
 		document.getElementById("profileCanvas").appendChild(div);
@@ -1421,8 +1421,6 @@ function createSongProfile() {
     $(".profileBar").hover(function () {
       var barId = $(this).attr('id');
 	    var popup = '#' + barId + 'popup';
-	    alert(popup);
-
 	    $(popup).toggle();
     });
 	});
