@@ -1420,13 +1420,21 @@ function createSongProfile() {
 	
 }
 
-$('.profileBar').hover(function (e) {    
+$( "div.profileBar" )
+  .mouseenter(function() {
     var barId = $(this).attr('id');
     var popup = '#' + barId + 'popup';
     console.log(popup);
 
     $(popup).show();
-});
+  })
+  .mouseleave(function() {
+    var barId = $(this).attr('id');
+    var popup = '#' + barId + 'popup';
+    console.log(popup + " leave");
+
+    $(popup).hide();
+  });
 
 
 // color profile of song
