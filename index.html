@@ -1369,12 +1369,12 @@ function createSongProfile() {
 		var colObj = profileArray[i];
 		var nextTime;
 		if (i < profileArray.length - 1) {
-			nextTime = profileArray[i].time;
+			nextTime = profileArray[i + 1].time;
 		}
 		else {
 			nextTime = songData.totalTime;
 		}
-		var width = (nextTime - colObj.time) * dx;
+		width = (nextTime - colObj.time) * dx;
 		context.rect(x, y, width, height);
 		x += width;
 		context.fillStyle = colObj.color;
