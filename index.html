@@ -95,12 +95,12 @@
 			<div class="col-xs-12">
 					<button type="button" class="btn btn-success btn-block" onclick="reColorGeometry()">UPDATE</button>
 
-					<label>Change song:</label>
-					<p id="loadingMessage2" style="color: #FFFFFF;"></p>
+					<label class="mainLabel">Change song:</label>
 					<input type='file' accept='audio/midi' onchange='openFile(event)'>
 					<img id='output'>
+					<p id="loadingMessage2" style="color: #FFFFFF;"></p>
 					<br>
-					<label>3D Visualization</label>
+					<label class="mainLabel">3D Visualization</label>
 					<div class="btn-group btn-group" role="group" aria-label="...">
 						<button type="button" class="btn btn-danger" onclick="switchVisualization(0)">Single</button>
 						<button type="button" class="btn btn-warning" onclick="switchVisualization(1)">Multi</button>
@@ -118,7 +118,7 @@
 						<input type="checkbox" id="stackTonnetzCheckbox" onclick="showHideStructure()" checked>Show Tonnetz<br>
 						<input type="checkbox" id="stackNotesCheckbox" onclick="showHideStructure()" checked>Show Notes<br>
 					</div><br>
-					<label>2D Visualization</label>
+					<label class="mainLabel" style="margin-top: 10px">2D Visualization</label>
 					<div class="btn-group btn-group" role="group" aria-label="...">
 						<button type="button" class="btn btn-success" onclick="createSongProfile()">Create</button>
 						<button type="button" class="btn btn-warning" onclick="removeProfile()">Clear</button>
