@@ -1417,12 +1417,13 @@ function createSongProfile() {
 		for (var n = 0; n < colObj.noteStrings.length; n++) {
 			var colorDiv = document.createElement("div");
 			colorDiv.className="col-xs-12";
+			colorDiv.style.padding="2px";
 			var color = document.createElement("div");
 			// color.style.width = colorSize + "px";
 			// color.style.height = colorSize + "px";
 			color.className = "col-xs-7";
 			color.style.height = "100%";
-			color.style.padding = "4px";
+			color.style.padding = "9px";
 			color.style.background = colObj.noteColors[n];
 
 			var noteDiv = document.createElement("div");
