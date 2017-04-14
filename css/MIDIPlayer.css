@@ -113,6 +113,10 @@ div.channel {
 	font-size: 10pt;
 }
 
+.mainLabel {
+	font-size: 18px;
+}
+
 .angleInput {
 	float: right;
 }
