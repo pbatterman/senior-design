@@ -101,23 +101,23 @@
 					<p id="loadingMessage2" style="color: #FFFFFF;"></p>
 					<br>
 					<label class="mainLabel">3D Visualization</label>
-					<!-- <div class="btn-group btn-group" role="group" aria-label="..."> -->
-						<button type="button" class="btn btn-danger" data-toggle="collapse" data-target="#singleOptions" onclick="switchVisualization(0)">Single</button>
+					<div class="btn-group btn-group" id="accordion" role="group" aria-label="...">
+						<button type="button" class="btn btn-danger" data-toggle="collapse" data-parent="#accordion" data-target="#singleOptions" onclick="switchVisualization(0)">Single</button>
 						<div class="col-xs-12" id="singleOptions">
 							<input type="checkbox" id="singleWireCheckbox" onclick="showHideStructure()" checked>Show Wifeframe<br>
 							<input type="checkbox" id="singleSolidCheckbox" onclick="showHideStructure()" checked>Show Solid Mesh<br>
 						</div>
-						<button type="button" class="btn btn-warning" data-toggle="collapse" data-target="#multiOptions" onclick="switchVisualization(1)">Multi</button>
+						<button type="button" class="btn btn-warning" data-toggle="collapse" data-parent="#accordion"data-target="#multiOptions" onclick="switchVisualization(1)">Multi</button>
 						<div class="col-xs-12" id="multiOptions">
 							<input type="checkbox" id="multiWireCheckbox" onclick="showHideStructure()" checked>Show Wireframe<br>
 							<input type="checkbox" id="multiSolidCheckbox" onclick="showHideStructure()" checked>Show Solid Mesh<br>
 						</div>
-						<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#stackOptions" onclick="switchVisualization(2)">Stack</button>
+						<button type="button" class="btn btn-info" data-toggle="collapse" data-parent="#accordion" data-target="#stackOptions" onclick="switchVisualization(2)">Stack</button>
 						<div class="col-xs-12" id="stackOptions">
 							<input type="checkbox" id="stackTonnetzCheckbox" onclick="showHideStructure()" checked>Show Tonnetz<br>
 							<input type="checkbox" id="stackNotesCheckbox" onclick="showHideStructure()" checked>Show Notes<br>
 						</div><br>
-					<!-- </div> -->
+					</div>
 					
 					
 					
