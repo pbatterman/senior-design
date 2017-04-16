@@ -53,6 +53,7 @@
 				<div class="col-xs-12" style="border-radius:10px; border: 2px solid #00FF88; padding:10%">
 					<h2>Welcome!</h2>
 					<h3>Upload a MIDI File to begin.</h3>
+					<p> Click+drag to rotate, right-click + drag to pan, scroll to zoom</p>
 					<input type='file' accept='audio/midi' onchange='openFile(event)'>
 					<p id="loadingMessage" style="color: #00FF88;"></p>
 				</div>
@@ -101,17 +102,17 @@
 					<p id="loadingMessage2" style="color: #FFFFFF;"></p>
 					<br>
 					<label class="mainLabel">3D Visualization</label>
-					<button type="button" class="btn btn-danger btn-block" onclick="switchVisualization(0)">Active Mesh</button>
+					<button type="button" id="singleButton" class="btn btn-danger btn-block" onclick="switchVisualization(0)">Active Mesh</button>
 					<div class="col-xs-12" id="singleOptions">
 						<input type="checkbox" id="singleWireCheckbox" onclick="showHideStructure()" checked>Show Wifeframe<br>
 						<input type="checkbox" id="singleSolidCheckbox" onclick="showHideStructure()" checked>Show Solid Mesh<br>
 					</div>
-					<button type="button" class="btn btn-warning btn-block" onclick="switchVisualization(1)">Static Mesh</button>
+					<button type="button" id="multiButton" class="btn btn-warning btn-block" onclick="switchVisualization(1)">Static Mesh</button>
 					<div class="col-xs-12" id="multiOptions">
 						<input type="checkbox" id="multiWireCheckbox" onclick="showHideStructure()" checked>Show Wireframe<br>
 						<input type="checkbox" id="multiSolidCheckbox" onclick="showHideStructure()" checked>Show Solid Mesh<br>
 					</div>
-					<button type="button" class="btn btn-info btn-block" onclick="switchVisualization(2)">Stacked Mesh</button>
+					<button type="button" id="stackButton" class="btn btn-info btn-block" onclick="switchVisualization(2)">Stacked Mesh</button>
 					<div class="col-xs-12" id="stackOptions">
 						<input type="checkbox" id="stackTonnetzCheckbox" onclick="showHideStructure()" checked>Show Tonnetz<br>
 						<input type="checkbox" id="stackNotesCheckbox" onclick="showHideStructure()" checked>Show Notes<br>
@@ -446,6 +447,10 @@ function switchVisualization(id) {
 		$('#multiOptions').hide();
 		$('#stackOptions').hide();
 		$('#updateBtn').hide();
+
+		$( '#singleButton' ).addClass('active');
+		$( '#multiButton' ).removeClass('active');
+		$( '#stackButton' ).removeClass('active');
 	}
 	else if (multiTonnetz) {
 		meshPlane.traverse( function ( object ) { object.visible = false; } );
@@ -456,6 +461,10 @@ function switchVisualization(id) {
 		$('#stackOptions').hide();
 		$('#updateBtn').hide();
 
+		$( '#singleButton' ).removeClass('active');
+		$( '#multiButton' ).addClass('active');
+		$( '#stackButton' ).removeClass('active');
+
 	}
 	else {
 		meshPlane.traverse( function ( object ) { object.visible = true; } );
@@ -465,6 +474,10 @@ function switchVisualization(id) {
 		$('#multiOptions').hide();
 		$('#stackOptions').show();
 		$('#updateBtn').show();
+
+		$( '#singleButton' ).removeClass('active');
+		$( '#multiButton' ).removeClass('active');
+		$( '#stackButton' ).addClass('active');
 
 	}
 }
