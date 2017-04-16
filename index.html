@@ -93,7 +93,7 @@
 				<input type="range" min="0" max="100" class="angleInput" id="scaleInput"><br>
 			</div>
 			<div class="col-xs-12">
-					<button type="button" class="btn btn-success btn-block" onclick="reColorGeometry()">UPDATE</button>
+					<button type="button" id="updateBtn" class="btn btn-success btn-block" onclick="reColorGeometry()">UPDATE</button>
 
 					<label class="mainLabel">Change song:</label>
 					<input type='file' accept='audio/midi' onchange='openFile(event)'>
@@ -410,6 +410,7 @@ function init() {
 
 	cacheVertexColors(mesh);
 */
+	switchVisualization(0);
 
 }
 
@@ -446,6 +447,7 @@ function switchVisualization(id) {
 		$('#singleOptions').show();
 		$('#multiOptions').hide();
 		$('#stackOptions').hide();
+		$('#updateBtn').hide();
 	}
 	else if (multiTonnetz) {
 		meshPlane.traverse( function ( object ) { object.visible = false; } );
@@ -454,6 +456,8 @@ function switchVisualization(id) {
 		$('#singleOptions').hide();
 		$('#multiOptions').show();
 		$('#stackOptions').hide();
+		$('#updateBtn').hide();
+
 	}
 	else {
 		meshPlane.traverse( function ( object ) { object.visible = true; } );
@@ -462,6 +466,8 @@ function switchVisualization(id) {
 		$('#singleOptions').hide();
 		$('#multiOptions').hide();
 		$('#stackOptions').show();
+		$('#updateBtn').show();
+
 	}
 }
 
