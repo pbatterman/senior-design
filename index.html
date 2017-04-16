@@ -960,10 +960,6 @@ eventjs.add(window, "load", function(event) {
 						d.style.background = HSLArrayToString(colorset[note]);
 						activeNotes[note] = colorset[note];
 						if (singleTonnetz) displaceVertex(singleMesh, singleSolidMesh, note, data.velocity);
-						if (data.now != now) {
-							barColor = highlightProfileBar(currentBar, 'white');
-							now = data.now;
-						}
 					} else {
 						numNotes--;
 						numNotes = Math.max(numNotes, 0);
@@ -979,14 +975,8 @@ eventjs.add(window, "load", function(event) {
 						d.style.background = "";
 						activeNotes[note] = 0;
 						if (singleTonnetz)  displaceVertex(singleMesh, singleSolidMesh, note, data.velocity);
-						if (data.now != now) {
-							highlightProfileBar(currentBar, barColor);
-							currentBar++;
-						}
-
 						
 					}
-					console.log(currentBar);
 					var blendColor = blendColors(activeNotes);
 					// blendBox.style.background = HSLArrayToString(blendColor);
 					if (singleTonnetz) {
@@ -1359,15 +1349,6 @@ function removeProfile() {
 	$( "#profileCanvas" ).remove();
 }
 
-function highlightProfileBar(i, color) {
-	var id = "#bar" + i;
-	var origColor = $(id).css("background-color");
-	$(id).css('background-color', color);
-
-	return origColor;
-}
-
-
 function createSongProfile() {
 	var songData = buildSongStructure(uploadedMidiFile, 1);
 	var profileArray = getProfileArray(songData);
@@ -1384,7 +1365,7 @@ function createSongProfile() {
 	canvas.id = "profileCanvas";
 	//Set canvas width/height
 	canvas.style.width=(window.innerWidth - 200) + "px";
-	canvas.style.height='100%';
+	canvas.style.height='90%';
 	//Set canvas drawing area width/height
 	// canvas.width = window.innerWidth;
 	// canvas.height = window.innerHeight;
