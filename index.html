@@ -978,6 +978,7 @@ eventjs.add(window, "load", function(event) {
 						highlightProfileBar(currentBar, barColor);
 					}
 					currentBar++;
+					currentBar-= (activeNotes.length - 1);
 					console.log(currentBar);
 					var blendColor = blendColors(activeNotes);
 					// blendBox.style.background = HSLArrayToString(blendColor);
