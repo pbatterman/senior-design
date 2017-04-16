@@ -917,6 +917,8 @@ eventjs.add(window, "load", function(event) {
 			if (singleTonnetz) var mesh = scene.getObjectByName( "tonnetz" );
 
 			var numNotes = 0;
+			var currentNote = 0;
+			var barColor;
 			player.addListener(function(data) {
 
 				var currPOffset = parseInt(d3.select("#primaryAngle").property("value"));
@@ -957,6 +959,7 @@ eventjs.add(window, "load", function(event) {
 						d.style.background = HSLArrayToString(colorset[note]);
 						activeNotes[note] = colorset[note];
 						if (singleTonnetz) displaceVertex(singleMesh, singleSolidMesh, note, data.velocity);
+						barColor = highlightProfileBar(currentNote, 'white');
 					} else {
 						numNotes--;
 						numNotes = Math.max(numNotes, 0);
@@ -972,6 +975,7 @@ eventjs.add(window, "load", function(event) {
 						d.style.background = "";
 						activeNotes[note] = 0;
 						if (singleTonnetz)  displaceVertex(singleMesh, singleSolidMesh, note, data.velocity);
+						highlightProfileBar(currentNote, barColor);
 					}
 
 					var blendColor = blendColors(activeNotes);
@@ -1345,6 +1349,15 @@ function buildTemplateTonnetzGeometry(time, notes, octave) {
 function removeProfile() {
 	$( "#profileCanvas" ).remove();
 }
+
+function highlightProfileBar(i, color) {
+	var id = "#bar" + i;
+	var origColor = $(id).css("background-color");
+	$(id).css('background-color', color);
+
+	return origColor;
+}
+
 
 function createSongProfile() {
 	var songData = buildSongStructure(uploadedMidiFile, 1);
