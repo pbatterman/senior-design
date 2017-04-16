@@ -868,6 +868,7 @@ eventjs.add(window, "load", function(event) {
 	var colors = document.getElementById("colors");
 	var colorElements = [];
 	var activeNotes = [];
+
 	for (var n = 0; n < 88; n++) {
 		var d = document.createElement("div");
 		d.className = "keyColor"
@@ -940,7 +941,7 @@ eventjs.add(window, "load", function(event) {
 				}
 				var mesh = scene.getObjectByName( "tonnetz" );
 				var solidMesh = scene.getObjectByName("solidMesh");
-
+				var now = 0;
 				var note = data.note - 21;
 				var d = colorElements[note];
 				var colorset;
@@ -959,7 +960,10 @@ eventjs.add(window, "load", function(event) {
 						d.style.background = HSLArrayToString(colorset[note]);
 						activeNotes[note] = colorset[note];
 						if (singleTonnetz) displaceVertex(singleMesh, singleSolidMesh, note, data.velocity);
-						barColor = highlightProfileBar(currentBar, 'white');
+						if (data.now != now) {
+							barColor = highlightProfileBar(currentBar, 'white');
+							now = data.now;
+						}
 					} else {
 						numNotes--;
 						numNotes = Math.max(numNotes, 0);
@@ -975,8 +979,12 @@ eventjs.add(window, "load", function(event) {
 						d.style.background = "";
 						activeNotes[note] = 0;
 						if (singleTonnetz)  displaceVertex(singleMesh, singleSolidMesh, note, data.velocity);
-						highlightProfileBar(currentBar, barColor);
-						currentBar++;
+						if (data.now != now) {
+							highlightProfileBar(currentBar, barColor);
+							currentBar++;
+						}
+
+						
 					}
 					console.log(currentBar);
 					var blendColor = blendColors(activeNotes);
