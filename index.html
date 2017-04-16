@@ -90,7 +90,7 @@
 				<input type="range" min="0" max="360" class="angleInput" id="primaryAngle"><br>
 				<label class="inputLabel">Inner</label>
 				<input type="range" min="0" max="360" class="angleInput" id="secondaryAngle"><br>
-				<label class="inputLabel">Scale</label>
+				<label id="scaleInput" class="inputLabel">Scale</label>
 				<input type="range" min="0" max="100" class="angleInput" id="scaleInput"><br>
 			</div>
 			<div class="col-xs-12">
@@ -447,6 +447,7 @@ function switchVisualization(id) {
 		$('#multiOptions').hide();
 		$('#stackOptions').hide();
 		$('#updateBtn').hide();
+		$('#scaleInput').hide();
 
 		$( '#singleButton' ).addClass('active');
 		$( '#multiButton' ).removeClass('active');
@@ -460,6 +461,8 @@ function switchVisualization(id) {
 		$('#multiOptions').show();
 		$('#stackOptions').hide();
 		$('#updateBtn').hide();
+		$('#scaleInput').hide();
+
 
 		$( '#singleButton' ).removeClass('active');
 		$( '#multiButton' ).addClass('active');
@@ -474,6 +477,8 @@ function switchVisualization(id) {
 		$('#multiOptions').hide();
 		$('#stackOptions').show();
 		$('#updateBtn').show();
+		$('#scaleInput').show();
+
 
 		$( '#singleButton' ).removeClass('active');
 		$( '#multiButton' ).removeClass('active');
