@@ -106,6 +106,13 @@ div.channel {
 	margin-top: 220px;
 }
 
+#aboutButton {
+	position: fixed;
+	top: 0;
+	left: 0;
+	margin-left: 230px;
+}
+
 .inputLabel {
 	display: inline-block; 
 	color: #fff;
