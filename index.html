@@ -333,10 +333,6 @@ function init() {
 
 	$('#welcomeModal').modal('show');
 
-	$('#singleOptions').hide();
-	$('#multiOptions').hide();
-	$('#stackOptions').show();
-
 	resetColorWheel(fifthsOrder);
 	scene = new THREE.Scene();
 	var WIDTH = 0.8*window.innerWidth,
@@ -447,18 +443,18 @@ function switchVisualization(id) {
 		constructSingleTonnetz(colorMap);
 		meshPlane.traverse( function ( object ) { object.visible = false; } );
 
-		$('#singleOptions').show();
-		$('#multiOptions').hide();
-		$('#stackOptions').hide();
+		// $('#singleOptions').show();
+		// $('#multiOptions').hide();
+		// $('#stackOptions').hide();
 		$('#updateBtn').hide();
 	}
 	else if (multiTonnetz) {
 		meshPlane.traverse( function ( object ) { object.visible = false; } );
 		reColorGeometry();
 
-		$('#singleOptions').hide();
-		$('#multiOptions').show();
-		$('#stackOptions').hide();
+		// $('#singleOptions').hide();
+		// $('#multiOptions').show();
+		// $('#stackOptions').hide();
 		$('#updateBtn').hide();
 
 	}
@@ -466,9 +462,9 @@ function switchVisualization(id) {
 		meshPlane.traverse( function ( object ) { object.visible = true; } );
 		reColorGeometry();
 
-		$('#singleOptions').hide();
-		$('#multiOptions').hide();
-		$('#stackOptions').show();
+		// $('#singleOptions').hide();
+		// $('#multiOptions').hide();
+		// $('#stackOptions').show();
 		$('#updateBtn').show();
 
 	}
