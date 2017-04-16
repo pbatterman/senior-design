@@ -960,6 +960,7 @@ eventjs.add(window, "load", function(event) {
 						activeNotes[note] = colorset[note];
 						if (singleTonnetz) displaceVertex(singleMesh, singleSolidMesh, note, data.velocity);
 						barColor = highlightProfileBar(currentBar, 'white');
+						currentBar++;
 					} else {
 						numNotes--;
 						numNotes = Math.max(numNotes, 0);
@@ -976,7 +977,6 @@ eventjs.add(window, "load", function(event) {
 						activeNotes[note] = 0;
 						if (singleTonnetz)  displaceVertex(singleMesh, singleSolidMesh, note, data.velocity);
 						highlightProfileBar(currentBar, barColor);
-						currentBar++;
 					}
 
 					var blendColor = blendColors(activeNotes);
