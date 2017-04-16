@@ -101,38 +101,21 @@
 					<p id="loadingMessage2" style="color: #FFFFFF;"></p>
 					<br>
 					<label class="mainLabel">3D Visualization</label>
-
-				<div class="panel-group" id="accordion">
-				  <div class="panel panel-default">
-				    <div class="panel-heading">
-			        <button type="button" class="btn btn-danger" data-toggle="collapse" data-parent="#accordion" data-target="#singleOptions" onclick="switchVisualization(0)">Single</button>
-				    </div>
-				    <div id="singleOptions" class="panel-collapse collapse in">
-							<input type="checkbox" id="singleWireCheckbox" onclick="showHideStructure()" checked>Show Wifeframe<br>
-							<input type="checkbox" id="singleSolidCheckbox" onclick="showHideStructure()" checked>Show Solid Mesh<br>
-				    </div>
-				  </div>
-				  <div class="panel panel-default">
-				    <div class="panel-heading">
-  						<button type="button" class="btn btn-warning" data-toggle="collapse" data-parent="#accordion"data-target="#multiOptions" onclick="switchVisualization(1)">Multi</button>
-				    </div>
-				    <div id="multiOptions" class="panel-collapse collapse">
-				      <input type="checkbox" id="multiWireCheckbox" onclick="showHideStructure()" checked>Show Wireframe<br>
-							<input type="checkbox" id="multiSolidCheckbox" onclick="showHideStructure()" checked>Show Solid Mesh<br>
-				    </div>
-				  </div>
-				  <div class="panel panel-default">
-				    <div class="panel-heading">
-  						<button type="button" class="btn btn-info" data-toggle="collapse" data-parent="#accordion" data-target="#stackOptions" onclick="switchVisualization(2)">Stack</button>
-				    </div>
-				    <div id="stackOptions" class="panel-collapse collapse">
-				      <input type="checkbox" id="stackTonnetzCheckbox" onclick="showHideStructure()" checked>Show Tonnetz<br>
-							<input type="checkbox" id="stackNotesCheckbox" onclick="showHideStructure()" checked>Show Notes<br>
-				    </div>
-				  </div>
-				</div>
-					
-					
+					<button type="button" class="btn btn-danger btn-block" onclick="switchVisualization(0)">Active Mesh</button>
+					<div class="col-xs-12" id="singleOptions">
+						<input type="checkbox" id="singleWireCheckbox" onclick="showHideStructure()" checked>Show Wifeframe<br>
+						<input type="checkbox" id="singleSolidCheckbox" onclick="showHideStructure()" checked>Show Solid Mesh<br>
+					</div>
+					<button type="button" class="btn btn-warning btn-block" onclick="switchVisualization(1)">Static Mesh</button>
+					<div class="col-xs-12" id="multiOptions">
+						<input type="checkbox" id="multiWireCheckbox" onclick="showHideStructure()" checked>Show Wireframe<br>
+						<input type="checkbox" id="multiSolidCheckbox" onclick="showHideStructure()" checked>Show Solid Mesh<br>
+					</div>
+					<button type="button" class="btn btn-info btn-block" onclick="switchVisualization(2)">Stacked Mesh</button>
+					<div class="col-xs-12" id="stackOptions">
+						<input type="checkbox" id="stackTonnetzCheckbox" onclick="showHideStructure()" checked>Show Tonnetz<br>
+						<input type="checkbox" id="stackNotesCheckbox" onclick="showHideStructure()" checked>Show Notes<br>
+					</div><br>
 					<label class="mainLabel" style="margin-top: 10px">2D Visualization</label>
 					<div class="btn-group btn-group" role="group" aria-label="...">
 						<button type="button" class="btn btn-success" onclick="createSongProfile()">Create</button>
@@ -344,9 +327,10 @@
 function init() {
 
 	$('#welcomeModal').modal('show');
+
 	$('#singleOptions').hide();
 	$('#multiOptions').hide();
-	$('#stackOptions').hide();
+	$('#stackOptions').show();
 
 	resetColorWheel(fifthsOrder);
 	scene = new THREE.Scene();
@@ -458,18 +442,18 @@ function switchVisualization(id) {
 		constructSingleTonnetz(colorMap);
 		meshPlane.traverse( function ( object ) { object.visible = false; } );
 
-		// $('#singleOptions').show();
-		// $('#multiOptions').hide();
-		// $('#stackOptions').hide();
+		$('#singleOptions').show();
+		$('#multiOptions').hide();
+		$('#stackOptions').hide();
 		$('#updateBtn').hide();
 	}
 	else if (multiTonnetz) {
 		meshPlane.traverse( function ( object ) { object.visible = false; } );
 		reColorGeometry();
 
-		// $('#singleOptions').hide();
-		// $('#multiOptions').show();
-		// $('#stackOptions').hide();
+		$('#singleOptions').hide();
+		$('#multiOptions').show();
+		$('#stackOptions').hide();
 		$('#updateBtn').hide();
 
 	}
@@ -477,9 +461,9 @@ function switchVisualization(id) {
 		meshPlane.traverse( function ( object ) { object.visible = true; } );
 		reColorGeometry();
 
-		// $('#singleOptions').hide();
-		// $('#multiOptions').hide();
-		// $('#stackOptions').show();
+		$('#singleOptions').hide();
+		$('#multiOptions').hide();
+		$('#stackOptions').show();
 		$('#updateBtn').show();
 
 	}
