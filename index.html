@@ -976,9 +976,8 @@ eventjs.add(window, "load", function(event) {
 						activeNotes[note] = 0;
 						if (singleTonnetz)  displaceVertex(singleMesh, singleSolidMesh, note, data.velocity);
 						highlightProfileBar(currentBar, barColor);
+						currentBar++;
 					}
-					currentBar++;
-					currentBar-= (activeNotes.length - 1);
 					console.log(currentBar);
 					var blendColor = blendColors(activeNotes);
 					// blendBox.style.background = HSLArrayToString(blendColor);
