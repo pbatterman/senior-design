@@ -93,6 +93,19 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="modal" id="explainModal" tabindex="-1" role="dialog">
+			<div class="modal-dialog modal-sm" role="document">
+				<div class="modal-content">
+					<div class="col-xs-12" style="border: 1px solid #FFF000; color: #DDD; padding:10%;">
+						<p>Active Mesh: One 3D Tonnetz Mesh. Each vertex corresponds to a note, and displaces when the note is played. The underside of the mesh is colored according to the blended color of all notes being played at any given time.</p>
+						<p>Static Mesh: A static version of the Active Mesh. Each mesh piece represents a change in the music. The underside coloring and displacement of vertices is equivalent to that of the active mesh.</p>
+						<p>Stacked Mesh: Each layer of this structure is a note or chord in the music, and moves in time with the music. Individual notes are highlighted for their duration. Each note is colored individually, and its origin Tonnetz plane is the blended color of all notes currently being played.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<!-- <div id="channels"></div> -->
 		<div id="colorController">
 			<div class="col-xs-12" id="sliders">
@@ -119,17 +132,6 @@
 					<br>
 					<label class="mainLabel">3D Visualization</label>
 					<button class="btn" data-toggle="modal" data-target="#explainModal">?</button>
-					<div class="modal" id="explainModal" tabindex="-1" role="dialog">
-					<div class="modal-dialog modal-sm" role="document">
-						<div class="modal-content">
-							<div class="col-xs-12" style="border: 1px solid #FFF000; color: #DDD">
-								<p>Active Mesh: One 3D Tonnetz Mesh. Each vertex corresponds to a note, and displaces when the note is played. The underside of the mesh is colored according to the blended color of all notes being played at any given time.</p>
-								<p>Static Mesh: A static version of the Active Mesh. Each mesh piece represents a change in the music. The underside coloring and displacement of vertices is equivalent to that of the active mesh.</p>
-								<p>Stacked Mesh: Each layer of this structure is a note or chord in the music, and moves in time with the music. Individual notes are highlighted for their duration. Each note is colored individually, and its origin Tonnetz plane is the blended color of all notes currently being played.</p>
-								</div>
-							</div>
-						</div>
-					</div>
 					<button type="button" id="singleButton" class="btn btn-danger btn-block" onclick="switchVisualization(0)">Active Mesh</button>
 					<div class="col-xs-12" id="singleOptions">
 						<input type="checkbox" id="singleWireCheckbox" onclick="showHideStructure()" checked>Show Wifeframe<br>
