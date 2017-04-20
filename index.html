@@ -1590,6 +1590,7 @@ function createGeometry(songData, scale) {
 	var mag = 40;
 	var localZPos;
 	var prevNotes = [];
+	avgDelta *= 3;
 
  	for (var t = startTime; t < totalTime; t++) {
  		var zPos = (t - startTime) * scale;
@@ -1626,7 +1627,7 @@ function createGeometry(songData, scale) {
 
 						// fade colors by length of note strike
 						var colArray = primaryColors[note % 12].slice();
-						colArray[2] = parseInt(Math.max((3*avgDelta - localZPos)/3*avgDelta, 0)*50);
+						colArray[2] = parseInt(Math.max((avgDelta - localZPos)/avgDelta, 0)*50);
 						var col = HSLArrayToString(colArray);
    					var vertColor = new THREE.Color( col );
    					geometry.colors.push(vertColor);
