@@ -97,10 +97,13 @@
 		<div class="modal" id="explainModal" tabindex="-1" role="dialog">
 			<div class="modal-dialog modal-sm" role="document">
 				<div class="modal-content">
-					<div class="col-xs-12" style="border: 1px solid #FFF000; color: #DDD; padding:10%;">
-						<p>Active Mesh: One 3D Tonnetz Mesh. Each vertex corresponds to a note, and displaces when the note is played. The underside of the mesh is colored according to the blended color of all notes being played at any given time.</p>
-						<p>Static Mesh: A static version of the Active Mesh. Each mesh piece represents a change in the music. The underside coloring and displacement of vertices is equivalent to that of the active mesh.</p>
-						<p>Stacked Mesh: Each layer of this structure is a note or chord in the music, and moves in time with the music. Individual notes are highlighted for their duration. Each note is colored individually, and its origin Tonnetz plane is the blended color of all notes currently being played.</p>
+					<div class="col-xs-12" style="border: 1px solid #FFF000; color: #DDD; padding:5%;">
+						<h3>3D Visualizations</h3>
+						<p style="font-weight: bold">Active Mesh:</p><p> One 3D Tonnetz Mesh. Each vertex corresponds to a note, and displaces when the note is played. The underside of the mesh is colored according to the blended color of all notes being played at any given time.</p>
+						<p style="font-weight: bold">Static Mesh:</p><p> A static version of the Active Mesh. Each mesh piece represents a change in the music. The underside coloring and displacement of vertices is equivalent to that of the active mesh.</p>
+						<p style="font-weight: bold">Stacked Mesh:</p><p>Each layer of this structure is a note or chord in the music, and moves in time with the music. Individual notes are highlighted for their duration. Each note is colored individually, and its origin Tonnetz plane is the blended color of all notes currently being played.</p><br>
+						<h3>2D Visualization</h3>
+						<p>Each bar of color in this visualization represents the notes currently playing at any point during the song, with time progressing from left to right. Mouse over any bar of color to see individual notes and their colors.</p>
 					</div>
 				</div>
 			</div>
