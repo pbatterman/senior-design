@@ -223,7 +223,6 @@
 	var visScale = 1;
 	var singleTonnetz = true;
 	var multiTonnetz = false;
-	var avgDelta = 1000;
 
 	var singleMesh;
 	var singleSolidMesh;
@@ -1060,12 +1059,34 @@ function colorSolidMesh(mesh, blendColor) {
 	var h = blendColor[0] / 360.0;
 	var s = blendColor[1] / 100.0;
 	var l = blendColor[2] / 100.0;
-	for (var f = 0; f < mesh.geometry.faces.length; f++) {
-		mesh.geometry.faces[ f ].color.setHSL(h, s, l);
+	if (singleTonnetz) {
+		tweenMeshColorChange(blendColor);
 	}
-	mesh.geometry.colorsNeedUpdate = true;
+	else {
+		for (var f = 0; f < mesh.geometry.faces.length; f++) {
+			mesh.geometry.faces[ f ].color.setHSL(h, s, l);
+		}
+		mesh.geometry.colorsNeedUpdate = true;
+	}
 }
 
+function tweenMeshColorchange(newColor) {
+	var oldColor = singleSolidMesh.geometry.faces[0].color;
+	
+	var oldCol = {color: oldColor};
+	var newCol = {color: newColor};
+
+	var tween = new TWEEN.Tween(oldCol).to(newCol, 200);
+
+	tween.onUpdate(function() {
+		for (var f = 0; f < mesh.geometry.faces.length; f++) {
+			singleSolidMesh.geometry.faces[ f ].color.setHSL(oldCol.color[0], oldCol.color[1], oldCol.color[2]);
+		}
+		singleSolidMesh.geometry.colorsNeedUpdate = true;
+	});
+
+	tween.start();
+}
 
 // highlight active notes
 function highlightVertices(activeColors, blendColor, colorset) {
@@ -1590,7 +1611,6 @@ function createGeometry(songData, scale) {
 	var mag = 40;
 	var localZPos;
 	var prevNotes = [];
-	avgDelta *= 3;
 
  	for (var t = startTime; t < totalTime; t++) {
  		var zPos = (t - startTime) * scale;
@@ -1627,7 +1647,7 @@ function createGeometry(songData, scale) {
 
 						// fade colors by length of note strike
 						var colArray = primaryColors[note % 12].slice();
-						colArray[2] = parseInt(Math.max((avgDelta - localZPos)/avgDelta, 0)*50);
+						colArray[2] = parseInt(Math.max((2000 - localZPos)/2000, 0)*50);
 						var col = HSLArrayToString(colArray);
    					var vertColor = new THREE.Color( col );
    					geometry.colors.push(vertColor);
@@ -1811,18 +1831,12 @@ function buildSongStructure(midifile, scale) {
 	var notesForStruct = {};
 	var currentNotes = [];
 	var startTime = -1;
-	var totalDelta = 0;
-	var numDeltas = 0;
 
 	// if event contains 'noteOn' or 'noteOff' subtypes, add note to an object for each time that an event occurs
 	for (var e = 0; e < events.length; e++) {
 		var noteEvent = events[e];
 		if (noteEvent.type != "channel" || (noteEvent.subtype != "noteOn" && noteEvent.subtype != "noteOff")) continue;
 		totalTime += noteEvent.deltaTime;
-		if (noteEvent.deltaTime > 0) {
-			totalDelta += noteEvent.deltaTime;
-			numDeltas++;
-		}
 		var note = noteEvent.noteNumber;
 		if (noteEvent.subtype == "noteOn") {
 			currentNotes.push(note);
@@ -1833,9 +1847,8 @@ function buildSongStructure(midifile, scale) {
 			currentNotes.splice(idx, 1);
 		}
 		notesForStruct[totalTime] = currentNotes.slice();
-	}
 
-	avgDelta = totalDelta / numDeltas;
+	}
 	songTicks = totalTime * scale;
 	var songData = {};
 	songData.noteArray = notesForStruct;
