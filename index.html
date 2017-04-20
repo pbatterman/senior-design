@@ -1270,7 +1270,7 @@ var openFile = function(event) {
     output.src = dataURL;
     song = [];
     song.push(dataURL);
-    // player.getNextSong(+1);
+    player.getNextSong(+1);
     numSongs++;
 
 
@@ -1280,7 +1280,6 @@ var openFile = function(event) {
 			$('#welcomeModal').modal('hide');
 			$('#loadingMessage').text("");
 			$('#loadingMessage2').text("");
-			player.getNextSong();
 			animate();
 		});
   };
