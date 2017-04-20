@@ -651,29 +651,6 @@ function animate() {
 	TWEEN.update();
 }
 
-function tweenVertex(v, dz) {
-
-	var vertex = singleMesh.geometry.vertices[v];
-	var position = {z: vertex.z};
-	var zeroPos = {z : dz};
-	var z = vertex.z;
-	var tween = new TWEEN.Tween(position).to(zeroPos, 200);
-
-	tween.onUpdate(function() {
-		var vertex = singleMesh.geometry.vertices[v];
-		singleMesh.geometry.vertices[v].set(vertex.x, vertex.y, position.z);
-		singleMesh.geometry.dynamic = true;
-		singleMesh.geometry.verticesNeedUpdate = true;
-
-		singleSolidMesh.geometry.vertices[v].set(vertex.x, vertex.y, position.z);
-		singleSolidMesh.geometry.dynamic = true;
-		singleSolidMesh.geometry.verticesNeedUpdate = true;
-	});
-
-	tween.start();
-
-}
-
 // cache vertex hues
 function cacheVertexColors(mesh) {
 	vertexColorCache = [];
@@ -1088,7 +1065,6 @@ function tweenMeshColorChange(hue, sat, light) {
 
 function resetSingleMesh() {
 	for (var v = 0; v < vertexKey.length; v++) {
-		var oldVert = mesh.geometry.vertices[v];
 		tweenVertex(v, 0);
 	}
 }
@@ -1138,6 +1114,28 @@ function displaceVertex(mesh, solidMesh, note, dz) {
 
 }
 
+function tweenVertex(v, dz) {
+
+	var vertex = singleMesh.geometry.vertices[v];
+	var position = {z: vertex.z};
+	var zeroPos = {z : dz};
+	var z = vertex.z;
+	var tween = new TWEEN.Tween(position).to(zeroPos, 200);
+
+	tween.onUpdate(function() {
+		var vertex = singleMesh.geometry.vertices[v];
+		singleMesh.geometry.vertices[v].set(vertex.x, vertex.y, position.z);
+		singleMesh.geometry.dynamic = true;
+		singleMesh.geometry.verticesNeedUpdate = true;
+
+		singleSolidMesh.geometry.vertices[v].set(vertex.x, vertex.y, position.z);
+		singleSolidMesh.geometry.dynamic = true;
+		singleSolidMesh.geometry.verticesNeedUpdate = true;
+	});
+
+	tween.start();
+
+}
 
 function buildDisplacementMap(activeColors) {
 	var dz = 100;
