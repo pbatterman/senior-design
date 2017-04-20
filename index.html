@@ -1077,7 +1077,7 @@ function tweenMeshColorChange(hue, sat, light) {
 	var oldCol = {h: oldColor.h, s: oldColor.s, l: oldColor.l};
 	var newCol = {h: hue, s: sat, l: light};
 
-	var tween = new TWEEN.Tween(oldCol).to(newCol, 200);
+	var tween = new TWEEN.Tween(oldCol).to(newCol, 1000);
 
 	tween.onUpdate(function() {
 		for (var f = 0; f < singleSolidMesh.geometry.faces.length; f++) {
