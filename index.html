@@ -909,7 +909,7 @@ eventjs.add(window, "load", function(event) {
 	var colorElements = [];
 	var activeNotes = [];
 
-	for (var n = 0; n < 88; n++) {
+	for (var n = 87; n >= 0; n--) {
 		var d = document.createElement("div");
 		d.className = "keyColor"
 		d.innerHTML = MIDI.noteToKey[n + 21];
@@ -983,7 +983,7 @@ eventjs.add(window, "load", function(event) {
 				var solidMesh = scene.getObjectByName("solidMesh");
 				var now = 0;
 				var note = data.note - 21;
-				var d = colorElements[note];
+				var d = colorElements[87 - note];
 				var colorset;
 				if (d) {
 					if (data.message === 144) {
