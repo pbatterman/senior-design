@@ -223,6 +223,7 @@
 	var visScale = 1;
 	var singleTonnetz = true;
 	var multiTonnetz = false;
+	var avgDelta = 1000;
 
 	var singleMesh;
 	var singleSolidMesh;
@@ -1608,7 +1609,6 @@ function createGeometry(songData, scale) {
  					var singleTon = buildTemplateTonnetzGeometry(zPos, notes, activeOctaves[o]);
  					tonnetzGeo.push(singleTon);
  			}
- 			
  		}
  		if (!notes) continue;
 		// var notes = noteArray[eventTime];
@@ -1626,7 +1626,7 @@ function createGeometry(songData, scale) {
 
 						// fade colors by length of note strike
 						var colArray = primaryColors[note % 12].slice();
-						colArray[2] = parseInt(Math.max((2000 - localZPos)/2000, 0)*50);
+						colArray[2] = parseInt(Math.max((avgDelta - localZPos)/avgDelta, 0)*50);
 						var col = HSLArrayToString(colArray);
    					var vertColor = new THREE.Color( col );
    					geometry.colors.push(vertColor);
@@ -1810,12 +1810,18 @@ function buildSongStructure(midifile, scale) {
 	var notesForStruct = {};
 	var currentNotes = [];
 	var startTime = -1;
+	var totalDelta = 0;
+	var numDeltas = 0;
 
 	// if event contains 'noteOn' or 'noteOff' subtypes, add note to an object for each time that an event occurs
 	for (var e = 0; e < events.length; e++) {
 		var noteEvent = events[e];
 		if (noteEvent.type != "channel" || (noteEvent.subtype != "noteOn" && noteEvent.subtype != "noteOff")) continue;
 		totalTime += noteEvent.deltaTime;
+		if (noteEvent.deltaTime > 0) {
+			totalDelta += noteEvent.deltaTime;
+			numDeltas++;
+		}
 		var note = noteEvent.noteNumber;
 		if (noteEvent.subtype == "noteOn") {
 			currentNotes.push(note);
@@ -1826,8 +1832,9 @@ function buildSongStructure(midifile, scale) {
 			currentNotes.splice(idx, 1);
 		}
 		notesForStruct[totalTime] = currentNotes.slice();
-
 	}
+
+	avgDelta = totalDelta / numDeltas;
 	songTicks = totalTime * scale;
 	var songData = {};
 	songData.noteArray = notesForStruct;
