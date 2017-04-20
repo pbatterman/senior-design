@@ -122,8 +122,10 @@
 				<input type="range" min="0" max="360" class="angleInput" id="primaryAngle"><br>
 				<label class="inputLabel">Inner</label>
 				<input type="range" min="0" max="360" class="angleInput" id="secondaryAngle"><br>
-				<label id="scaleInput" class="inputLabel">Scale</label>
-				<input type="range" min="0" max="100" class="angleInput" id="scaleInput"><br>
+				<div id="scaleControl">
+					<label id="scaleInputLabel" class="inputLabel">Scale</label>
+					<input type="range" min="0" max="100" class="angleInput" id="scaleInput"><br>
+				</div>
 			</div>
 			<div class="col-xs-12">
 					<button type="button" id="updateBtn" class="btn btn-success btn-block" onclick="reColorGeometry()">UPDATE</button>
@@ -484,7 +486,7 @@ function switchVisualization(id) {
 		$('#multiOptions').hide();
 		$('#stackOptions').hide();
 		$('#updateBtn').hide();
-		$('#scaleInput').hide();
+		$('#scaleControl').hide();
 
 		$( '#singleButton' ).addClass('active');
 		$( '#multiButton' ).removeClass('active');
@@ -498,7 +500,7 @@ function switchVisualization(id) {
 		$('#multiOptions').show();
 		$('#stackOptions').hide();
 		$('#updateBtn').hide();
-		$('#scaleInput').hide();
+		$('#scaleControl').hide();
 
 
 		$( '#singleButton' ).removeClass('active');
@@ -514,7 +516,7 @@ function switchVisualization(id) {
 		$('#multiOptions').hide();
 		$('#stackOptions').show();
 		$('#updateBtn').show();
-		$('#scaleInput').show();
+		$('#scaleControl').show();
 
 
 		$( '#singleButton' ).removeClass('active');
