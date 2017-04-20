@@ -1833,6 +1833,10 @@ function buildSongStructure(midifile, scale) {
 	var tracks = midifile.tracks;
 
 	var events = tracks[1];
+	if (!events) events = tracks[0];
+	if (!events) {
+		alert('MIDI File Error');
+	}
 
 	var totalTime = 0;
 	var notesForStruct = {};
