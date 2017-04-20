@@ -443,19 +443,23 @@ function init() {
 }
 
 function switchVisualization(id) {
-	if (!uploadedMidiFile) {
-		alert('Please upload a MIDI File!');
-		return;
-	}
 	if (id == 0) {
 		singleTonnetz = true;
 		multiTonnetz = false;
 	}
 	else if (id == 1) {
+		if (!uploadedMidiFile) {
+			alert('Please upload a MIDI File!');
+			return;
+		}
 		singleTonnetz = false;
 		multiTonnetz = true;
 	}
 	else {
+		if (!uploadedMidiFile) {
+			alert('Please upload a MIDI File!');
+			return;
+		}
 		singleTonnetz = false;
 		multiTonnetz = false;
 	}
