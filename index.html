@@ -1071,9 +1071,9 @@ function colorSolidMesh(mesh, blendColor) {
 }
 
 function tweenMeshColorChange(hue, sat, light) {
-	var oldColor = singleSolidMesh.geometry.faces[0].getHSL();
+	var oldColor = singleSolidMesh.geometry.faces[0].color.getHSL();
 	if (!oldColor[0]) return;
-	
+
 	var oldCol = {h: oldColor[0], s: oldColor[1], l: oldColor[2]};
 	var newCol = {h: hue, s: sat, l: light};
 
