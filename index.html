@@ -928,7 +928,7 @@ eventjs.add(window, "load", function(event) {
 	var colorElements = [];
 	var activeNotes = [];
 
-	for (var n = 0; n < 88; n++) {
+	for (var n = 87; n >= 0; n--) {
 		var d = document.createElement("div");
 		d.className = "keyColor"
 		d.innerHTML = MIDI.noteToKey[n + 21];
