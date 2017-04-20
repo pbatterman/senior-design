@@ -167,7 +167,7 @@ background: linear-gradient(to right, rgba(0,0,0,1) 0%,rgba(125,185,232,0) 50%);
 }
 
 .sortNote {
-	color: #333;
+	color: #ddd;
 	font-size: 10pt;
 }
 
@@ -189,7 +189,7 @@ background: linear-gradient(to right, rgba(0,0,0,1) 0%,rgba(125,185,232,0) 50%);
 
 #sortableTip {
 	font-size: 8pt;
-	color: #333;
+	color: #ddd;
 }
 
 #canvas {
