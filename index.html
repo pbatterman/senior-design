@@ -1086,6 +1086,15 @@ function tweenMeshColorChange(hue, sat, light) {
 	tween.start();
 }
 
+function resetSingleMesh() {
+	for (var v = 0; v < vertexKey.length; v++) {
+		if (vertexKey[v] == n) {
+			var oldVert = mesh.geometry.vertices[v];
+			tweenVertex(v, 0);
+		}
+	}
+}
+
 // highlight active notes
 function highlightVertices(activeColors, blendColor, colorset) {
 	// copy colorset, appparently this is the fastest way
@@ -1256,7 +1265,6 @@ var openFile = function(event) {
 	$('#loadingMessage').text("loading...");
 	$('#loadingMessage2').text("loading...");
 
-
   var input = event.target;
   var urlReader = new FileReader();
 
@@ -1276,6 +1284,10 @@ var openFile = function(event) {
 			$('#welcomeModal').modal('hide');
 			$('#loadingMessage').text("");
 			$('#loadingMessage2').text("");
+			if (singleTonnetz) {
+				resetSingleMesh();
+				player.getNextSong();
+			}
 			animate();
 		});
   };
