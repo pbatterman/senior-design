@@ -443,6 +443,10 @@ function init() {
 }
 
 function switchVisualization(id) {
+	if (!uploadedMidiFile) {
+		alert('Please upload a MIDI File!');
+		return;
+	}
 	if (id == 0) {
 		singleTonnetz = true;
 		multiTonnetz = false;
@@ -1401,6 +1405,10 @@ function removeProfile() {
 }
 
 function createSongProfile() {
+	if (!uploadedMidiFile) {
+		alert('Please upload a MIDI File!');
+		return;
+	}
 	var songData = buildSongStructure(uploadedMidiFile, 1);
 	var profileArray = getProfileArray(songData);
 
@@ -1409,7 +1417,7 @@ function createSongProfile() {
 	var x = 0;
 	var y = 0;
 	var width = 1;
-	var height = window.innerHeight;
+	var height = window.innerHeight* 0.9;
 
 	// create canvas
 	var canvas = document.createElement('div');
