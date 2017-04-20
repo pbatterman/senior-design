@@ -1088,10 +1088,8 @@ function tweenMeshColorChange(hue, sat, light) {
 
 function resetSingleMesh() {
 	for (var v = 0; v < vertexKey.length; v++) {
-		if (vertexKey[v] == n) {
-			var oldVert = mesh.geometry.vertices[v];
-			tweenVertex(v, 0);
-		}
+		var oldVert = mesh.geometry.vertices[v];
+		tweenVertex(v, 0);
 	}
 }
 
@@ -1284,10 +1282,7 @@ var openFile = function(event) {
 			$('#welcomeModal').modal('hide');
 			$('#loadingMessage').text("");
 			$('#loadingMessage2').text("");
-			if (singleTonnetz) {
-				resetSingleMesh();
-				player.getNextSong();
-			}
+			player.getNextSong();
 			animate();
 		});
   };
@@ -1877,6 +1872,9 @@ function reColorGeometry() {
 		var parent =  scene.getObjectByName("displacedTonnetzStructure");
 		if(parent) scene.remove(parent);
 		constructVisualization(1, visScale);
+	}
+	else if (singleTonnetz) {
+		resetSingleMesh();
 	}
 }
 
