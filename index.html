@@ -1059,15 +1059,10 @@ function colorSolidMesh(mesh, blendColor) {
 	var h = blendColor[0] / 360.0;
 	var s = blendColor[1] / 100.0;
 	var l = blendColor[2] / 100.0;
-	if (singleTonnetz) {
-		tweenMeshColorChange(h, s, l);
+	for (var f = 0; f < mesh.geometry.faces.length; f++) {
+		mesh.geometry.faces[ f ].color.setHSL(h, s, l);
 	}
-	else {
-		for (var f = 0; f < mesh.geometry.faces.length; f++) {
-			mesh.geometry.faces[ f ].color.setHSL(h, s, l);
-		}
-		mesh.geometry.colorsNeedUpdate = true;
-	}
+	mesh.geometry.colorsNeedUpdate = true;
 }
 
 function tweenMeshColorChange(hue, sat, light) {
@@ -1077,7 +1072,7 @@ function tweenMeshColorChange(hue, sat, light) {
 	var oldCol = {h: oldColor.h, s: oldColor.s, l: oldColor.l};
 	var newCol = {h: hue, s: sat, l: light};
 
-	var tween = new TWEEN.Tween(oldCol).to(newCol, 30);
+	var tween = new TWEEN.Tween(oldCol).to(newCol, 200);
 
 	tween.onUpdate(function() {
 		for (var f = 0; f < singleSolidMesh.geometry.faces.length; f++) {
