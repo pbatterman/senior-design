@@ -1122,7 +1122,7 @@ function tweenVertex(v, dz) {
 	var position = {z: vertex.z};
 	var zeroPos = {z : dz};
 	var z = vertex.z;
-	var tween = new TWEEN.Tween(position).to(zeroPos, 200);
+	var tween = new TWEEN.Tween(position).to(zeroPos, 100);
 
 	tween.onUpdate(function() {
 		var vertex = singleMesh.geometry.vertices[v];
