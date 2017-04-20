@@ -1072,9 +1072,9 @@ function colorSolidMesh(mesh, blendColor) {
 
 function tweenMeshColorChange(hue, sat, light) {
 	var oldColor = singleSolidMesh.geometry.faces[0].color.getHSL();
-	if (isNaN(oldColor[0])) return;
+	if (isNaN(oldColor.h)) return;
 
-	var oldCol = {h: oldColor[0], s: oldColor[1], l: oldColor[2]};
+	var oldCol = {h: oldColor.h, s: oldColor.s, l: oldColor.l};
 	var newCol = {h: hue, s: sat, l: light};
 
 	var tween = new TWEEN.Tween(oldCol).to(newCol, 200);
