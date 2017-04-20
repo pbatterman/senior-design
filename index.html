@@ -1079,7 +1079,7 @@ function tweenMeshColorChange(newColor) {
 	var tween = new TWEEN.Tween(oldCol).to(newCol, 200);
 
 	tween.onUpdate(function() {
-		for (var f = 0; f < mesh.geometry.faces.length; f++) {
+		for (var f = 0; f < singleSolidMesh.geometry.faces.length; f++) {
 			singleSolidMesh.geometry.faces[ f ].color.setHSL(oldCol.color[0], oldCol.color[1], oldCol.color[2]);
 		}
 		singleSolidMesh.geometry.colorsNeedUpdate = true;
