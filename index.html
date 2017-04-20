@@ -52,13 +52,13 @@
 			<div class="modal-content">
 				<div class="col-xs-12" style="border: 1px solid #00FF88; padding:10%">
 					<img style="width:100%" src="images/title.png"><br>
-					<h3>Upload a MIDI File to begin</h3>
+					<h3>Upload a MIDI File to begin*</h3>
 					<input type='file' accept='audio/midi' onchange='openFile(event)'>
 					<p id="loadingMessage" style="color: #00FF88;"></p>
 					<p style="color: #DDDDDD;"> Click+drag to rotate</p>
 					<p style="color: #DDDDDD;"> Right-click + drag to pan</p>
-					<p style="color: #DDDDDD;"> Scroll to zoom</p>
-
+					<p style="color: #DDDDDD;"> Scroll to zoom</p><br>
+					<p style="size:10px"> *This currently works best with single-track MIDI files </p>
 				</div>
 			</div>
 		</div>
@@ -104,9 +104,6 @@
 						<p style="font-weight: bold">Stacked Mesh:</p><p>Each layer of this structure is a note or chord in the music, and moves in time with the music. Individual notes are highlighted for their duration. Each note is colored individually, and its origin Tonnetz plane is the blended color of all notes currently being played.</p><br>
 						<h3>2D Visualization</h3>
 						<p>Each bar of color in this visualization represents the notes currently playing at any point during the song, with time progressing from left to right. Mouse over any bar of color to see individual notes and their colors.</p>
-						<br>
-						<br>
-						<p> This currently works best with single-track MIDI files </p>
 					</div>
 				</div>
 			</div>
