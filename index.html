@@ -86,14 +86,13 @@
 			<div class="modal-content">
 				<div class="col-xs-12" style="border: 1px solid #FFCC33; padding:10%">
 					<img style="width:100%" src="images/title.png"><br>
-					<h3>About This Project:</h3>
 					<p>This project was developed by Paul Batterman for his senior design project.</p>
 					<p>Libraries used include Three.js, MIDI.js, d3.js, tween.js</p>
 
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 		<!-- <div id="channels"></div> -->
 		<div id="colorController">
 			<div class="col-xs-12" id="sliders">
@@ -119,6 +118,18 @@
 					<p id="loadingMessage2" style="color: #FFFFFF;"></p>
 					<br>
 					<label class="mainLabel">3D Visualization</label>
+					<button id="aboutButton" class="btn btn-xs " data-toggle="modal" data-target="#explainModal">?</button>
+					<div class="modal" id="explainModal" tabindex="-1" role="dialog">
+					<div class="modal-dialog modal-sm" role="document">
+						<div class="modal-content">
+							<div class="col-xs-12" style="border: 1px solid #FFF000; padding:10%">
+								<p>Active Mesh: One 3D Tonnetz Mesh. Each vertex corresponds to a note, and displaces when the note is played. The underside of the mesh is colored according to the blended color of all notes being played at any given time.</p>
+								<p>Static Mesh: A static version of the Active Mesh. Each mesh piece represents a change in the music. The underside coloring and displacement of vertices is equivalent to that of the active mesh.</p>
+								<p>Stacked Mesh: Each layer of this structure is a note or chord in the music, and moves in time with the music. Individual notes are highlighted for their duration. Each note is colored individually, and its origin Tonnetz plane is the blended color of all notes currently being played.</p>
+								</div>
+							</div>
+						</div>
+					</div>
 					<button type="button" id="singleButton" class="btn btn-danger btn-block" onclick="switchVisualization(0)">Active Mesh</button>
 					<div class="col-xs-12" id="singleOptions">
 						<input type="checkbox" id="singleWireCheckbox" onclick="showHideStructure()" checked>Show Wifeframe<br>
@@ -148,46 +159,42 @@
 			<!-- <img id="fifthswheel" src="images/circle_fifths_wheel.png"> -->
 		</div>
 	</div>
-	<div class="modal" id="customOuterRingModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-			  <div class="modal-dialog modal-sm" role="document">
-			    <div class="modal-content">
-			      <div class="modal-header">
-			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			        <h4 class="modal-title">Custom Note Order</h4>
-			      </div>
-			      <div class="modal-body">
-			      	<div class="col-xs-5" id="sortableTip">
-			      		<p>Drag notes to re-order</p><br>
-			      		<label><input type="checkbox" id="outerCheckbox" value="outer_checkbox" checked> Outer Ring</label><br>
-			      		<label><input type="checkbox" id="innerCheckbox" value="inner_checkbox" checked> Inner Ring</label><br>
-			      	</div>
-			      	<div class="col-xs-5">
-				      	<ul id="sortable">
-								  <li id="0" class="sortNote">C</li>
-								  <li id="1" class="sortNote">C#/Db</li>
-								  <li id="2" class="sortNote">D</li>
-								  <li id="3" class="sortNote">D#/Eb</li>
-								  <li id="4" class="sortNote">E</li>
-								  <li id="5" class="sortNote">F</li>
-								  <li id="6" class="sortNote">F#/Gb</li>
-								  <li id="7" class="sortNote">G</li>
-								  <li id="8" class="sortNote">G#/Ab</li>
-								  <li id="9" class="sortNote">A</li>
-								  <li id="10" class="sortNote">A#/Bb</li>
-								  <li id="11" class="sortNote">B</li>
-								</ul>
-							</div>
-							<div class="col-xs-2">
-								<img id="sortableGradient" src="images/colorGradient.png">
-							</div>
-			      </div>
-			      <div class="modal-footer">
-			        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
-			        <button type="button" class="btn btn-primary btn-sm" onclick="customRing()">Save</button>
-			      </div>
-			    </div>
-			  </div>
-			</div>
+	<div class="modal" id="customOuterRingModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<div class="col-xs-12" style="border: 1px solid #FFF000; padding:10%">
+	      	<div class="col-xs-5" id="sortableTip">
+	      		<p>Drag notes to re-order</p><br>
+	      		<label><input type="checkbox" id="outerCheckbox" value="outer_checkbox" checked> Outer Ring</label><br>
+	      		<label><input type="checkbox" id="innerCheckbox" value="inner_checkbox" checked> Inner Ring</label><br>
+	      	</div>
+	      	<div class="col-xs-5">
+		      	<ul id="sortable">
+						  <li id="0" class="sortNote">C</li>
+						  <li id="1" class="sortNote">C#/Db</li>
+						  <li id="2" class="sortNote">D</li>
+						  <li id="3" class="sortNote">D#/Eb</li>
+						  <li id="4" class="sortNote">E</li>
+						  <li id="5" class="sortNote">F</li>
+						  <li id="6" class="sortNote">F#/Gb</li>
+						  <li id="7" class="sortNote">G</li>
+						  <li id="8" class="sortNote">G#/Ab</li>
+						  <li id="9" class="sortNote">A</li>
+						  <li id="10" class="sortNote">A#/Bb</li>
+						  <li id="11" class="sortNote">B</li>
+						</ul>
+					</div>
+					<div class="col-xs-2">
+						<img id="sortableGradient" src="images/colorGradient.png">
+					</div>
+      	</div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+	        <button type="button" class="btn btn-primary btn-sm" onclick="customRing()">Save</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 	<div id="canvas"></div>
 
 <script type="text/javascript">
