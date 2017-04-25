@@ -115,7 +115,7 @@
 		<div id="colorController">
 			<div class="col-xs-12" id="sliders">
 				<div class="btn-group btn-group-xs" style="width:100%;" role="group" aria-label="...">
-					<button type="button" class="btn btn-default" onclick="resetColorWheel(fifthsOrder)">Circle of Thirds</button>
+					<button type="button" class="btn btn-default" onclick="resetColorWheel(fifthsOrder)">Circle of Fifths</button>
 					<button type="button" class="btn btn-default" data-toggle="modal" data-target="#customOuterRingModal" onclick="pausePlayStop(true)">Custom</button>
 				</div>
 				<br>
@@ -1169,7 +1169,7 @@ function buildDisplacementMap(activeColors) {
 }
 
 
-// blend multiple colors together - raw average
+// blend multiple colors together
 function blendColors(activeColors) {
 	var toBlend = [];
 	for (var i = 0; i < 88; i++) {
