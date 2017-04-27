@@ -972,6 +972,13 @@ eventjs.add(window, "load", function(event) {
 					getOffsetColors(pAngleOffset, sAngleOffset);
 					allColors = getColorMap();
 					if (singleTonnetz) updateMesh(mesh, pAngleOffset);
+
+					// clear previous colors
+					for (var i = 0; i < colorElements.length; i++) {
+						var ele = colorElements[i];
+						ele.style.background = "";
+					}
+
 				}
 
 				var parent = scene.getObjectByName("musicStructure");
