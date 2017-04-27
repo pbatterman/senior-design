@@ -955,7 +955,6 @@ eventjs.add(window, "load", function(event) {
 			var offsetColors = getOffsetColors(pAngleOffset, sAngleOffset);
 			var allColors = getColorMap(offsetColors);
 			// var blendBox = document.getElementById("blender");
-			if (singleTonnetz) var mesh = scene.getObjectByName( "tonnetz" );
 
 			var numNotes = 0;
 			var currentBar = 0;
@@ -971,7 +970,7 @@ eventjs.add(window, "load", function(event) {
 					sAngleOffset = currSOffset;
 					getOffsetColors(pAngleOffset, sAngleOffset);
 					allColors = getColorMap();
-					if (singleTonnetz) updateMesh(mesh, pAngleOffset);
+					if (singleTonnetz) updateMesh(singleMesh, pAngleOffset);
 
 					// clear previous colors
 					for (var i = 0; i < colorElements.length; i++) {
@@ -986,8 +985,6 @@ eventjs.add(window, "load", function(event) {
 					var dz = data.now * (songTicks / data.end);
 					parent.position.set( 0, 0, -dz);
 				}
-				var mesh = scene.getObjectByName( "tonnetz" );
-				var solidMesh = scene.getObjectByName("solidMesh");
 				var now = 0;
 				var note = data.note - 21;
 				var d = colorElements[87 - note];
@@ -1027,9 +1024,8 @@ eventjs.add(window, "load", function(event) {
 					var blendColor = blendColors(activeNotes);
 					// blendBox.style.background = HSLArrayToString(blendColor);
 					if (singleTonnetz) {
-						var solidMesh = scene.getObjectByName("solidMesh");
 						colorSolidMesh(singleSolidMesh, blendColor);
-						updateMesh(mesh, pAngleOffset);
+						updateMesh(singleMesh, pAngleOffset);
 					}
 				}
 
