@@ -1425,7 +1425,6 @@ function createSongProfile() {
 	canvas.style.margin="0px 0px 0px 200px";
 	// canvas.style.pointerEvents='none';
 	document.body.appendChild(canvas);
-	// var context = canvas.getContext('2d');
 
 	var dx = (window.innerWidth - 200)/songData.totalTime;
 	// draw rectangles
@@ -1439,9 +1438,6 @@ function createSongProfile() {
 			nextTime = songData.totalTime;
 		}
 		width = (nextTime - colObj.time) * dx;
-		// context.rect(x, y, width, height);
-		// context.fillStyle = colObj.color;
-		// context.fill();
 
 		var div = document.createElement("div");
 		div.className="profileBar";
@@ -1455,7 +1451,6 @@ function createSongProfile() {
 		var popup = document.createElement("div");
 		popup.id="bar"+i+"popup";
 		popup.style.width = "80px";
-		// popup.style.height = "50px";
 		popup.style.background = 'black';
 		popup.style.color = 'white';
 		popup.style.position="absolute";
@@ -1470,8 +1465,6 @@ function createSongProfile() {
 			colorDiv.className="col-xs-12";
 			colorDiv.style.padding="2px";
 			var color = document.createElement("div");
-			// color.style.width = colorSize + "px";
-			// color.style.height = colorSize + "px";
 			color.className = "col-xs-7";
 			color.style.height = "100%";
 			color.style.padding = "9px";
@@ -1595,17 +1588,13 @@ function createGeometry(songData, scale) {
  			}
  		}
  		if (!notes) continue;
-		// var notes = noteArray[eventTime];
 		for (var n = 0; n < notes.length; n++) {
 			var note = notes[n];
  			for (var x = 0; x < 7; x++) {
 				for (var y = 0; y < 6; y++) {
 					if (noteVertices[x][y] == (note % 12)) {
 						octaveShift = (Math.floor(note / 12) * 6*mag) - (6*mag*3);
-						// console.log("octave 1: " + Math.floor(note/12) + " shift " + octaveShift);
-						// octaveShift = 0;
 						var vertex = new THREE.Vector3(mag*x + mag*0.5*y + octaveShift, mag*5 - (mag*y), zPos);
-						// var vertex = new THREE.Vector3(x, y, 0);
 						geometry.vertices.push(vertex);
 
 						// fade colors by length of note strike
@@ -1645,14 +1634,12 @@ function buildDisplacedTonnetz(notes) {
 
    	var mag = 40;
    	var octaveShift = Math.floor(octave) * 6 * mag - (6 * mag * 3);
-   	// console.log("octave 2: " + Math.floor(octave) + " shift " + octaveShift);
 
    	for (var y = 0; y < 6; y++) {
    		for (var x = 0; x < 7; x++) {
    			var vertex = new THREE.Vector3(mag*x + mag*0.5*y + octaveShift, mag*5 - (mag*y), time);
    			geometry.vertices.push(vertex);
    			vertexKey.push(noteVertices[x][y]);
-   			// var col = HSLArrayToString(gColorMap[x][y]);
    			var col = HSLArrayToString(blendColor);
    			var vertColor = new THREE.Color( col );
    			vertexColors.push(vertColor);
@@ -1904,6 +1891,5 @@ function showHideStructure() {
 
 init();
 		</script>
-		<!-- <script src="js/tonnetz.js" type="text/javascript"></script> -->
 	</body>
 	</html>
