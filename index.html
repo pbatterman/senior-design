@@ -216,7 +216,7 @@
     $( "#sortable" ).disableSelection();
   } );
 
-	// Threejs
+	// Threejs setup
 	var scene, camera, renderer, noteVertices, vertexColors, vertexKey, vertexColorCache, gColorMap;
 
 	// camera movement
@@ -378,10 +378,9 @@ function init() {
   renderer.setSize(WIDTH, HEIGHT);
 	container.appendChild( renderer.domElement );
 
+// setup camera
   camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT, 0.1, 20000);
   camera.position.set(532, -500, 100);
-//     {x: 0.06789925799970922, y: 0.8399987615915472, z: -0.5383231084649841}
-// (index):247 q {x: 532.3324120127733, y: -505.8011184302427, z: 413.26422056914737}
 	camera.up = new THREE.Vector3(0,0,1);
   var dir = new THREE.Vector3(0.86789925799970922, 0.8399987615915472, -0.5383231084649841);
   var pos = new THREE.Vector3(532, -505, 413);
@@ -390,7 +389,6 @@ function init() {
 
   scene.add(camera);
   
-
   window.addEventListener('resize', function() {
     var WIDTH = window.innerWidth,
         HEIGHT = window.innerHeight;
@@ -414,34 +412,14 @@ function init() {
 	plane.name = "plane";
 	scene.add( plane );
 
-	// var srcmidifile = 'music/triads.mid';
-
-	// loadRemote(srcmidifile, function(data) {
-	// 		uploadedMidiFile = MidiFile(data);
-	// });
-
 	controls = new THREE.OrbitControls(camera, renderer.domElement);
 
 	if (singleTonnetz) {
 		constructSingleTonnetz(colorMap);
 		plane.traverse( function ( object ) { object.visible = false; } );
 	}
-/*
- 	var geometry = buildTonnetzGeometry(colorMap, true);
 
- 	var solidGeometry = buildTonnetzGeometry(colorMap, false);
-
-	var mesh = new THREE.Mesh( geometry, material );
-
-	mesh.name = "tonnetz";
-	scene.add(mesh);
-
-	var solidMesh = new THREE.Mesh( solidGeometry, solidMaterial );
-	solidMesh.name = "solidMesh";
-	scene.add(solidMesh)
-
-	cacheVertexColors(mesh);
-*/
+// start with active mesh visualization
 	switchVisualization(0);
 
 }
@@ -930,21 +908,7 @@ eventjs.add(window, "load", function(event) {
 			MIDI.loader.setValue(progress * 100);
 		},
 		onsuccess: function() { 
-			/// this is the language we are running in
-			/// this sets up the MIDI.Player and gets things going...
 			player = MIDI.Player;
-			// var channels = [];
-			// var channelCount = 0;
-			// var channelContainer = document.getElementById("channels");
-			// for (var channel in MIDI.channels) {
-			// 	var chanDiv = document.createElement("div");
-			// 	chanDiv.className = "channel"
-			// 	chanDiv.id = "channel" + channelCount;
-			// 	chanDiv.innerHTML = "channel " + channelCount;
-			// 	channelCount++;
-			// 	channelContainer.appendChild(chanDiv);
-			// 	channels.push(chanDiv);
-			// }
 			player.timeWarp = 1; // speed the song is played back
 			player.loadFile(song[songid++ % song.length], player.start);
 			player.stop();
@@ -1339,19 +1303,10 @@ function MIDIPlayerPercentage(player) {
 
 		// Begin loading indication.
 		var player;
-		// MIDI files from Disklavier World
+		// default song - pachelbel's canon in D
 		var songid = 0;
 		var song = [
-	// Test 1
-	 //'data:audio/midi;base64,TVRoZAAAAAYAAQACAeBNVHJrAAAAdQD/Awh1bnRpdGxlZAD/AihDb3B5cmlnaHQgKGMpIDIwMTIgUHJvc29uaWMgU3R1ZGlvcywgTExDAP9YBAQCGAgA/1kCAAAA/1EDCSfAAP8GBUkgMm5kjwD/BgZJViAxc3SPAP8GAVaPAP8GBUkgMm5kAP8vAE1UcmsAAABuAP8DGVRyaWFkc15NYWpvcl40LTReSSBJViBJIFYAkEdqAENqAD5rjnFDAAU+AABHAAZIagFDawNAbo52QAAAQwAASAAFRWoFQm4APm6OcT4ABUIAAEUABz5sA0NuAkdwjnRHAABDAAA+AAD/LwA=',
-
 	 'data:audio/midi;base64,TVRoZAAAAAYAAQACAQBNVHJrAAAAPgD/WAQEAhgIAP9ZAgAAAP9RAwtxsAD/AwVDYW5vbgD/AQlQYWNoZWxiZWygAP9RAwtxsAD/UQMLcbAB/y8ATVRyawAABWoAwAAAsHkAALBAAACwWzAAsAozALAHZACQQDAAsHkAALBAAACwWzAAsAozALAHZAD/AwVQaWFubwCQPDCEAIBAAACQPjAAgDwAAJA3L4QAgD4AAJA8JwCANwAAkDkvhACAPAAAkDstAIA5AACQNC2EAIA7AACQOSsAgDQAAJA1L4QAgDkAAJA3MACANQAAkDAphACANwAAkDkwAIAwAACQNTSEAIA5AACQOzMAgDUAAJA3NYQAgDsAAJBALwCANwAAkDw2hACAQAAAkD4tAIA8AACQNzGEAIA+AACQPCsAgDcAAJA5M4QAgDwAAJA7LACAOQAAkDQthACAOwAAkDkwAIA0AACQNSyEAIA5AACQNy0AgDUAAJAwKoQAgDcAAJA5NwCAMAAAkDU0hACAOQAAkDs4AIA1AACQNzWEAIA7AACQQz0AkEw9AIA3AACQPDuEAIBDAACATAAAkEcvAJBKLwCAPAAAkDcuhACARwAAgEoAAJBIKwCANwAAkDkvhACASAAAkEMsAJBHLACAOQAAkDQshACAQwAAgEcAAJA8LgCQRS4AgDQAAJA1MYQAgDwAAIBFAACQQC4AkEMuAIA1AACQMDKEAIBAAACAQwAAkEEuAJBFLgCAMAAAkDU1hACAQQAAgEUAAJA+NACQRzQAgDUAAJA3MIQAgD4AAIBHAACQSD8AgDcAAJA8TgCQQE6CAIBIAACQSEKCAJBKRgCAPAAAgEAAAJA3QQCQPkEFgEgAgXuQR0EFgEoAgXuQSEUAgDcAAIA+AACQOTgAkDw4BYBHAIF7kExGBYBIAIF7kE9LAIA5AACAPAAAkDQ7BYBMAIF7kEMyBYBPAIF7kEUzAIA0AACQNUQAkDlEBYBDAIF7kEE8BYBFAIF7kEA3AIA1AACAOQAAkDA2BYBBAIF7kENCBYBAAIF7kEFCAIAwAACQNUUAkDlFBYBDAIF7kEhLBYBBAIF7kEdLAIA1AACAOQAAkDdBAJA7QQWASACBe5BDNgWARwCBe5BIPgCANwAAgDsAAJA8SwCQQEsFgEMAgW6ASAANkExYgQCQT2ECgEwAfoBPAACQT1YAgDwAAIBAAACQN0eBAJBRWAKATwB+kE9IAoBRAH6QTUQCgE8AfpBMSwCANwAAkDlaAJA8WgKATQCCaoBMABSQTFWBAIBMAACQTE8AgDkAAIA8AACQNE4AkDdOgQCQTVACgEwAfpBMTgKATQB+kEpMAoBMAH6QSEwAgDQAAIA3AACQNVUAkDlVAoBKAH6QRkkCgEgAfpBFSwKARgB+kEZJAoBFAH6QQ0kAgDUAAIA5AACQMEYAkDRGAoBGAIF+kEBBBYBDAIF7kDxIAIAwAACANAAAkDVUAJA5VAWAQACBe5BBTgWAPAB7kEBOAoBBAH6QPkgAgDUAAIA5AACQN1MAkDtTAoBAAIF+kENcBYA+AHuQQVoCgEMAd4BBAAeANwAAgDsAAJA8VwCQQFeCAJBIMoIAkEo2AIA8AACAQAAAkDc0BYBIAIF7kEc+BYBKAIF7kEhCAIA3AACQOUYAkDxGBYBHAIF7kEAyBYBIAIF7kEM7AIA5AACAPAAAkDRAAJA7QAWAQACCe5BFSQeAQwB5kEFAAIA0AACAOwAAkDU5AJA5OQKARQCBfpA8NAWAQQCBe5BAOQCANQAAgDkAAJAwQgCQN0IFgDwAgXuQQ0QFgEAAgXuQQTgAgDAAAIA3AACQNToAkDk6BYBDAIF7kEA2BYBBAIF7kD40AIA1AACAOQAAkDc8AJA7PAWAQACBe5BDPwWAPgCBe5A8NQCQQDUAgDcAAIA7AACQMDMFgEMAh0eAPAAAgEAANIAwAAH/LwA='
-	// Test 2
-	// 'data:audio/mid;base64,TVRoZAAAAAYAAQABAMBNVHJrAAAAVwD/WAQEAhgIAP9RAwehIAD/AwlOZXcgVHJhY2sAwAAAkDxkgRCAPDAwkDxkgRCAPDAwkDxkAJBAZACQQ2SBEIA8MACAQDAAgEMwMJA8ZIE/gDwwJv8vAA==',
-	// Test 3
-//		'data:audio/mid;base64,TVRoZAAAAAYAAQABAMBNVHJrAAAAXwD/WAQEAhgIAP9RAwehIAD/AwlOZXcgVHJhY2sAwAAAkDxkgRCAPDAwkDxkgRCAPDAwkDxkAJBAZACQQ2QHkEhkgQmAPDAAgEAwAIBDMACASDAwkDxkgT+APDAm/y8A',
-
-	//'data:audio/mid;base64,TVRoZAAAAAYAAQACAeBNVHJrAAAAnwD/Awh1bnRpdGxlZAD/AihDb3B5cmlnaHQgKGMpIDIwMTIgUHJvc29uaWMgU3R1ZGlvcywgTExDAP9YBAwDDAgA/1kCAAAA/1EDCSfAAP8GBUkgMm5khVD/BgQtVklJkHD/BgZ2aSAxc3SFUP8GBC1WSUmQcP8GBUkgMm5khVD/BgQtVklJkHD/BgZ2aSAxc3SFUP8GBVYgMXN0AP8vAE1UcmsAAADNAP8DLFRyaWFkc15NYWpvcl4xMi04XkkgLVZJSSB2aSAtVklJIEkgLVZJSSB2aSBWAZBAeQBEeQI7eoVCOwAARAAAQAAHRWsEPm4BQm6QZEIAAD4AAEUAB0l0AUB2AUR2hUdEAABAAABJAAdFawRCbgM+cJBiPgAAQgAARQAKO3cBQHgDRHqFQkQAAEAAADsABUJpAUVqAT5rkGk+AABFAABCAAZJdABEdAhAeoVCQAAARAAASQAIP2sCR20BQm6QZUIAAEcAAD8AAP8vAA==',
 	];
 
 // construct template tonnetz geometry for stack
@@ -1462,8 +1417,6 @@ function createSongProfile() {
 	canvas.style.width=(window.innerWidth - 200) + "px";
 	canvas.style.height='90%';
 	//Set canvas drawing area width/height
-	// canvas.width = window.innerWidth;
-	// canvas.height = window.innerHeight;
 	//Position canvas
 	canvas.style.position='absolute';
 	canvas.style.left=0;
@@ -1947,21 +1900,6 @@ function showHideStructure() {
 			nObject.traverse( function ( object ) { object.visible = false; } );
 		} 
 	}
-	
-
-
-	
-
-}
-
-
-function startAnimation() {
-	animating = true;
-	// pausePlayStop();
-}
-
-function toggleAnimation() {
-	animating = !animating;
 }
 
 init();
